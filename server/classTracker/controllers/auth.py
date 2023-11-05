@@ -42,17 +42,18 @@ def register():
 def login():
     email = request.json["email"]
     password = request.json["password"]
-
+    
     user_exists = User.query.filter_by(email = email).first()
+    print(user_exists.id)
 
     if not user_exists or not bcrypt.check_password_hash(user_exists.password, password):
         return jsonify({"error": "Unauthorized"}), 401
 
     else:
 
-        session["user_id"] = bytes(user_exists.id)
+        session["user_id"] = user_exists.id
         
         return jsonify({
-            "id": user_exists.id,
+            "id": user_exists.id, 
             "email": user_exists.email, 
         })
