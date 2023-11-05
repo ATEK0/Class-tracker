@@ -5,8 +5,6 @@ from unidecode import unidecode
 
 from werkzeug.utils import secure_filename
 
-from ..controllers.auth import auth
-
 from .. import db
 
 from ..models.User import User
@@ -20,9 +18,9 @@ def indexRedir():
 
 @home.route('/home', methods=["GET"])
 def index():
-    if not current_user.is_authenticated:
-        return redirect(url_for("auth.login"))
-    else:
-        return render_template("dashboard/index.html")
+    # if not current_user.is_authenticated:
+    #     return redirect(url_for("auth.login"))
+    # else:
+    return render_template("dashboard/index.html")
 
 

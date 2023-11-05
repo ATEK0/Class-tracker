@@ -9,14 +9,8 @@ class User(db.Model, UserMixin):
     surname = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(150))
     password = db.Column(db.String(88))
-    
     criado = db.Column(db.String(30), default=lambda: datetime.now())
-    
     estado = db.Column(db.String(15), default="Ativo")
-    
-    ultimoLogin = db.Column(db.String(30), default=lambda: datetime.now())
-    
-    services = db.relationship('UserService', back_populates='user')
 
 
     
