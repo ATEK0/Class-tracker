@@ -12,15 +12,7 @@ from ..models.User import User
 home = Blueprint('home', __name__)
 
 @home.route('/', methods=["GET"])
-def indexRedir():
-    return redirect("/home")
-
-
-@home.route('/home', methods=["GET"])
-def index():
-    # if not current_user.is_authenticated:
-    #     return redirect(url_for("auth.login"))
-    # else:
-    return render_template("dashboard/index.html")
+def baseURL():
+    return "abc"
 
 

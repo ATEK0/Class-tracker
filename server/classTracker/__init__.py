@@ -2,44 +2,36 @@ from flask import Flask, render_template
 from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_bcrypt import Bcrypt
+from flask_session import Session
 from os import path
 
 from flask_socketio import SocketIO
 
+from config import app_config
 
 from flask_login import LoginManager
 
-
+server_session = Session()
+bcrypt = Bcrypt()
 db = SQLAlchemy()
 migrate = Migrate()
 socketio = SocketIO()
 
+
 def create_app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = 'EIgKcwiAndmX3qL6sMDCVQABJOY12rGeQXsY9Ri9S9h41ivryU'
     
+    app.config.from_object(app_config)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://codebyat_sumariosUser:sumarios12345@185.12.116.140:3306/codebyat_sumarios' # para usar com MySQL Online
-    
+    server_session.init_app(app)
+    bcrypt.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
     socketio.init_app(app, async_mode='threading')
-
     
-    from .controllers.home import home
-    app.register_blueprint(home, url_prefix="/")
-    
-
-
-    
-    @app.errorhandler(404)
-    def not_found_error(error):
-        return render_template("/errors/404.html"), 404
-    
-    @app.errorhandler(500)
-    def internal_server_error(error):
-        return render_template("/errors/500.html"), 500
-    
+    from .controllers.auth import auth
+    app.register_blueprint(auth)
     
     from .models.User import User
 
@@ -50,7 +42,6 @@ def create_app():
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"
     login_manager.init_app(app)
-    
     
     
     @login_manager.user_loader

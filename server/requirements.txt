@@ -3,7 +3,11 @@ flask-login
 flask-sqlalchemy
 flask-migrate
 flask-socketio
+flask-bcrypt
+flask-session
+redis
 
+sqlalchemy
 mysql-connector
 
-unidecode
+python-dotenv
