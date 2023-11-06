@@ -6,29 +6,26 @@ from flask_bcrypt import Bcrypt
 from flask_session import Session
 from os import path
 
-from flask_socketio import SocketIO
-
 from config import app_config
 
 from flask_login import LoginManager
 
-server_session = Session()
-bcrypt = Bcrypt()
 db = SQLAlchemy()
 migrate = Migrate()
-socketio = SocketIO()
-
+bcrypt = Bcrypt()
+server_session = Session()
 
 def create_app():
     app = Flask(__name__)
     
     app.config.from_object(app_config)
 
+    
+
     server_session.init_app(app)
     bcrypt.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
-    socketio.init_app(app, async_mode='threading')
     
     from .controllers.auth import auth
     app.register_blueprint(auth)

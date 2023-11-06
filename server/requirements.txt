@@ -2,7 +2,6 @@ flask==2.3.3
 flask-login
 flask-sqlalchemy
 flask-migrate
-flask-socketio
 flask-bcrypt
 flask-session
 redis

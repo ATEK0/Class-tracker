@@ -1,11 +1,8 @@
-from flask import Blueprint, request, jsonify, redirect, abort, session
+from flask import Blueprint, request, jsonify, redirect, session
 from flask_login import login_required, current_user, logout_user
 
-from unidecode import unidecode
 
-from werkzeug.utils import secure_filename
-
-from .. import db, bcrypt, server_session
+from .. import db, bcrypt
 
 from ..models.User import User
 
@@ -50,7 +47,7 @@ def login():
         return jsonify({"error": "Unauthorized"}), 401
 
     else:
-
+        
         session["user_id"] = user_exists.id
         
         return jsonify({
