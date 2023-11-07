@@ -14,7 +14,7 @@ const LoginForm: React.FC = () => {
         const resp = await httpClient.post("//localhost:1222/login", {
           email,password
         })
-        window.location.href="/";
+        window.location.href="/dashboard";
       } catch (error: any) {
         if (error.response.status === 401) {
           alert("Credentials wrong"); 
