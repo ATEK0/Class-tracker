@@ -6,6 +6,8 @@ flask-bcrypt
 flask-session
 redis
 
+flask-cors
+
 sqlalchemy
 mysql-connector
 

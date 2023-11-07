@@ -1,12 +1,26 @@
 from flask import Blueprint, request, jsonify, redirect, session
 from flask_login import login_required, current_user, logout_user
 
-
 from .. import db, bcrypt
 
 from ..models.User import User
 
 auth = Blueprint('auth', __name__)
+
+@auth.route("/@me", methods=["GET"])
+def get_current_user():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user = User.query.filter_by(id = user_id).first()
+
+    return jsonify({
+        "id": user.id,
+        "email": user.email
+    }) 
+
 
 @auth.route('/register', methods=["POST"])
 def register():
@@ -28,11 +42,12 @@ def register():
     db.session.add(newUser)
     db.session.commit()
 
+    session["user_id"] = newUser.id
+
     return jsonify({
         "id": newUser.id,
         "email": newUser.email, 
     })
-
 
 
 @auth.route("/login", methods=["POST"])
@@ -41,7 +56,6 @@ def login():
     password = request.json["password"]
     
     user_exists = User.query.filter_by(email = email).first()
-    print(user_exists.id)
 
     if not user_exists or not bcrypt.check_password_hash(user_exists.password, password):
         return jsonify({"error": "Unauthorized"}), 401
@@ -54,3 +68,10 @@ def login():
             "id": user_exists.id, 
             "email": user_exists.email, 
         })
+
+
+@auth.route("/logout", methods=["POST"])
+def logout():
+    session.pop("user_id")
+
+    return jsonify({}), 200
