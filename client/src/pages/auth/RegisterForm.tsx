@@ -49,7 +49,7 @@ const RegisterForm: React.FC = () => {
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
               <form className="space-y-6" action="#" method="POST">
               <div className="names flex space-x-2">
-                <div className="">
+                <div className="w-full">
                     <label htmlFor="name" className="text-sm font-medium leading-6 text-gray-900">
                       Name
                     </label>
@@ -64,7 +64,7 @@ const RegisterForm: React.FC = () => {
                       />
                     </div>
                 </div>
-                <div className="">
+                <div className="w-full">
                   <label htmlFor="surname" className=" text-sm font-medium leading-6 text-gray-900">
                     Surname
                   </label>
