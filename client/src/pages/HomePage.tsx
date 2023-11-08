@@ -26,22 +26,24 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <h1>Bem vindo ao sistema de coisas e tales</h1>
+      <div className='pt-[64px] pl-[24px]'> 
+        <h1>Bem vindo ao sistema de coisas e tales</h1>
 
-      {user != null ? (
-        <div>
-          <h1>Estás logado</h1>
-          <h3>ID: {user.id}</h3>
-          <h3>Email: {user.email}</h3>
+        {user != null ? (
+          <div>
+            <h1>Estás logado</h1>
+            <h3>ID: {user.id}</h3>
+            <h3>Email: {user.email}</h3>
 
-          <button onClick={logoutUser} className='bg-[gray] rounded-md p-2 m-2'>Logout</button>
+            <button onClick={logoutUser} className='bg-[gray] rounded-md p-2 m-2'>Logout</button>
 
-        </div>
-      ): (
-        <div>
-          <p>Não estás logado</p>
-        </div>
-      )}
+          </div>
+        ): (
+          <div>
+            <p>Não estás logado</p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

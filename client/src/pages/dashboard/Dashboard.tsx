@@ -4,7 +4,8 @@ import httpClient from '../../httpClient';
 import { User } from '../../types';
 
 
-const Dashboard = () => {
+
+const Dashboard: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
@@ -27,7 +28,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
+    <div className='pt-[64px] pl-[24px]'>
       {user != null ? (
         <div>
           <h1>Estás logado</h1>

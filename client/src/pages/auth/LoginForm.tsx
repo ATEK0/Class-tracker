@@ -1,11 +1,38 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import httpClient from "../../httpClient";
 
 import logoClass from "../../assets/logoClassTracker.png"
+import { Navigate } from "react-router-dom";
+import { User } from "../../types";
 
 const LoginForm: React.FC = () => {
+    const [user, setUser] = useState<User | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
+
+
     const [email,setEmail] = useState<string>("");
     const [password,setPassword] = useState<string>("");
+
+    useEffect(() => {
+      (async () => {
+        try {
+          const resp = await httpClient.get('//localhost:1222/@me');
+          setUser(resp.data);
+          console.log(resp.data);
+
+        } catch (error) {
+          console.log("Not authenticated");
+          setIsAuthenticated(false);
+
+        }
+
+        if (isAuthenticated) {
+          return <Navigate to="/dashboard" />;
+        }
+      })();
+    }, []);
+
+
 
     const loginUser = async () => {
       console.log(email, password)
@@ -26,10 +53,10 @@ const LoginForm: React.FC = () => {
   return (
         <>
           <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <a href="/">
+            <div className="flex justify-center items-center flex-col sm:mx-auto sm:w-full sm:max-w-sm">
+            <a href="/" className="w-fit">
               <img
-                className="mx-auto h-20 w-auto"
+                className=" h-20 w-auto"
                 src={logoClass}
                 alt="Class Tracker Logo"
               />

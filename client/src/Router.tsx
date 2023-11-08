@@ -4,11 +4,13 @@ import LoginForm from "./pages/auth/LoginForm"
 import HomePage from "./pages/HomePage"
 import NotFound from "./pages/errors/NotFound"
 import Dashboard from "./pages/dashboard/Dashboard"
+import NavBarMain from "./pages/NavBar/NavbarMain"
 
 
-const Router = () => {
+const Router: React.FC = () => {
   return (
     <BrowserRouter>
+      <NavBarMain/>
       <Routes>
         <Route path="/" element={<HomePage />}/>
         <Route path="/register" element={<RegisterForm />}/>
