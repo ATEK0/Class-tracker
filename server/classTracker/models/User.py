@@ -19,4 +19,5 @@ class User(db.Model, UserMixin):
     estado = db.Column(db.String(15), default="Ativo")
 
 
+
     
