@@ -18,9 +18,11 @@ def get_current_user():
 
     return jsonify({
         "id": user.id,
-        "email": user.email
-    }) 
-
+        "email": user.email,
+        "name": user.name,
+        "surname": user.surname,
+        "type": user.type
+    })
 
 @auth.route('/register', methods=["POST"])
 def register():
@@ -37,7 +39,7 @@ def register():
 
 
     hashedPassword = bcrypt.generate_password_hash(password)
-    newUser = User(name = name, surname = surname, email = email, password = hashedPassword )
+    newUser = User(name = name, surname = surname, email = email, password = hashedPassword)
 
     db.session.add(newUser)
     db.session.commit()
