@@ -34,6 +34,12 @@ def create_app():
     app.register_blueprint(auth)
     
     from .models.User import User
+    from .models.Class_Subject import Class_Subject
+    from .models.Class_Type import Class_Type
+    from .models.Class import Class
+    from .models.Subject import Subject
+    from .models.Summary import Summary
+    from .models.User_Type import User_Type
 
     # Create the database tables
     with app.app_context():
