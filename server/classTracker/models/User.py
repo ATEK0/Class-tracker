@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(72), nullable=False)
     created_at = db.Column(db.String(30), default=lambda: datetime.now())
     state = db.Column(db.String(15), default="Ativo")
-    type = db.Column(db.Integer, db.ForeignKey("user_types.id"))
+    type = db.Column(db.Integer, db.ForeignKey("user_types.id"), default=2)
 
     user_type = db.relationship("User_Type", back_populates="users")
 
