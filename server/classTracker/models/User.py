@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
 
     user_type = db.relationship("User_Type", back_populates="users")
 
-    summaries = db.relationship("Summary", back_populates="teacher_")
+    classes_subjects_taught = db.relationship("Class_Subject", back_populates="teacher_")
 
 
 

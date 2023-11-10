@@ -1,6 +1,6 @@
 from .. import db
 
-class Class(db.Model):
+class Class_(db.Model):
     __tablename__ = 'classes'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     label = db.Column(db.String(50))

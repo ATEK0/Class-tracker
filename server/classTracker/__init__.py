@@ -32,13 +32,17 @@ def create_app():
 
     from .controllers.auth import auth
     app.register_blueprint(auth) 
+
     from .controllers.summary import summary
     app.register_blueprint(summary)
+    
+    from .controllers.class_ import class_subjects
+    app.register_blueprint(class_subjects)
     
     from .models.User import User
     from .models.Class_Subject import Class_Subject
     from .models.Class_Type import Class_Type
-    from .models.Class import Class
+    from .models.Class_ import Class_
     from .models.Subject import Subject
     from .models.Summary import Summary
     from .models.User_Type import User_Type
