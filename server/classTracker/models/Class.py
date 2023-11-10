@@ -5,8 +5,7 @@ class Class(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     label = db.Column(db.String(50))
     grade = db.Column(db.Integer)
-    type = db.Column(db.Integer)
+    type_id = db.Column(db.Integer, db.ForeignKey("class_types.id"))
 
-    summaries = db.relationship('Summary', back_populates='class_')
-    subjects = db.relationship('Subject', secondary='classes_subjects')
-    
+    class_type = db.relationship("Class_Type", back_populates="classes")
+    classes_subjects = db.relationship("Class_Subject", back_populates="class_")

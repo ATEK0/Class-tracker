@@ -14,9 +14,13 @@ class User(db.Model, UserMixin):
     surname = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(345), unique=True)
     password = db.Column(db.String(72), nullable=False)
-    
-    criado = db.Column(db.String(30), default=lambda: datetime.now())
-    estado = db.Column(db.String(15), default="Ativo")
+    created_at = db.Column(db.String(30), default=lambda: datetime.now())
+    state = db.Column(db.String(15), default="Ativo")
+    type = db.Column(db.Integer, db.ForeignKey("user_types.id"))
+
+    user_type = db.relationship("User_Type", back_populates="users")
+
+    summaries = db.relationship("Summary", back_populates="teacher_")
 
 
 

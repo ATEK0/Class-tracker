@@ -5,4 +5,4 @@ class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     label = db.Column(db.String(50))
 
-    classes = db.relationship('Class', secondary='classes_subjects', back_populates='subjects')
+    classes_subjects = db.relationship("Class_Subject", back_populates="subject")
