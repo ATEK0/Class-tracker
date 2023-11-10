@@ -9,7 +9,7 @@ const stats = [
   ]
 
 const Classes = () => {
-
+    
     const user = useFetchUser();
     
   return (

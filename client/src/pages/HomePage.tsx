@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
 
         </div>
       </div>
-      <div className='bg-white h-52'>
+      <div className='bg-white h-52 pt-[64px] pl-[24px] w-full sm:pl-6 lg:pl-8 pr-0 '>
         <h1>With Class Tracker you can</h1>
         <Typed className='md:text-5xl sm:text-4xl text-xl font-bold md:pl-4 pl-2' 
         strings={["BTB", "BTC", "SAAS"]} 
