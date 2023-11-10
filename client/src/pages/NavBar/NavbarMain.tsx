@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Logo from "../../assets/logoClassTracker.png"
 import { useCookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
 
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
@@ -62,10 +63,9 @@ const NavBarMain = () => {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-
+                      <Link to={item.href}>
                       <a
                         key={item.name}
-                        href={item.href}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white hover:bg-gray-500' : 'text-white hover:text-white hover:bg-blue-500',
                           'rounded-md px-3 py-2 text-sm font-medium'
@@ -75,7 +75,7 @@ const NavBarMain = () => {
                       >
                         {item.name}
                       </a>
-
+                      </Link>
                     ))}
                   </div>
                 </div>

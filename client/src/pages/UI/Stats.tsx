@@ -14,7 +14,7 @@ import { useFetchUser } from "../../controllers/getUserData";
     ]
 
     return (
-      <div className="sm:pb-16 pb-8">
+      <div className="sm:pb-16 pb-8 pt-5">
         
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <dl className="grid grid-cols-2 gap-x-0.5 gap-y-10 text-center lg:grid-cols-4 ">
