@@ -31,7 +31,9 @@ def create_app():
     apiCalling.init_app(app, supports_credentials=True)
 
     from .controllers.auth import auth
-    app.register_blueprint(auth)
+    app.register_blueprint(auth) 
+    from .controllers.summary import summary
+    app.register_blueprint(summary)
     
     from .models.User import User
     from .models.Class_Subject import Class_Subject
