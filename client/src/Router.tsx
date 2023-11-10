@@ -6,7 +6,8 @@ import NotFound from "./pages/errors/NotFound"
 import Dashboard from "./pages/dashboard/Dashboard"
 import NavBarMain from "./pages/NavBar/NavbarMain"
 import Logout from "./pages/auth/Logout"
-import ElementDetails from "./pages/dashboard/EventDetails"
+import ElementDetails from "./pages/summary/EventDetails"
+import NewSummary from "./pages/summary/NewSummary"
 
 
 const Router: React.FC = () => {
@@ -20,7 +21,8 @@ const Router: React.FC = () => {
         <Route path="/login" element={<LoginForm />}/>
         <Route path="/logout" element={<Logout />}/>
         <Route path="/dashboard" element={<Dashboard />}/>
-        <Route path="/event/:eventId" element={<ElementDetails />} />
+        <Route path="/summary/:eventId" element={<ElementDetails />} />
+        <Route path="/summary/new" element={<NewSummary />} />
         <Route path="*" element={<NotFound />}/>
       </Routes>
     </BrowserRouter>
