@@ -10,8 +10,6 @@ import { useCookies } from 'react-cookie';
 
 
 const Dashboard: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const [cookies, setCookie] = useCookies();
 
