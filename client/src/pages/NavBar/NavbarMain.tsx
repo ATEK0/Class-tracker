@@ -3,7 +3,7 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Logo from "../../assets/logoClassTracker.png"
-
+import { useCookies } from 'react-cookie';
 
 
 function classNames(...classes) {
@@ -12,16 +12,29 @@ function classNames(...classes) {
 
 
 const NavBarMain = () => {
+  const [cookies, setCookie] = useCookies();
 
-  const navigation = [
-    { name: 'Home', href: '/', current: false },
-    { name: 'Features', href: '/features', current: false},
-    { name: 'Login', href: '/login', current: false },
-    { name: 'Sign up', href: '/register', current: true },
-  ]
+  var navigation: any[] = [];
 
-  return (
-    <Disclosure as="nav" className="bg-gray-800 w-full fixed ease-in-out duration-500 mb-6">
+  if ( !cookies.session) {
+    navigation = [
+      { name: 'Home', href: '/', current: false },
+      { name: 'Features', href: '/features', current: false },
+      { name: 'Login', href: '/login', current: false },
+      { name: 'Sign up', href: '/register', current: true },
+    ]
+  }  else {
+    navigation = [
+      { name: 'Home', href: '/', current: false, function: null },
+      { name: 'Features', href: '/features', current: false },
+      { name: 'Dashboard', href: '/dashboard', current: false },
+      { name: 'Profile', href: '/profile', current: false },
+      { name: 'Logout', href: '/logout', current: false },
+    ]
+  }
+
+  return ( //"bg-gray-800 w-full fixed ease-in-out duration-500 mb-6"
+    <Disclosure as="nav" className="bg-[#04304d] w-full fixed ease-in-out duration-500 mb-6 z-50"> 
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -49,17 +62,20 @@ const NavBarMain = () => {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
+
                       <a
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white hover:bg-gray-500' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          item.current ? 'bg-gray-900 text-white hover:bg-gray-500' : 'text-white hover:text-gray-700 hover:bg-[#BBE2FB]',
                           'rounded-md px-3 py-2 text-sm font-medium'
                         )}
                         aria-current={item.current ? 'page' : undefined}
+                        
                       >
                         {item.name}
                       </a>
+
                     ))}
                   </div>
                 </div>

@@ -10,6 +10,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://codebyat_sumariosUser:sumarios12345@185.12.116.140:3306/codebyat_sumarios"
 
     SESSION_TYPE = "redis"
+    SESSION_COOKIE_HTTPONLY = False
     SESSION_PERMANENT = False
     SESSION_REDIS = redis.from_url("redis://127.0.0.1:6379")
     

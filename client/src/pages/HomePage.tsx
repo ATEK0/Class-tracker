@@ -26,7 +26,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <div className='pt-[64px] pl-[24px]'> 
+      <div className='pt-[64px] pl-[24px] mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'> 
         <h1>Bem vindo ao sistema de coisas e tales</h1>
 
         {user != null ? (
