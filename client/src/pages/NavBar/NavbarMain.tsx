@@ -67,7 +67,7 @@ const NavBarMain = () => {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white hover:bg-gray-500' : 'text-white hover:text-gray-700 hover:bg-[#BBE2FB]',
+                          item.current ? 'bg-gray-900 text-white hover:bg-gray-500' : 'text-white hover:text-white hover:bg-blue-500',
                           'rounded-md px-3 py-2 text-sm font-medium'
                         )}
                         aria-current={item.current ? 'page' : undefined}

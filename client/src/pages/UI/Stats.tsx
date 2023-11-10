@@ -1,6 +1,4 @@
-import httpClient from "../../httpClient"
-import { User } from "../../types"
-import { useState, useEffect } from "react"
+import { useFetchUser } from "../../controllers/getUserData";
 
 const stats = [
     { id: 1, name: 'Turmas', value: '44' },
@@ -11,22 +9,7 @@ const stats = [
   
   export default function Example() {
 
-    const [user, setUser] = useState<User | null>(null)
-
-    useEffect(() => {
-        (async () => {
-
-          try {
-            const resp = await httpClient.get("//localhost:1222/@me")
-            
-            setUser(resp.data)
-            console.log(resp.data)
-          } catch (error) {
-            console.log("Not authenticated")
-          }
-          
-        })();
-    }, [])
+    const user = useFetchUser();
 
     return (
       <div className="sm:py-16 py-8">
