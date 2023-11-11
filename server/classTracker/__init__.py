@@ -38,6 +38,12 @@ def create_app():
     
     from .controllers.class_ import class_subjects
     app.register_blueprint(class_subjects)
+
+    from .controllers.subject import subjectController
+    app.register_blueprint(subjectController)
+
+    from .controllers.teacher import teacherController
+    app.register_blueprint(teacherController)
     
     from .models.User import User
     from .models.Class_Subject import Class_Subject

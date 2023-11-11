@@ -1,70 +1,37 @@
 import React, { ChangeEvent, useState, useEffect } from 'react'
 import httpClient from '../../httpClient';
-import { ClassList, SubjectListType, TeacherList } from '../../types';
+import { ClassListType, SubjectListType, TeacherListType } from '../../types';
 
 
 
 const NewSummary = () => {
-
-    const [teacherList, setTeacherList] = useState<TeacherList[]>([]);
-
-    // useEffect(() => {
-    //   const fetchData = async () => {
-    //     try {
-    //       const resp = await httpClient.get("//localhost:1222/get_teacher");
-  
-    //       const fetchedTeachers: TeacherList[] = resp.data;
-  
-    //       setTeacherList(fetchedTeachers);
-    //     } catch (error) {
-    //       console.error("Error fetching teachers:", error);
-    //     }
-    //   };
-  
-    //   fetchData();
-    // }, []); 
-    
-    
-
-    const [classList, setClassList] = useState<ClassList[]>([]);
+    const [teacherList, setTeacherList] = useState<TeacherListType[]>([]);
+    const [classList, setClassList] = useState<ClassListType[]>([]);
+    const [subjectList, setSubjectList] = useState<SubjectListType[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const resp = await httpClient.get("//localhost:1222/get_classes");
-    
-            const fetchedClass: ClassList[] = resp.data;
-    
-            setClassList(fetchedClass);
-          } catch (error) {
-            console.error("Error fetching classes:", error);
-          }
+            try {
+                const teacherResp = await httpClient.get("//localhost:1222/get_teachers");
+                const fetchedTeachers: TeacherListType[] = teacherResp.data;
+                setTeacherList(fetchedTeachers);
+
+                const classResp = await httpClient.get("//localhost:1222/get_classes");
+                const fetchedClass: ClassListType[] = classResp.data;
+                setClassList(fetchedClass);
+
+                const subjectResp = await httpClient.get("//localhost:1222/get_subject");
+                const fetchedSubjects: SubjectListType[] = subjectResp.data;
+                setSubjectList(fetchedSubjects);
+                console.log(subjectList)
+
+            } catch (error) {
+                console.error("Error fetching data----------------:", error);
+            }
         };
-        console.log(classList)
+
         fetchData();
-      }, []); 
-
-
-    const [subjectList, setSubjectList] = useState<SubjectListType[]>([]);
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //       try {
-    //         const resp = await httpClient.get("//localhost:1222/get_classSubjects");
-    
-    //         const fetchedSubjects: SubjectList[] = resp.data;
-    
-    //         setSubjectList(fetchedSubjects);
-    //       } catch (error) {
-    //         console.error("Error fetching subjects:", error);
-    //       }
-    //     };
-    
-    //     fetchData();
-    //   }, []); 
-
-    
-
+    }, []);
 
     const [teacher, setTeacher] = useState<string>('');
     const [subject, setSubject] = useState<string>('');
@@ -75,9 +42,6 @@ const NewSummary = () => {
     const [classTitle, setClassTitle] = useState<string>('');
     const [summaryContent, setSummaryContent] = useState<string>('');
 
-
-
-    // Step 2: Event handlers to update state
     const handleTeacherChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setTeacher(event.target.value);
     };
@@ -112,16 +76,20 @@ const NewSummary = () => {
 
     const createSummary = () => {
         console.log({
-        teacher,
-        subject,
-        class_,
-        date,
-        beginTime,
-        endTime,
-        classTitle,
-        summaryContent,
+            teacher,
+            subject,
+            class_,
+            date,
+            beginTime,
+            endTime,
+            classTitle,
+            summaryContent,
         });
     };
+
+    if (classList.length === 0 ) { //|| teacherList.length === 0 || subjectList.length === 0
+        return <div>Loading...</div>; // You can replace this with a loading indicator
+    }
 
   return (
     <div className='pt-[64px] mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
@@ -150,7 +118,7 @@ const NewSummary = () => {
                     <select onChange={handleSubjectChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <option value="" key={"a"} selected>Select Subject</option>
                         {subjectList.map((item) => (
-                            <option value={item.id} key={item.id}>{item.name}</option>                        
+                            <option value={item.id} key={item.id}>{item.label}</option>                        
                         ))}
                         
                     </select>
@@ -162,8 +130,8 @@ const NewSummary = () => {
                     </label>
                     <select onChange={handleClassChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <option value="" key={"a"} selected>Select Class</option>
-                        {classList.map((item,) => (
-                            <option value={item.id} key={item.id}>{item.name}</option>                        
+                        {classList.map((item) => (
+                            <option value={item.id} key={item.id}>{item.grade}{item.label}</option>                        
                         ))}
                         
                     </select>

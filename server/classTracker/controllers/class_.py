@@ -28,12 +28,11 @@ def getClassSubjects():
 def getClasses():
     classes = Class_.query.all()
 
-    class_info = []
-    for class_ in classes:
-        class_info.append({
+    class_info = [{
             "id": class_.id,
             "label": class_.label,
             "grade": class_.grade
-        })
+        } for class_ in classes] 
 
-    return jsonify({"class_info": class_info})
+
+    return jsonify(class_info)

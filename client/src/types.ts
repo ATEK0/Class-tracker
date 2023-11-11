@@ -7,18 +7,19 @@ export interface User {
     type: string;
 }
 
-export interface TeacherList {
+export interface TeacherListType {
     id: string;
     name: string;
+    surname: string;
 }
 
-export interface ClassList {
-    id: string;
-    name: string;
+export interface ClassListType {
     grade: string;
+    id: string;
+    label: string;
 }
 
 export interface SubjectListType {
     id: string;
-    name: string;
+    label: string;
 }
