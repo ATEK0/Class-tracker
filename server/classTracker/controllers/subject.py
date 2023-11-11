@@ -2,10 +2,18 @@ from flask import Blueprint, request, jsonify, redirect, session
 
 from .. import db
 
-from ..models.Summary import Summary
+from ..models.Subject import Subject
 
-summary = Blueprint('summary', __name__)
+subjectController = Blueprint('subjectController', __name__)
 
-@summary.route("/get_subject", methods=["get"])
+@subjectController.route("/get_subject", methods=["get"])
 def getSubject():
-    ...
+    subjects = Subject.query.all()
+
+    subjects_info = [{
+            "id": subject.id,
+            "label": subject.label,
+        } for subject in subjects] 
+
+
+    return jsonify(subjects_info)
