@@ -19,8 +19,7 @@ class User(db.Model, UserMixin):
     type = db.Column(db.Integer, db.ForeignKey("user_types.id"), default=2)
 
     user_type = db.relationship("User_Type", back_populates="users")
-
-    classes_subjects_taught = db.relationship("Class_Subject", back_populates="teacher_")
+    teaching_cs = db.relationship('Teacher_CS', back_populates='teacher_')
 
 
 
