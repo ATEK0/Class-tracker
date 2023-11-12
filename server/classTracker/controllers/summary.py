@@ -6,16 +6,12 @@ from ..models.Summary import Summary
 
 summary = Blueprint('summary', __name__)
 
-@summary.route("/create-summary", methods=["POST"])
+@summary.route("/createSummary", methods=["POST"])
 def createSummary():
     title = request.json["title"]
     content = request.json["content"]
-    csid = request.json["csid"]
-    begin = request.json["begin"]
-    end = request.json["end"]
-    state = request.json["state"]
 
-    newSummary = Summary(title = title, content = content, csid = csid, begin = begin, end = end, state = state)
+    newSummary = Summary(title = title, content = content)
 
     db.session.add(newSummary)
     db.session.commit()

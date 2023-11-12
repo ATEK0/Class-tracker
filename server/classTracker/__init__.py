@@ -48,6 +48,9 @@ def create_app():
     from .controllers.students import studentsController
     app.register_blueprint(studentsController)
     
+    from .controllers.classroom import classroomController
+    app.register_blueprint(classroomController)
+    
     from .models.User import User
     from .models.Class_Subject import Class_Subject
     from .models.Class_Type import Class_Type
@@ -56,6 +59,7 @@ def create_app():
     from .models.Summary import Summary
     from .models.User_Type import User_Type
     from .models.Teacher_CS import Teacher_CS
+    from .models.Classroom import Classroom
 
     # Create the database tables
     with app.app_context():

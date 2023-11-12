@@ -6,7 +6,7 @@ class Summary(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(50))
     content = db.Column(LONGTEXT)
-    csid = db.Column(db.Integer, db.ForeignKey('classes_subjects.id'))
-    begin = db.Column(db.Date)
-    end = db.Column(db.Date)
-    state = db.Column(db.String(255))
+    classroom_id = db.Column(db.Integer, db.ForeignKey('classrooms.id'))
+
+    classroom = db.relationship('Classroom', back_populates='summary', uselist=False)
+    

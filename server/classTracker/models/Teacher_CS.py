@@ -10,3 +10,4 @@ class Teacher_CS(db.Model):
 
     teacher_ = db.relationship('User', back_populates='teaching_cs')
     class_subject = db.relationship('Class_Subject', back_populates='teachers')
+    classroom = db.relationship('Classroom', back_populates='teacher_cs')
