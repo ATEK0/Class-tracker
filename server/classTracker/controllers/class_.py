@@ -8,7 +8,7 @@ from ..models.Class_ import Class_
 
 class_subjects = Blueprint('class_subjects', __name__)
 
-@class_subjects.route("/get_classSubjects", methods=["get"])
+@class_subjects.route("/getClassSubjects", methods=["POST"])
 def getClassSubjects():
     class_ = request.json["class"]
 

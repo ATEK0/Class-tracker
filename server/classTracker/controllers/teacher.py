@@ -8,6 +8,11 @@ teacherController = Blueprint('teacher', __name__)
 
 @teacherController.route("/get_teachers", methods=["GET"])
 def getTeachers():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+
     teachers = User.query.filter_by(type = 1).all()
 
     teachers_info = [{
