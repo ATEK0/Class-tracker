@@ -18,8 +18,8 @@ def getClassSubjects():
     for class_subject in classSubjects:
         subject = Subject.query.get(class_subject.subject_id)
         subject_info.append({
-            "name": subject.label,
-            "id": subject.id
+            "id": subject.id,
+            "name": subject.label
         })
     print(subject_info)
     return jsonify(subject_info)
