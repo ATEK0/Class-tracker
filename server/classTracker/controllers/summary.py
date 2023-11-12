@@ -6,7 +6,7 @@ from ..models.Summary import Summary
 
 summary = Blueprint('summary', __name__)
 
-@summary.route("/new_summary", methods=["POST"])
+@summary.route("/create-summary", methods=["POST"])
 def createSummary():
     title = request.json["title"]
     content = request.json["content"]

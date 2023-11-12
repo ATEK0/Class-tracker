@@ -8,6 +8,12 @@ from ..models.User import User
 
 subjectController = Blueprint('subjectController', __name__)
 
+@subjectController.route('/getSubjectCount', methods=["GET"])
+def getSubjectCount():
+
+    subjectCount = Subject.query.count()
+    return jsonify(subjectCount)
+
 @subjectController.route("/get_subject", methods=["get"])
 def getSubject():
     subjects = Subject.query.all()
@@ -22,8 +28,11 @@ def getSubject():
 
 @subjectController.route("/getSubjectTeachers", methods=["POST"])
 def getSubjectTeachers():
-    class_id = request.json["class_id"]
-    subject_id = request.json["subject_id"]
+    try:
+        class_id = int(request.json["class_ID"])
+        subject_id = int(request.json["subject"])
+    except Exception as e:
+        return jsonify({"error": e})
 
     class_subject = Class_Subject.query.filter_by(class_id=class_id, subject_id=subject_id).first()
 

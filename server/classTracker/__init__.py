@@ -44,6 +44,9 @@ def create_app():
 
     from .controllers.teacher import teacherController
     app.register_blueprint(teacherController)
+
+    from .controllers.students import studentsController
+    app.register_blueprint(studentsController)
     
     from .models.User import User
     from .models.Class_Subject import Class_Subject

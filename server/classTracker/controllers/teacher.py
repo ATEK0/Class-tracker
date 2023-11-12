@@ -6,6 +6,13 @@ from ..models.User import User
 
 teacherController = Blueprint('teacher', __name__)
 
+
+@teacherController.route('/getTeachersCount', methods=["GET"])
+def getTeachersCount():
+
+    teachersCount = User.query.filter_by(type=1).count()
+    return jsonify(teachersCount)
+
 @teacherController.route("/get_teachers", methods=["GET"])
 def getTeachers():
     user_id = session.get("user_id")

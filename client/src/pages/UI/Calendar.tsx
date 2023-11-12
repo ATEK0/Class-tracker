@@ -2,9 +2,6 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
 
 const Calendar = () => {
     const handleDateClick = (arg: { dateStr: any }) => {
@@ -20,8 +17,7 @@ const Calendar = () => {
 
     return (
         <div>
-            <Link to="/summary/new"><button type='button' className='bg-[#04304d] p-3 px-5 text-white rounded-lg font-bold'><FontAwesomeIcon icon={faPlus} className='mr-2'/>Summary</button></Link>
-            <FullCalendar
+        <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             weekends={false}

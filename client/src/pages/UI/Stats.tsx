@@ -1,34 +1,56 @@
+import { useState, useEffect } from "react";
 import { useFetchUser } from "../../controllers/getUserData";
+import httpClient from "../../httpClient";
 
+export default function Example() {
+  const user = useFetchUser();
+  const [classroomCount, setClassroomCount] = useState();
+  const [subjectCount, setSubjectCount] = useState();
+  const [studentCount, setStudentCount] = useState();
+  const [teacherCount, setTeacherCount] = useState();
 
-  
-  export default function Example() {
-
-    const user = useFetchUser();
-
-    const stats = [
-      { id: 1, name: 'Turmas', value: '44' },
-      { id: 2, name: 'Alunos', value: '$119' },
-      { id: 3, name: 'Sumários', value: '46,000' },
-      { id: 4, name: 'Sumários', value: '46,000' },
-    ]
-
-    return (
-      <div className="sm:pb-16 pb-8 pt-5">
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // const classroomCountresp = await httpClient.get("//localhost:1222/getClassroomCount");
+        const subjectCountresp = await httpClient.get("//localhost:1222/getSubjectCount");
+        const studentCountresp = await httpClient.get("//localhost:1222/getStudentsCount");
+        const teacherCountresp = await httpClient.get("//localhost:1222/getTeachersCount");
         
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <dl className="grid grid-cols-2 gap-x-0.5 gap-y-10 text-center lg:grid-cols-4 ">
-            {stats.map((stat) => (
-              <div key={stat.id} className={`mx-auto flex max-w-xs flex-col w-full h-full p-5 ${stat.id == 1 ? "rounded-s-xl" : ""} ${stat.id == 4 ? "rounded-e-xl" : ""} bg-[#04304D] gap-y-4`}>
-                <dt className="text-base leading-7 text-white font-bold">{stat.name}</dt>
-                <dd className="order-first text-3xl tracking-tight text-white font-bold sm:text-5xl">
-                  {stat.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+
+        // setClassroomCount(classroomCountresp.data);
+        setSubjectCount(subjectCountresp.data);
+        setStudentCount(studentCountresp.data);
+        setTeacherCount(teacherCountresp.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Call the async function inside useEffect
+  }, []); // Empty dependency array to ensure the effect runs once on mount
+
+  const stats = [
+    { id: 1, name: 'Classrooms', value: classroomCount },
+    { id: 2, name: 'Subjects', value: subjectCount },
+    { id: 3, name: 'Students', value: studentCount },
+    { id: 4, name: 'Teachers', value: teacherCount }
+  ];
+
+  return (
+    <div className="sm:pb-16 pb-8 pt-5">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <dl className="grid grid-cols-2 gap-x-0.5 gap-y-10 text-center lg:grid-cols-4 ">
+          {stats.map((stat) => (
+            <div key={stat.id} className={`mx-auto flex max-w-xs flex-col w-full h-full p-5 ${stat.id === 1 ? "rounded-s-xl" : ""} ${stat.id === 4 ? "rounded-e-xl" : ""} bg-[#04304D] gap-y-4`}>
+              <dt className="text-base leading-7 text-white font-bold">{stat.name}</dt>
+              <dd className="order-first text-3xl tracking-tight text-white font-bold sm:text-5xl">
+                {stat.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
-    )
-  }
-  
+    </div>
+  );
+}
