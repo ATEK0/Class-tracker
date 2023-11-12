@@ -3,8 +3,7 @@ import httpClient from '../../httpClient';
 import { ClassListType, SubjectListType, TeacherListType } from '../../types';
 
 
-
-const NewSummary = () => {
+const NewSummary: React.FC = () => {
     const [teacherList, setTeacherList] = useState<TeacherListType[]>([]);
     const [classList, setClassList] = useState<ClassListType[]>([]);
     const [subjectList, setSubjectList] = useState<SubjectListType[]>([]);
@@ -12,18 +11,12 @@ const NewSummary = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const teacherResp = await httpClient.get("//localhost:1222/get_teachers");
-                const fetchedTeachers: TeacherListType[] = teacherResp.data;
-                setTeacherList(fetchedTeachers);
+                
 
                 const classResp = await httpClient.get("//localhost:1222/get_classes");
                 const fetchedClass: ClassListType[] = classResp.data;
                 setClassList(fetchedClass);
 
-                const subjectResp = await httpClient.get("//localhost:1222/get_subject");
-                const fetchedSubjects: SubjectListType[] = subjectResp.data;
-                setSubjectList(fetchedSubjects);
-                console.log(subjectList)
 
             } catch (error) {
                 console.error("Error fetching data----------------:", error);
@@ -35,23 +28,32 @@ const NewSummary = () => {
 
     const [teacher, setTeacher] = useState<string>('');
     const [subject, setSubject] = useState<string>('');
-    const [class_, setClass_] = useState<string>('');
+    const [class_ID, setClass_ID] = useState<BigInteger>();
     const [date, setDate] = useState<string>('');
     const [beginTime, setBeginTime] = useState<string>('');
     const [endTime, setEndTime] = useState<string>('');
     const [classTitle, setClassTitle] = useState<string>('');
     const [summaryContent, setSummaryContent] = useState<string>('');
 
-    const handleTeacherChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const handleTeacherChange = async (event: ChangeEvent<HTMLSelectElement>) => {
         setTeacher(event.target.value);
     };
 
-    const handleSubjectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const handleSubjectChange = async (event: ChangeEvent<HTMLSelectElement>) => {
         setSubject(event.target.value);
+        const teacherResp = await httpClient.get("//localhost:1222/get_teachers");
+        const fetchedTeachers: TeacherListType[] = teacherResp.data;
+        setTeacherList(fetchedTeachers);
     };
 
-    const handleClassChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setClass_(event.target.value);
+    const handleClassChange = async (event: ChangeEvent<HTMLSelectElement>) => {
+        setClass_ID(event.target.value);
+        const subjectResp = await httpClient.post("//localhost:1222/getClassSubjects", {class_ID});
+        console.log(class_ID)
+        console.log(subjectResp)
+        const fetchedSubjects: SubjectListType[] = subjectResp.data;
+        setSubjectList(fetchedSubjects);
+                
     };
 
     const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -75,10 +77,11 @@ const NewSummary = () => {
     };
 
     const createSummary = () => {
+
         console.log({
             teacher,
             subject,
-            class_,
+            class_ID,
             date,
             beginTime,
             endTime,
@@ -97,15 +100,15 @@ const NewSummary = () => {
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="flex flex-row gap-3 justify-between mb-4">
 
+
                 <div className='w-full'>
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="class">
-                        Teacher
+                        Class
                     </label>
-                    
-                    <select onChange={handleTeacherChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="" key={"a"} selected>Select Teacher</option>
-                        {teacherList.map((item) => (
-                            <option value={item.id} key={item.id}>{item.name}</option>                        
+                    <select onChange={handleClassChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="" key={"a"} selected>Select Class</option>
+                        {classList.map((item) => (
+                            <option value={item.id} key={item.id}>{item.grade}{item.label}</option>                        
                         ))}
                         
                     </select>
@@ -118,20 +121,20 @@ const NewSummary = () => {
                     <select onChange={handleSubjectChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <option value="" key={"a"} selected>Select Subject</option>
                         {subjectList.map((item) => (
-                            <option value={item.id} key={item.id}>{item.label}</option>                        
+                            <option value={item.id} key={item.id}>{item.name}</option>                        
                         ))}
-                        
                     </select>
                 </div>
-
+                
                 <div className='w-full'>
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="class">
-                        Class
+                        Teacher
                     </label>
-                    <select onChange={handleClassChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="" key={"a"} selected>Select Class</option>
-                        {classList.map((item) => (
-                            <option value={item.id} key={item.id}>{item.grade}{item.label}</option>                        
+                    
+                    <select onChange={handleTeacherChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="" key={"a"} selected>Select Teacher</option>
+                        {teacherList.map((item) => (
+                            <option value={item.id} key={item.id}>{item.name}</option>                        
                         ))}
                         
                     </select>

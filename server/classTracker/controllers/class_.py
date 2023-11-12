@@ -10,7 +10,7 @@ class_subjects = Blueprint('class_subjects', __name__)
 
 @class_subjects.route("/getClassSubjects", methods=["POST"])
 def getClassSubjects():
-    class_ = request.json["class"]
+    class_ = request.json["class_ID"]
 
     classSubjects = Class_Subject.query.filter_by(class_id = class_).all()
 
@@ -21,8 +21,8 @@ def getClassSubjects():
             "name": subject.label,
             "id": subject.id
         })
-
-    return jsonify({"subject_info": subject_info})
+    print(subject_info)
+    return jsonify(subject_info)
     
 @class_subjects.route("/get_classes", methods=["get"])
 def getClasses():

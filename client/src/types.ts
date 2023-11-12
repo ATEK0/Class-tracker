@@ -21,5 +21,5 @@ export interface ClassListType {
 
 export interface SubjectListType {
     id: string;
-    label: string;
+    name: string;
 }
