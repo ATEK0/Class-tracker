@@ -18,13 +18,13 @@ def createClassroom():
     beginTime = request.json["beginTime"]
     endTime = request.json["endTime"]
 
-    classSubject = Class_Subject.query.filter_by(subject_id = subject, class_id = class_ID).first()
+    classSubject = Class_Subject.query.filter_by(subject_id = subject_id, class_id = class_ID).first()
     teacherCS = Teacher_CS.query.filter_by(csid = classSubject.id, teacher = teacher_id).first()
     
     newClassroom = Classroom(tcs_id = teacherCS.id, day = date, begin = beginTime, end = endTime, state = "Teste")
 
-    # db.session.add(newClassroom)
-    # db.session.commit()
+    db.session.add(newClassroom)
+    db.session.commit()
 
     return jsonify ({
         "message": "ok"
