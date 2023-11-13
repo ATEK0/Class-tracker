@@ -24,7 +24,7 @@ def getClassSubjects():
     print(subject_info)
     return jsonify(subject_info)
     
-@class_subjects.route("/get_classes", methods=["get"])
+@class_subjects.route("/getClasses", methods=["get"])
 def getClasses():
     classes = Class_.query.all()
 
