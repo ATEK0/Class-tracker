@@ -36,3 +36,18 @@ def getClasses():
 
 
     return jsonify(class_info)
+
+@class_subjects.route("/getClassesCount", methods=["GET"])
+def getClassesCount():
+
+    userType = request.args.get("type")
+    user_id = session.get("user_id")
+
+    if userType == "Admin":
+        count = Class_.query.count()
+    elif userType == "Teacher":
+        ... #retorna a contagem de turmas que o professor leciona
+
+    #fazer igual para os outros endpoints do get...Count
+
+    return jsonify(count)

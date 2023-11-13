@@ -14,6 +14,8 @@ def getSubjectCount():
     
     if userType == "Admin":
         subjectCount = Subject.query.count()
+    elif userType == "Teacher":
+        ...
 
     return jsonify(subjectCount)
 

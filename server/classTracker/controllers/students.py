@@ -9,8 +9,13 @@ studentsController = Blueprint('studentsController', __name__)
 
 @studentsController.route('/getStudentsCount', methods=["GET"])
 def getCount():
-
-    studentCount = User.query.filter_by(type = 2).count()
-    return jsonify(studentCount)
+    userType = request.args.get("type")
+    
+    if userType == "Admin":
+        count = User.query.filter_by(type = 2).count()
+    elif userType == "Teacher":
+        ...
+        
+    return jsonify(count)
 
 
