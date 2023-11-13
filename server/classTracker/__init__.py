@@ -51,6 +51,9 @@ def create_app():
     from .controllers.classroom import classroomController
     app.register_blueprint(classroomController)
     
+    from .controllers.CalendarController import calendarController
+    app.register_blueprint(calendarController)
+    
     from .models.User import User
     from .models.Class_Subject import Class_Subject
     from .models.Class_Type import Class_Type
