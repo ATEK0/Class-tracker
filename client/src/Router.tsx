@@ -7,8 +7,13 @@ import Dashboard from "./pages/dashboard/Dashboard"
 import NavBarMain from "./pages/NavBar/NavbarMain"
 import Logout from "./pages/auth/Logout"
 import ElementDetails from "./pages/classrooms/EventDetails"
-import NewSummary from "./pages/classrooms/NewClassroom"
+import NewSummary from "./pages/admin/classroom/NewClassroom"
 import { Toaster } from "react-hot-toast"
+import ClassroomDashboard from "./pages/admin/classroom/ClassroomDashboard"
+import GeneralDashboard from "./pages/admin/general/GeneralDashboard"
+import StudentsDashboard from "./pages/admin/students/StudentsDashboard"
+import SubjectsDashboard from "./pages/admin/subjects/SubjectsDashboard"
+import TeachersDashboard from "./pages/admin/teachers/TeachersDashboard"
 
 
 const Router: React.FC = () => {
@@ -24,7 +29,18 @@ const Router: React.FC = () => {
         <Route path="/logout" element={<Logout />}/>
         <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/summary/:eventId" element={<ElementDetails />} />
-        <Route path="/new/classroom" element={<NewSummary />} />
+
+
+
+        <Route path="/admin/classroom/new" element={<NewSummary />} />
+        <Route path="/admin/classroom" element={<ClassroomDashboard />} />
+        <Route path="/admin/general" element={<GeneralDashboard />} />
+        <Route path="/admin/students" element={<StudentsDashboard />} />
+        <Route path="/admin/subjects" element={<SubjectsDashboard />} />
+        <Route path="/admin/teachers" element={<TeachersDashboard />} />
+
+
+        
         <Route path="*" element={<NotFound />}/>
       </Routes>
     </BrowserRouter>

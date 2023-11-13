@@ -1,31 +1,29 @@
 import { useState, useEffect } from "react";
-import { useFetchUser } from "../../controllers/getUserData";
 import httpClient from "../../httpClient";
 
-export default function Example() {
-  const user = useFetchUser();
-  const [classroomCount, setClassroomCount] = useState();
-  const [subjectCount, setSubjectCount] = useState();
-  const [studentCount, setStudentCount] = useState();
-  const [teacherCount, setTeacherCount] = useState();
+export default function Stats(props) {
+  const [classroomCount, setClassroomCount] = useState("-");
+  const [subjectCount, setSubjectCount] = useState("-");
+  const [studentCount, setStudentCount] = useState("-");
+  const [teacherCount, setTeacherCount] = useState("-");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const classroomCountresp = await httpClient.get("//localhost:1222/getClassroomsCount");
-        const subjectCountresp = await httpClient.get("//localhost:1222/getSubjectCount");
-        const studentCountresp = await httpClient.get("//localhost:1222/getStudentsCount");
-        const teacherCountresp = await httpClient.get("//localhost:1222/getTeachersCount");
-        
-
+        const classroomCountresp = await httpClient.get(`//localhost:1222/getClassroomsCount?type=${props.type}`);
+        // const subjectCountresp = await httpClient.get(`//localhost:1222/getSubjectCount?type=${props.type}`);
+        // const studentCountresp = await httpClient.get(`//localhost:1222/getStudentsCount?type=${props.type}`);
+        // const teacherCountresp = await httpClient.get(`//localhost:1222/getTeachersCount?type=${props.type}`);
+    
         setClassroomCount(classroomCountresp.data);
-        setSubjectCount(subjectCountresp.data);
-        setStudentCount(studentCountresp.data);
-        setTeacherCount(teacherCountresp.data);
+        // setSubjectCount(subjectCountresp.data);
+        // setStudentCount(studentCountresp.data);
+        // setTeacherCount(teacherCountresp.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+    
 
     fetchData(); // Call the async function inside useEffect
   }, []); // Empty dependency array to ensure the effect runs once on mount

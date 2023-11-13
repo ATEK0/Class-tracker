@@ -10,8 +10,11 @@ subjectController = Blueprint('subjectController', __name__)
 
 @subjectController.route('/getSubjectCount', methods=["GET"])
 def getSubjectCount():
+    userType = request.args.get("type")
+    
+    if userType == "Admin":
+        subjectCount = Subject.query.count()
 
-    subjectCount = Subject.query.count()
     return jsonify(subjectCount)
 
 @subjectController.route("/get_subject", methods=["get"])

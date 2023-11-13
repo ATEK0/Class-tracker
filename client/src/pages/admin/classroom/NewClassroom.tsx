@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState, useEffect } from 'react'
-import httpClient from '../../httpClient';
-import { ClassListType, SubjectListType, TeacherListType } from '../../types';
+import httpClient from '../../../httpClient';
+import { ClassListType, SubjectListType, TeacherListType } from '../../../types';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
@@ -78,8 +78,8 @@ const NewSummary: React.FC = () => {
         
 
         const createSummary = await httpClient.post("//localhost:1222/createClassroom", { 
-            teacher, 
-            subject, 
+            teacher,
+            subject,
             class_ID, 
             date, 
             beginTime, 

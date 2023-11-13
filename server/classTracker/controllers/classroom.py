@@ -33,6 +33,15 @@ def createClassroom():
 
 @classroomController.route("/getClassroomsCount", methods=["GET"])
 def getClassroomsCount():
-    count = Classroom.query.count()
+
+    userType = request.args.get("type")
+    user_id = session.get("user_id")
+
+    if userType == "Admin":
+        count = Classroom.query.count()
+    elif userType == "Teacher":
+        ... #retorna a contagem de turmas que o professor leciona
+
+    #fazer igual para os outros endpoints do get...Count
 
     return jsonify(count)
