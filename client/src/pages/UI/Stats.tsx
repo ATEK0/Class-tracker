@@ -12,13 +12,13 @@ export default function Example() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const classroomCountresp = await httpClient.get("//localhost:1222/getClassroomCount");
+        const classroomCountresp = await httpClient.get("//localhost:1222/getClassroomsCount");
         const subjectCountresp = await httpClient.get("//localhost:1222/getSubjectCount");
         const studentCountresp = await httpClient.get("//localhost:1222/getStudentsCount");
         const teacherCountresp = await httpClient.get("//localhost:1222/getTeachersCount");
         
 
-        // setClassroomCount(classroomCountresp.data);
+        setClassroomCount(classroomCountresp.data);
         setSubjectCount(subjectCountresp.data);
         setStudentCount(studentCountresp.data);
         setTeacherCount(teacherCountresp.data);
@@ -39,7 +39,7 @@ export default function Example() {
 
   return (
     <div className="sm:pb-16 pb-8 pt-5">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         <dl className="grid grid-cols-2 gap-x-0.5 gap-y-10 text-center lg:grid-cols-4 ">
           {stats.map((stat) => (
             <div key={stat.id} className={`mx-auto flex max-w-xs flex-col w-full h-full p-5 ${stat.id === 1 ? "rounded-s-xl" : ""} ${stat.id === 4 ? "rounded-e-xl" : ""} bg-[#04304D] gap-y-4`}>

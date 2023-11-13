@@ -5,8 +5,6 @@ import Stats from "../../UI/Stats"
 
 import { useCookies } from 'react-cookie';
 import { useFetchUser } from '../../../controllers/getUserData';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 
