@@ -8,10 +8,14 @@ classroomController = Blueprint('classroomController', __name__)
 
 @classroomController.route("/createClassroom", methods=["POST"])
 def createClassroom():
-    tcs_id = request.json["tcs_ID"]
-    begin = request.json["begin"]
-    end = request.json["end"]
-    state = request.json["state"]
+    
+    teacher_id = request.json["teacher"]
+    subject = request.json["subject"]
+    class_ID = request.json["class_ID"]
+    date = request.json["date"]
+    beginTime = request.json["beginTime"]
+    endTime = request.json["endTime"]
+
 
     newClassroom = Summary(tcs_id = tcs_id, begin = begin, end = end, state = state)
 

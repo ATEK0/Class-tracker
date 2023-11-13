@@ -6,8 +6,8 @@ import NotFound from "./pages/errors/NotFound"
 import Dashboard from "./pages/dashboard/Dashboard"
 import NavBarMain from "./pages/NavBar/NavbarMain"
 import Logout from "./pages/auth/Logout"
-import ElementDetails from "./pages/summary/EventDetails"
-import NewSummary from "./pages/summary/NewClassroom"
+import ElementDetails from "./pages/classrooms/EventDetails"
+import NewSummary from "./pages/classrooms/NewClassroom"
 import { Toaster } from "react-hot-toast"
 
 

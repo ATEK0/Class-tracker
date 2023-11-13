@@ -16,7 +16,7 @@ const Calendar = () => {
     }
 
     return (
-        <div>
+        <div className='text-[#04304D] font-bold'>
         <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"

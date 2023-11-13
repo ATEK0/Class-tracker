@@ -1,52 +1,54 @@
-import { useState, useEffect } from 'react';
-import { Link, Navigate } from 'react-router-dom'; 
-import { User } from '../../types';
-
-import CalendarUI from "../UI/Calendar"
-
-import Stats from "../UI/Stats"
-
+import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { useFetchUser } from '../../controllers/getUserData';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Navigate } from 'react-router-dom';
 import httpClient from '../../httpClient';
+import DashboardAdmin from './individual Dashboards/DashboardAdmin';
+import DashboardTeacher from './individual Dashboards/DashboardTeacher';
 
+import Loading from '../UI/Loading';
+import DashboardStudent from './individual Dashboards/DashboardStudent';
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
+  const [cookies] = useCookies();
+  const [componentToRender, setComponentToRender] = useState<React.JSX.Element | null>(null);
 
-  const [cookies, setCookie] = useCookies();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const getUserType = await httpClient.get("//localhost:1222/@me");
+        const userTyperesp = getUserType.data;
 
+        if (userTyperesp.type === "Admin") {
+            setComponentToRender(<DashboardAdmin />);
 
+        } else if (userTyperesp.type === "Teacher") {
+            setComponentToRender(<DashboardTeacher />);
 
-  // const [subjectCount, setSubjectCount] = useState(); 
-  // const [studentCount, setStudentCount] = useState(); 
-  // const [teacherCount, setTeacherCount] = useState();
+        } else if (userTyperesp.type === "Student") {
+            setComponentToRender(<DashboardStudent />);
 
+        } else {
+            console.warn("Unexpected user type:", userTyperesp.type);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  const user = useFetchUser();
+    fetchData();
+  }, []);
 
   if (!cookies.session) {
     return <Navigate to="/" />;
   }
-  
-  
 
-  return (
-    <div className='pt-[64px] pl-[24px] mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8'>
-        <h1 className="font-bold text-3xl text-[#04304D] pt-8">Olá {user?.name},</h1><small className='text-sm text-[#04304D] pb-3'>{user?.type}</small><br />
-        <div>
-
-          <Stats />
-
-
-          <Link to="/new/classroom"><button type='button' className='bg-[#04304d] p-3 px-5 text-white rounded-lg font-bold'><FontAwesomeIcon icon={faPlus} className='mr-2'/>Summary</button></Link>
-          <CalendarUI />
-
-        </div>
-
-    </div>
-  );
+  if (!componentToRender) {
+    return (
+        <Loading />
+    )
+  }
+  console.log("Component to Render:", componentToRender);
+  return componentToRender;
 };
 
 export default Dashboard;

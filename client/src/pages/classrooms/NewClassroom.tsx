@@ -3,6 +3,8 @@ import httpClient from '../../httpClient';
 import { ClassListType, SubjectListType, TeacherListType } from '../../types';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const NewSummary: React.FC = () => {
@@ -72,16 +74,24 @@ const NewSummary: React.FC = () => {
     };
 
 
-    const createSummary = () => {
-        toast.success("Summary created!");
-        console.log({
-            teacher,
-            subject,
-            class_ID,
-            date,
-            beginTime,
-            endTime
-        });
+    const createSummary = async () => {
+        
+
+        const createSummary = await httpClient.post("//localhost:1222/getClassSubjects", { 
+            teacher, 
+            subject, 
+            class_ID, 
+            date, 
+            beginTime, 
+            endTime });
+        const createSummaryResponse = createSummary.data;
+
+        if (createSummaryResponse.message === "ok") {
+            toast.success("Summary created!");
+        } else if (createSummaryResponse.message === "error") {
+            toast.error("An error ocurred, try again");
+        }
+        
     };
 
     if (classList.length === 0 ) { //|| teacherList.length === 0 || subjectList.length === 0
@@ -90,7 +100,7 @@ const NewSummary: React.FC = () => {
 
   return (
     <div className='pt-[64px] mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
-        <h1 className='text-3xl font-bold py-3 text-[#04304d]'>Schedule new class</h1>
+        <h1 className='text-3xl font-bold py-3 text-[#04304d]'><FontAwesomeIcon icon={faGraduationCap} className='mr-2'/>Create new classroom</h1>
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="flex flex-row gap-3 justify-between mb-4">
 
