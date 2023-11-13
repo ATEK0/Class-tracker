@@ -19,13 +19,16 @@ const Dashboard = () => {
         const userTyperesp = getUserType.data;
 
         if (userTyperesp.type === "Admin") {
-            setComponentToRender(<DashboardAdmin />);
+          document.title = 'Admin Dashboard - Class Tracker';
+          setComponentToRender(<DashboardAdmin />);
 
         } else if (userTyperesp.type === "Teacher") {
-            setComponentToRender(<DashboardTeacher />);
+          document.title = 'Teacher Dashboard - Class Tracker';
+          setComponentToRender(<DashboardTeacher />);
 
         } else if (userTyperesp.type === "Student") {
-            setComponentToRender(<DashboardStudent />);
+          document.title = 'Student Dashboard - Class Tracker';
+          setComponentToRender(<DashboardStudent />);
 
         } else {
             console.warn("Unexpected user type:", userTyperesp.type);
