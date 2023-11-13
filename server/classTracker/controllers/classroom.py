@@ -29,3 +29,10 @@ def createClassroom():
     return jsonify ({
         "message": "ok"
     }), 200
+
+
+@classroomController.route("/getClassroomsCount", methods=["GET"])
+def getClassroomsCount():
+    count = Classroom.query.count()
+
+    return jsonify(count)
