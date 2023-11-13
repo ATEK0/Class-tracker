@@ -7,7 +7,7 @@ import Dashboard from "./pages/dashboard/Dashboard"
 import NavBarMain from "./pages/NavBar/NavbarMain"
 import Logout from "./pages/auth/Logout"
 import ElementDetails from "./pages/classrooms/EventDetails"
-import NewSummary from "./pages/admin/classrooms/NewClassroom"
+import NewClassRoom from "./pages/admin/classrooms/NewClassroom"
 import { Toaster } from "react-hot-toast"
 import ClassroomDashboard from "./pages/admin/classrooms/ClassroomDashboard"
 import GeneralDashboard from "./pages/admin/general/GeneralDashboard"
@@ -33,7 +33,7 @@ const Router: React.FC = () => {
 
 
 
-        <Route path="/admin/classroom/new" element={<NewSummary />} />
+        <Route path="/admin/classrooms/new" element={<NewClassRoom />} />
         <Route path="/admin/classroom" element={<ClassroomDashboard />} />
         <Route path="/admin/classes" element={<ClassesDashboard />} />
         <Route path="/admin/general" element={<GeneralDashboard />} />

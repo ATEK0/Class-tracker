@@ -16,7 +16,7 @@ const NewSummary: React.FC = () => {
         const fetchData = async () => {
             try {
                 
-                const classResp = await httpClient.get("//localhost:1222/get_classes");
+                const classResp = await httpClient.get("//localhost:1222/getClasses");
                 const fetchedClass: ClassListType[] = classResp.data;
                 setClassList(fetchedClass);
 
@@ -109,7 +109,7 @@ const NewSummary: React.FC = () => {
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="class">
                         Class
                     </label>
-                    <select onChange={handleClassChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <select onChange={handleClassChange} className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <option value="" key={"a"} selected>Select Class</option>
                         {classList.map((item) => (
                             <option value={item.id} key={item.id}>{item.grade}º {item.label}</option>                        
@@ -122,7 +122,7 @@ const NewSummary: React.FC = () => {
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="class">
                         Subject
                     </label>
-                    <select onChange={handleSubjectChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <select onChange={handleSubjectChange} className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <option value="" key={"a"} selected>{(subjectList.length > 0) ? 'Select Subject' : 'No Subjects'}</option>
                         {subjectList.map((item) => (
                             <option value={item.id} key={item.id}>{item.name}</option>                        
@@ -135,7 +135,7 @@ const NewSummary: React.FC = () => {
                         Teacher
                     </label>
                     
-                    <select onChange={handleTeacherChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <select onChange={handleTeacherChange} className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <option value="" key={"a"} selected>{(subjectList.length > 0) ? 'Select Teacher' : 'No Teachers'}</option>
                         {teacherList.map((item) => (
                             <option value={item.id} key={item.id}>{item.name}</option>                        

@@ -8,12 +8,14 @@ export interface User {
 }
 
 export interface TeacherListType {
+    forEach(arg0: (option: any) => void): unknown;
     id: string;
     name: string;
     surname: string;
 }
 
 export interface ClassListType {
+    forEach(arg0: (option: any) => void): unknown;
     grade: string;
     id: string;
     label: string;

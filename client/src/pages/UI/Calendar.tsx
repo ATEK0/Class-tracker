@@ -1,53 +1,79 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import httpClient from '../../httpClient'
 import { ClassListType, TeacherListType } from '../../types'
 
 
 const Calendar = () => {
-    const [teachersList, setTeachersList] = useState<TeacherListType[]>([]);
-    const [classesList, setClassesList] = useState<ClassListType[]>([]);
+
+    const selectRef = useRef<HTMLSelectElement | null>(null);
+
+    async function loadCalendarData(event: { target: { value: any } }) {
+        console.log(event.target.value)
+        const calendarDataResponse = await httpClient.get('//localhost:1222/getClasses');
+
+        console.log(calendarDataResponse.data)
+    }
 
     useEffect(() => {
         async function loadPage() {
             try {
-                // Fetch teachers and classes
                 const teachersResponse = await httpClient.get('//localhost:1222/getTeachers');
                 const classesResponse = await httpClient.get('//localhost:1222/getClasses');
-
-                // Update state with fetched data
-                setTeachersList(teachersResponse.data);
-                setClassesList(classesResponse.data);
+                
+                const teachersList: TeacherListType[] = teachersResponse.data;
+                const classesList: ClassListType[] = classesResponse.data;
 
                 // Find the select element in the DOM
                 const selectCalendar = document.querySelectorAll('.fc-toolbar-chunk')[1];
 
-                // Create options for teachers
-                const teachersOptions = teachersList.map((teacher) => (
-                    `<option value="${teacher.id}">${teacher.name} ${teacher.surname}</option>`
-                )).join('');
 
-                // Create options for classes
-                const classesOptions = classesList.map((classItem) => (
-                    `<option value="${classItem.id}">${classItem.grade} - ${classItem.label}</option>`
-                )).join('');
+                // Check if select has already been created
+                if (!selectRef.current) {
+                    const selectElement = document.createElement('select');
+                    selectElement.setAttribute("style", "shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline") 
 
-                // Insert the select box with options
-                selectCalendar.insertAdjacentHTML('beforeend', `
-                    <select>
-                        ${teachersOptions}
-                        ${classesOptions}
-                    </select>
-                `);
+                    selectElement.onchange = loadCalendarData
+
+                    const optionElement = document.createElement('option');
+                    optionElement.value = "";
+                    optionElement.text = "Choose option";
+                    optionElement.selected = true
+                
+                    selectElement.appendChild(optionElement);
+
+
+                    teachersList.forEach((option) => {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option.id;
+                        optionElement.text = option.name + " " + option.surname;
+                    
+                        selectElement.appendChild(optionElement);
+                    });
+
+                    classesList.forEach((option) => {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option.id;
+                        optionElement.text = option.grade + " " + option.label;
+                    
+                        selectElement.appendChild(optionElement);
+                    });
+
+                    selectCalendar.appendChild(selectElement);
+
+                    // Set the ref to the created select element
+                    selectRef.current = selectElement;
+                }
             } catch (error) {
                 console.error('Error loading data:', error);
             }
         }
 
         loadPage();
-    }, [teachersList, classesList]);
+    }, []);
+    
     
 
     const clickEvent = (info: any) => {
@@ -55,6 +81,10 @@ const Calendar = () => {
         console.log('ID: ' + info.event.id);
 
         window.location.href = `/summary/${info.event.id}`;
+    }
+
+    const handleDateClick = (arg: { dateStr: any }) => {
+        alert(arg.dateStr)
     }
 
     return (
