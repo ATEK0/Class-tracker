@@ -77,7 +77,7 @@ const NewSummary: React.FC = () => {
     const createSummary = async () => {
         
 
-        const createSummary = await httpClient.post("//localhost:1222/getClassSubjects", { 
+        const createSummary = await httpClient.post("//localhost:1222/createClassroom", { 
             teacher, 
             subject, 
             class_ID, 
