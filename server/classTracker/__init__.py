@@ -22,7 +22,6 @@ def create_app():
     
     app.config.from_object(app_config)
 
-    
 
     server_session.init_app(app)
     bcrypt.init_app(app)
@@ -30,25 +29,25 @@ def create_app():
     migrate.init_app(app, db)
     apiCalling.init_app(app, supports_credentials=True)
 
-    from .controllers.auth import auth
-    app.register_blueprint(auth) 
+    from .controllers.AuthController import authController
+    app.register_blueprint(authController) 
 
-    from .controllers.summary import summary
-    app.register_blueprint(summary)
+    from .controllers.SummaryController import summaryController
+    app.register_blueprint(summaryController)
     
-    from .controllers.class_ import class_subjects
+    from .controllers.ClassController import class_subjects
     app.register_blueprint(class_subjects)
 
-    from .controllers.subject import subjectController
+    from .controllers.SubjectController import subjectController
     app.register_blueprint(subjectController)
 
-    from .controllers.teacher import teacherController
+    from .controllers.TeacherController import teacherController
     app.register_blueprint(teacherController)
 
-    from .controllers.students import studentsController
+    from .controllers.StudentsController import studentsController
     app.register_blueprint(studentsController)
     
-    from .controllers.classroom import classroomController
+    from .controllers.ClassroomController import classroomController
     app.register_blueprint(classroomController)
     
     from .controllers.CalendarController import calendarController
@@ -64,18 +63,5 @@ def create_app():
     from .models.Teacher_CS import Teacher_CS
     from .models.Classroom import Classroom
 
-    # Create the database tables
-    with app.app_context():
-        db.create_all()
-
-    login_manager = LoginManager()
-    login_manager.login_view = "auth.login"
-    login_manager.init_app(app)
-    
-    
-    @login_manager.user_loader
-    def load_user(id):
-        return User.query.get(int(id))
-    
     
     return app

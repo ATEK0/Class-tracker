@@ -32,17 +32,15 @@ const Router: React.FC = () => {
         <Route path="/summary/:eventId" element={<ElementDetails />} />
 
 
-
         <Route path="/admin/classrooms/new" element={<NewClassRoom />} />
-        <Route path="/admin/classroom" element={<ClassroomDashboard />} />
+        <Route path="/admin/classrooms" element={<ClassroomDashboard />} />
         <Route path="/admin/classes" element={<ClassesDashboard />} />
         <Route path="/admin/general" element={<GeneralDashboard />} />
         <Route path="/admin/students" element={<StudentsDashboard />} />
         <Route path="/admin/subjects" element={<SubjectsDashboard />} />
         <Route path="/admin/teachers" element={<TeachersDashboard />} />
-
-
         
+
         <Route path="*" element={<NotFound />}/>
       </Routes>
     </BrowserRouter>

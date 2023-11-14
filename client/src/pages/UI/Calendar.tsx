@@ -101,7 +101,7 @@ const Calendar = () => {
 
     useEffect(() => {
         handleButtonClick();
-    }, []); // Run this effect once on component mount
+    }, []);
 
     const clickEvent = (info: any) => {
         console.log('Event: ' + info.event.title);
@@ -109,62 +109,53 @@ const Calendar = () => {
         window.location.href = `/summary/${info.event.id}`;
     };
 
-    const handleDateClick = (arg: { dateStr: any }) => {
-        alert(arg.dateStr);
-    };
-
     return (
         
         <div className='text-[#04304D] font-bold'>
 
-            <FullCalendar
-                ref={calendarRef}
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView='timeGridWeek'
-                weekends={true}
-                events={calendarDataResponse}
-                eventClick={clickEvent}
-                eventColor='#378006'
-                displayEventTime={true}
-                displayEventEnd={true}
-                views={{
-                    dayGridMonth: {
-                        type: 'dayGridMonth',
-                        buttonText: 'Month',
-                    },
-                    timeGridWeek: {
-                        type: 'timeGridWeek',
-                        buttonText: 'Week',
-                    },
-                    timeGridDay: {
-                        type: 'timeGridDay',
-                        buttonText: 'Day',
-                    },
-                }}
-                headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'customViewButton dayGridMonth,timeGridWeek,timeGridDay',
-                }}
-                businessHours={[
-                    {
-                      daysOfWeek: [1, 2, 3, 4, 5,6],
-                      startTime: '08:00',
-                      endTime: '24:00'
-                    }
-                  ]}
-                lazyFetching={true}
-                eventOverlap={false}
-                hiddenDays={[0]}
-                slotMinTime={"08:00"}
-                slotMaxTime={"24:00"}
-                customButtons={{
-                    customViewButton: {
-                        text: 'Load Data',
-                        click: handleButtonClick,
-                    },
-                }}
-            />
+<FullCalendar
+    ref={calendarRef}
+    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+    initialView='timeGridWeek'
+    weekends={true}
+    events={calendarDataResponse}
+    eventClick={clickEvent}
+    eventColor='#378006'
+    displayEventTime={true}
+    displayEventEnd={true}
+    views={{
+        dayGridMonth: {
+            type: 'dayGridMonth',
+            buttonText: 'Month',
+        },
+        timeGridWeek: {
+            type: 'timeGridWeek',
+            buttonText: 'Week',
+        },
+        timeGridDay: {
+            type: 'timeGridDay',
+            buttonText: 'Day',
+        },
+    }}
+    headerToolbar={{
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    }}
+    businessHours={[
+        {
+            daysOfWeek: [1, 2, 3, 4, 5, 6],
+            startTime: '08:00',
+            endTime: '24:00'
+        }
+    ]}
+    lazyFetching={true}
+    eventOverlap={false}
+    hiddenDays={[0]}
+    slotMinTime={"08:00"}
+    slotMaxTime={"24:00"}
+/>
+
         </div>
     );
 };
