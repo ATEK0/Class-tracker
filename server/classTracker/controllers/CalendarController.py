@@ -9,10 +9,17 @@ calendarController = Blueprint('calendarController', __name__)
 
 @calendarController.route("/getCalendarEvents", methods=["POST"])
 def getCalendarEvents():
-    teacher_id = request.json["teacher_id"]
+    selected_id = request.json["teacher_id"]
+
+    if "teacher" in selected_id:
+        selected_id == selected_id[8::]
+    elif "class" in selected_id:
+        selected_id == selected_id[6::]
+
+    print(selected_id)
 
     # Retrieve all `Teacher_CS` records associated with the specified teacher
-    teacher_cs_records = Teacher_CS.query.filter_by(teacher=teacher_id).all()
+    teacher_cs_records = Teacher_CS.query.filter_by(teacher=selected_id).all()
 
     # Extract classroom IDs from the `Teacher_CS` records
     classroom_ids = [teacher_cs_record.id for teacher_cs_record in teacher_cs_records]
