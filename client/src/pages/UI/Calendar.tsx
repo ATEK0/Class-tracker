@@ -5,6 +5,8 @@ import { useEffect, useRef } from 'react'
 import httpClient from '../../httpClient'
 import { ClassListType, TeacherListType } from '../../types'
 
+import timeGridPlugin from '@fullcalendar/timegrid';
+
 
 const Calendar = () => {
 
@@ -12,7 +14,7 @@ const Calendar = () => {
 
     async function loadCalendarData(event: { target: { value: any } }) {
         console.log(event.target.value)
-        const calendarDataResponse = await httpClient.get('//localhost:1222/getClasses');
+        const calendarDataResponse = await httpClient.post('//localhost:1222/getCalendarEvents', { id: event.target.value });
 
         console.log(calendarDataResponse.data)
     }
@@ -41,21 +43,37 @@ const Calendar = () => {
                     optionElement.value = "";
                     optionElement.text = "Choose option";
                     optionElement.selected = true
+                    optionElement.disabled = true
                 
                     selectElement.appendChild(optionElement);
 
 
+                    const teacherSeparatorElement = document.createElement('option');
+                    teacherSeparatorElement.value = "";
+                    teacherSeparatorElement.text = "- TEACHERS -";
+                    teacherSeparatorElement.disabled = true
+                
+                    selectElement.appendChild(teacherSeparatorElement);
+
+
                     teachersList.forEach((option) => {
                         const optionElement = document.createElement('option');
-                        optionElement.value = option.id;
+                        optionElement.value = "teacher-" + option.id;
                         optionElement.text = option.name + " " + option.surname;
                     
                         selectElement.appendChild(optionElement);
                     });
 
+                    const classesSeparatorElement = document.createElement('option');
+                    classesSeparatorElement.value = "";
+                    classesSeparatorElement.text = "- CLASSES -";
+                    classesSeparatorElement.disabled = true
+                
+                    selectElement.appendChild(classesSeparatorElement);
+
                     classesList.forEach((option) => {
                         const optionElement = document.createElement('option');
-                        optionElement.value = option.id;
+                        optionElement.value = "class-" + option.id;
                         optionElement.text = option.grade + " " + option.label;
                     
                         selectElement.appendChild(optionElement);
@@ -90,22 +108,36 @@ const Calendar = () => {
     return (
         <div className='text-[#04304D] font-bold'>
         <FullCalendar
-            plugins={[dayGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            weekends={true}
-            dateClick={handleDateClick}
-            events={[
-                { id: 'event1', title: 'event 1', start: '2023-11-09T12:00:00',end: '2023-11-09T15:00:00', color: "red" },
-                { id: 'event2', title: 'event 3', date: '2023-11-09T13:00:00', color: "green" },
-                { id: 'event3', title: 'event 3', date: '2023-11-09T14:00:00', color: "blue" },
-                { id: 'event4', title: 'event 3', date: '2023-11-09T15:00:00', color: "red" },
-                { id: 'event5', title: 'event 3', date: '2023-11-09T16:00:00', color: "red" },
-                { id: 'event6', title: 'event 2', date: '2023-11-10', color: "red" }
-            ]}
-            eventClick={clickEvent}
-            eventColor= '#378006'
-            displayEventTime={true}
-            displayEventEnd={true}
+                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                weekends={true}
+                dateClick={handleDateClick}
+                events={[
+                    // ... (your events)
+                ]}
+                eventClick={clickEvent}
+                eventColor='#378006'
+                displayEventTime={true}
+                displayEventEnd={true}
+                views={{
+                    dayGridMonth: {
+                        type: 'dayGridMonth',
+                        buttonText: 'Month'
+                    },
+                    timeGridWeek: {
+                        type: 'timeGridWeek',
+                        buttonText: 'Week'
+                    },
+                    timeGridDay: {
+                        type: 'timeGridDay',
+                        buttonText: 'Day'
+                    }
+                }}
+                headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                }}
             />
         </div>
     )
