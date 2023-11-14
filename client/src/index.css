@@ -5,3 +5,14 @@
 .fc-event {
     cursor: pointer;
 }
+
+
+td {
+    padding: 2px 15px;
+    white-space: nowrap;
+    /* OUT FOR FULL CALENDAR */
+    /* overflow: hidden; */
+    text-overflow: ellipsis;
+}
+
+.fc-slots tr { height: 50px !important; }

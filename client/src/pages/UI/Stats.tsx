@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import httpClient from "../../httpClient";
 
-export default function Stats(props) {
+export default function Stats(props: { type: string; }) {
   const [classroomCount, setClassroomCount] = useState("-");
   const [subjectCount, setSubjectCount] = useState("-");
   const [studentCount, setStudentCount] = useState("-");
   const [teacherCount, setTeacherCount] = useState("-");
+
 
   useEffect(() => {
     const fetchData = async () => {

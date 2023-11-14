@@ -12,11 +12,11 @@ def getCalendarEvents():
     selected_id = request.json["id"]
 
     if "teacher" in selected_id:
-        selected_id == selected_id[8::]
+        selected_id = selected_id[8::]
     elif "class" in selected_id:
-        selected_id == selected_id[6::]
+        selected_id = selected_id[6::]
 
-    print(selected_id)
+    print(".-------------------------", selected_id)
 
     # Retrieve all `Teacher_CS` records associated with the specified teacher
     teacher_cs_records = Teacher_CS.query.filter_by(teacher=selected_id).all()
@@ -38,5 +38,7 @@ def getCalendarEvents():
             'color': 'red'
         })
 
+    print(classroom.begin)
+
     # Return the classroom data as JSON
-    return jsonify({'classrooms': classroom_data})
+    return jsonify(classroom_data)
