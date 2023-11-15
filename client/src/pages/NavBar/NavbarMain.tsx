@@ -53,18 +53,17 @@ const NavBarMain = () => {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:justify-between md:justify-between">
-                <div className="flex flex-shrink-0 items-center">
+                <Link to="" className="flex flex-shrink-0 items-center">
                   <img
                     className="h-10 w-auto"
                     src={Logo}
                     alt="Class Tracker Logo"
                   />
-                </div>
+                </Link>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <Link to={item.href}>
-                      <a
+                      <Link to={item.href}
                         key={item.name}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white hover:bg-gray-500' : 'text-white hover:text-white hover:bg-blue-500',
@@ -74,7 +73,6 @@ const NavBarMain = () => {
                         
                       >
                         {item.name}
-                      </a>
                       </Link>
                     ))}
                   </div>

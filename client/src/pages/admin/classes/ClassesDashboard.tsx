@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
-import toast from 'react-hot-toast';
+
 import { HiOutlineAcademicCap } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
-import httpClient from '../../../httpClient';
 import Table from '../../UI/Table';
 
 const ClassesDashboard = () => {
@@ -20,7 +17,8 @@ const ClassesDashboard = () => {
         </Link>
       </div>
 
-      <Table />
+      <Table endpoint={"getClasses"} namesList={["grade", "label"]}/>
+
     </div>
   );
 };

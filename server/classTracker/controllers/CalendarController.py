@@ -20,29 +20,24 @@ def getCalendarEvents():
 
     currentDate = datetime.datetime.now()
 
-    #print(currentDate)
-
     if "teacher" in selected_id:
-        selected_id = selected_id[8::]
+        selected_id = selected_id[8:]
 
-        teacher_cs_records = Teacher_CS.query.filter_by(teacher=selected_id).all()
+        # teacher_cs_records = Teacher_CS.query.filter_by(teacher=selected_id).all()
+        # classroom_ids = [record.id for record in teacher_cs_records]
+        # classrooms = Classroom.query.filter(Classroom.tcs_id.in_(classroom_ids)).all()
 
-        classroom_ids = [teacher_cs_record.id for teacher_cs_record in teacher_cs_records]
-
-        classrooms = Classroom.query.filter(Classroom.tcs_id.in_(classroom_ids)).all()
+        classrooms = (
+            db.session.query(Classroom)
+            .join(Teacher_CS, Classroom.tcs_id == Teacher_CS.id)
+            .filter(Teacher_CS.teacher == selected_id)
+            .all()
+        )
 
         for classroom in classrooms:
-            date = classroom.day
-            startTime = classroom.begin
-            endTime = classroom.end
-            classroomStartDate = datetime.datetime.combine(date, startTime)
-            classroomEndDate = datetime.datetime.combine(date, endTime)
-            if currentDate > classroomEndDate:
-                classroom_color = "#FF3213"
-            elif currentDate >= classroomStartDate and currentDate <= classroomEndDate:
-                classroom_color = "#A171A"
-            else:
-                classroom_color = "#19F705"
+            start_time = datetime.datetime.combine(classroom.day, classroom.begin)
+            end_time = datetime.datetime.combine(classroom.day, classroom.end)
+            classroom_color = "#a8c6a1" if currentDate > end_time else "#219ebc" if currentDate >= start_time else "#3d5a80"
             
             classroom_data.append({
                 'id': classroom.id,
@@ -53,17 +48,15 @@ def getCalendarEvents():
             })
 
     elif "class" in selected_id:
-        selected_id = selected_id[6::]
+        selected_id = selected_id[6:]
 
-        class_subjects_records = Class_Subject.query.filter_by(class_id=selected_id).all()
-
-        class_subject_ids = [class_subject_record.id for class_subject_record in class_subjects_records]
-
-        teacher_cs_records = Teacher_CS.query.filter(Teacher_CS.csid.in_(class_subject_ids)).all()
-
-        classroom_ids = [teacher_cs_record.id for teacher_cs_record in teacher_cs_records]
-
-        classrooms = Classroom.query.filter(Classroom.tcs_id.in_(classroom_ids)).all()
+        classrooms = (
+            db.session.query(Classroom)
+            .join(Teacher_CS, Classroom.tcs_id == Teacher_CS.id)
+            .join(Class_Subject, Teacher_CS.csid == Class_Subject.id)
+            .filter(Class_Subject.class_id == selected_id)
+            .all()
+        )
 
         for classroom in classrooms:
             teacher = User.query.filter_by(id=classroom.teacher_cs.teacher).first()

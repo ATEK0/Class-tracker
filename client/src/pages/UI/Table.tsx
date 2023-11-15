@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component';
 import toast from 'react-hot-toast';
 import httpClient from '../../httpClient';
 import { TextAlign } from '../../types';
+import { apiLink } from '../../config';
 
 const Table = (props: {
     namesList: string[]; endpoint: string; 
@@ -15,11 +16,11 @@ const Table = (props: {
     useEffect(() => {
       async function loadTableData() {
         try {
-          const tableDataResp = await httpClient.get(`//localhost:1222/${props.endpoint}`);
+          const tableDataResp = await httpClient.get(`${apiLink}/${props.endpoint}`);
   
           const tableColumns = props.namesList.map((name: string) => ({
             name: name.charAt(0).toUpperCase() + name.slice(1),
-            selector: name.toLowerCase(),
+            selector: row => row[name.toLowerCase()],
             sortable: true,
           }));
           

@@ -41,14 +41,13 @@ const Calendar = (props: any) => {
             const classesList: ClassListType[] = classesResponse.data;
 
             const selectCalendar = document.querySelectorAll('.fc-toolbar-chunk')[1];
-            selectCalendar.setAttribute("class", "fc-toolbar-chunk flex flex-col")
-            // selectCalendar.classList.add("flex justify-center items-center")
+            selectCalendar.setAttribute("class", "fc-toolbar-chunk flex flex-col justify-center items-center text-center")
 
             if (!selectRef.current) {
                 const selectElement = document.createElement('select');
                 selectElement.setAttribute(
                     'class',
-                    'shadow appearance-none m-0 border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                    'shadow appearance-none m-0 min-w-[210px] w-[210px] border rounded py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 );
                 selectElement.setAttribute(
                     'style',
@@ -105,19 +104,54 @@ const Calendar = (props: any) => {
         }
     };
 
+    const determineView = () => {
+        const width = window.innerWidth;
+
+        const selectCalendar = document.querySelector('.fc-header-toolbar');
+
+
+        if (selectCalendar) {
+
+            if (width <= 600) {
+                selectCalendar.setAttribute("class", "fc-header-toolbar fc-toolbar fc-toolbar-ltr flex flex-col gap-y-5");
+                return 'timeGridDay'; // Set to daily view for small screens
+            } else {
+                selectCalendar.setAttribute("class", "fc-header-toolbar fc-toolbar fc-toolbar-ltr flex flex-row");
+                return 'timeGridWeek'; // Set to monthly view for larger screens
+            }
+
+        }
+
+    };
+
+    const handleResize = () => {
+        const calendarApi = calendarRef.current.getApi();
+        const newView = determineView();
+        calendarApi.changeView(newView);
+    };
+
     useEffect(() => {
+
+        window.addEventListener('resize', handleResize);
+
+
 
         if (!props.id) {
             handleButtonClick();
         } else {
             const simulatedEvent: { target: { value: any } } = {
                 target: {
-                  value: props.id, // Replace with the desired value
+                    value: props.id, // Replace with the desired value
                 },
-              };
-              
+            };
+
             loadCalendarData(simulatedEvent);
         }
+
+        // Cleanup the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
 
     }, []);
 
@@ -164,15 +198,22 @@ const Calendar = (props: any) => {
                     {
                         daysOfWeek: [1, 2, 3, 4, 5, 6],
                         startTime: '08:00',
-                        endTime: '24:00'
+                        endTime: '23:00'
                     }
                 ]}
                 lazyFetching={true}
                 eventOverlap={false}
                 hiddenDays={[0]}
                 slotMinTime={"08:00"}
-                slotMaxTime={"24:00"}
+                slotMaxTime={"23:00"}
+                eventTimeFormat={{
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }} 
+                slotLabelFormat={{ hour: '2-digit', minute: '2-digit', hour12: false }}  
             />
+
 
         </div>
     );
