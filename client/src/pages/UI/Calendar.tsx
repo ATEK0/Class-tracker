@@ -6,8 +6,9 @@ import interactionPlugin from '@fullcalendar/interaction';
 import httpClient from '../../httpClient';
 import { ClassListType, TeacherListType } from '../../types';
 import { Dictionary } from '@fullcalendar/core/internal';
+import toast from 'react-hot-toast';
 
-const Calendar = () => {
+const Calendar = (props: any) => {
     const calendarRef = useRef(null);
     const selectRef = useRef<HTMLSelectElement | null>(null);
     const [calendarDataResponse, setCalendarDataResponse] = useState<Dictionary>()
@@ -18,12 +19,17 @@ const Calendar = () => {
 
         setCalendarDataResponse([])
 
-        const calendarDataResponse = await httpClient.post('//localhost:1222/getCalendarEvents', { id: event.target.value });
+        try {
+            const calendarDataResponse = await httpClient.post('//localhost:1222/getCalendarEvents', { id: event.target.value });
 
+            console.log(calendarDataResponse.data)
+            console.log(calendarDataResponse.data)
+            setCalendarDataResponse(calendarDataResponse.data)
+            toast.success("Data Loaded")
+        } catch {
+            toast.error("Error while fetching data.")
+        }
 
-        console.log(calendarDataResponse.data)
-        console.log(calendarDataResponse.data)
-        setCalendarDataResponse(calendarDataResponse.data)
     };
 
     const handleButtonClick = async () => {
@@ -100,7 +106,19 @@ const Calendar = () => {
     };
 
     useEffect(() => {
-        handleButtonClick();
+
+        if (!props.id) {
+            handleButtonClick();
+        } else {
+            const simulatedEvent: { target: { value: any } } = {
+                target: {
+                  value: props.id, // Replace with the desired value
+                },
+              };
+              
+            loadCalendarData(simulatedEvent);
+        }
+
     }, []);
 
     const clickEvent = (info: any) => {
@@ -110,51 +128,51 @@ const Calendar = () => {
     };
 
     return (
-        
+
         <div className='text-[#04304D] font-bold'>
 
-<FullCalendar
-    ref={calendarRef}
-    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-    initialView='timeGridWeek'
-    weekends={true}
-    events={calendarDataResponse}
-    eventClick={clickEvent}
-    eventColor='#378006'
-    displayEventTime={true}
-    displayEventEnd={true}
-    views={{
-        dayGridMonth: {
-            type: 'dayGridMonth',
-            buttonText: 'Month',
-        },
-        timeGridWeek: {
-            type: 'timeGridWeek',
-            buttonText: 'Week',
-        },
-        timeGridDay: {
-            type: 'timeGridDay',
-            buttonText: 'Day',
-        },
-    }}
-    headerToolbar={{
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay',
-    }}
-    businessHours={[
-        {
-            daysOfWeek: [1, 2, 3, 4, 5, 6],
-            startTime: '08:00',
-            endTime: '24:00'
-        }
-    ]}
-    lazyFetching={true}
-    eventOverlap={false}
-    hiddenDays={[0]}
-    slotMinTime={"08:00"}
-    slotMaxTime={"24:00"}
-/>
+            <FullCalendar
+                ref={calendarRef}
+                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                initialView='timeGridWeek'
+                weekends={true}
+                events={calendarDataResponse}
+                eventClick={clickEvent}
+                eventColor='#378006'
+                displayEventTime={true}
+                displayEventEnd={true}
+                views={{
+                    dayGridMonth: {
+                        type: 'dayGridMonth',
+                        buttonText: 'Month',
+                    },
+                    timeGridWeek: {
+                        type: 'timeGridWeek',
+                        buttonText: 'Week',
+                    },
+                    timeGridDay: {
+                        type: 'timeGridDay',
+                        buttonText: 'Day',
+                    },
+                }}
+                headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                }}
+                businessHours={[
+                    {
+                        daysOfWeek: [1, 2, 3, 4, 5, 6],
+                        startTime: '08:00',
+                        endTime: '24:00'
+                    }
+                ]}
+                lazyFetching={true}
+                eventOverlap={false}
+                hiddenDays={[0]}
+                slotMinTime={"08:00"}
+                slotMaxTime={"24:00"}
+            />
 
         </div>
     );

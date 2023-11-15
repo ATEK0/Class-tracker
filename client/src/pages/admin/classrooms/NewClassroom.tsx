@@ -7,7 +7,7 @@ import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const NewSummary: React.FC = () => {
+const NewClassroom: React.FC = () => {
     const [teacherList, setTeacherList] = useState<TeacherListType[]>([]);
     const [classList, setClassList] = useState<ClassListType[]>([]);
     const [subjectList, setSubjectList] = useState<SubjectListType[]>([]);
@@ -185,4 +185,4 @@ const NewSummary: React.FC = () => {
 
 }
 
-export default NewSummary
+export default NewClassroom

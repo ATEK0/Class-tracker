@@ -25,3 +25,5 @@ export interface SubjectListType {
     id: string;
     name: string;
 }
+
+export type TextAlign = 'left' | 'center' | 'right' | 'justify' | 'initial' | 'inherit';

@@ -15,6 +15,7 @@ import StudentsDashboard from "./pages/admin/students/StudentsDashboard"
 import SubjectsDashboard from "./pages/admin/subjects/SubjectsDashboard"
 import TeachersDashboard from "./pages/admin/teachers/TeachersDashboard"
 import ClassesDashboard from "./pages/admin/classes/ClassesDashboard"
+import ClassDetails from "./pages/admin/classes/ClassDetails"
 
 
 const Router: React.FC = () => {
@@ -35,6 +36,7 @@ const Router: React.FC = () => {
         <Route path="/admin/classrooms/new" element={<NewClassRoom />} />
         <Route path="/admin/classrooms" element={<ClassroomDashboard />} />
         <Route path="/admin/classes" element={<ClassesDashboard />} />
+        <Route path="/admin/classes/:classId/:classLabel" element={<ClassDetails />} />
         <Route path="/admin/general" element={<GeneralDashboard />} />
         <Route path="/admin/students" element={<StudentsDashboard />} />
         <Route path="/admin/subjects" element={<SubjectsDashboard />} />
