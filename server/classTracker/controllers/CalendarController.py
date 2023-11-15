@@ -20,6 +20,8 @@ def getCalendarEvents():
 
     currentDate = datetime.datetime.now()
 
+    classroomState = ["#a8c6a1", "#219ebc", "#3d5a80"]
+
     if "teacher" in selected_id:
         selected_id = selected_id[8:]
 
@@ -37,7 +39,7 @@ def getCalendarEvents():
         for classroom in classrooms:
             start_time = datetime.datetime.combine(classroom.day, classroom.begin)
             end_time = datetime.datetime.combine(classroom.day, classroom.end)
-            classroom_color = "#a8c6a1" if currentDate > end_time else "#219ebc" if currentDate >= start_time else "#3d5a80"
+            classroom_color = classroomState[0] if currentDate > end_time else classroomState[1] if currentDate >= start_time else classroomState[2]
             
             classroom_data.append({
                 'id': classroom.id,
@@ -60,12 +62,17 @@ def getCalendarEvents():
 
         for classroom in classrooms:
             teacher = User.query.filter_by(id=classroom.teacher_cs.teacher).first()
+
+            start_time = datetime.datetime.combine(classroom.day, classroom.begin)
+            end_time = datetime.datetime.combine(classroom.day, classroom.end)
+            classroom_color = classroomState[0] if currentDate > end_time else classroomState[1] if currentDate >= start_time else classroomState[2]
+
             classroom_data.append({
                 'id': classroom.id,
                 'title': f"{classroom.teacher_cs.class_subject.subject.label} - {teacher.name} {teacher.surname}",
                 'start': f"{classroom.day}T{classroom.begin}",
                 'end': f"{classroom.day}T{classroom.end}",
-                'color': '#507a96'
+                'color': classroom_color
             })
 
     print("################ cs data", classroom_data)

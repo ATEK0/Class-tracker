@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import httpClient from "../../httpClient";
 
 export default function Stats(props: { type: string; }) {
-  const [classroomCount, setClassroomCount] = useState("-");
+  const [classCount, setClassCount] = useState("-");
   const [subjectCount, setSubjectCount] = useState("-");
   const [studentCount, setStudentCount] = useState("-");
   const [teacherCount, setTeacherCount] = useState("-");
@@ -11,7 +11,7 @@ export default function Stats(props: { type: string; }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const classroomCountresp = await httpClient.get(`//localhost:1222/getClassroomsCount?type=${props.type}`);
+        const classCountresp = await httpClient.get(`//localhost:1222/getClassesCount?type=${props.type}`);
         const subjectCountresp = await httpClient.get(`//localhost:1222/getSubjectCount?type=${props.type}`);
         const studentCountresp = await httpClient.get(`//localhost:1222/getStudentsCount?type=${props.type}`);
         if (props.type == "Admin") {
@@ -19,7 +19,7 @@ export default function Stats(props: { type: string; }) {
           setTeacherCount(teacherCountresp.data);
         } 
     
-        setClassroomCount(classroomCountresp.data);
+        setClassCount(classCountresp.data);
         setSubjectCount(subjectCountresp.data);
         setStudentCount(studentCountresp.data);
 
@@ -33,7 +33,7 @@ export default function Stats(props: { type: string; }) {
   }, []); // Empty dependency array to ensure the effect runs once on mount
 
   const stats = [
-    { id: 1, name: 'Classes', value: classroomCount },
+    { id: 1, name: 'Classes', value: classCount },
     { id: 2, name: 'Subjects', value: subjectCount },
     { id: 3, name: 'Students', value: studentCount },
     { id: 4, name: 'Teachers', value: teacherCount }
