@@ -4,7 +4,7 @@ import { useFetchUser } from '../controllers/getUserData';
 
 import Typed from "react-typed"
 
-import classImage from "../assets/students-knowing-right-answer.jpg"
+import classImage from "../assets/students-knowing-right-answer.webp"
 
 const HomePage: React.FC = () => {
   const user = useFetchUser();

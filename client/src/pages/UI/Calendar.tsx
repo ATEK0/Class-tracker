@@ -6,8 +6,9 @@ import interactionPlugin from '@fullcalendar/interaction';
 import httpClient from '../../httpClient';
 import { ClassListType, TeacherListType } from '../../types';
 import { Dictionary } from '@fullcalendar/core/internal';
+import toast from 'react-hot-toast';
 
-const Calendar = () => {
+const Calendar = (props: any) => {
     const calendarRef = useRef(null);
     const selectRef = useRef<HTMLSelectElement | null>(null);
     const [calendarDataResponse, setCalendarDataResponse] = useState<Dictionary>()
@@ -18,12 +19,17 @@ const Calendar = () => {
 
         setCalendarDataResponse([])
 
-        const calendarDataResponse = await httpClient.post('//localhost:1222/getCalendarEvents', { id: event.target.value });
+        try {
+            const calendarDataResponse = await httpClient.post('//localhost:1222/getCalendarEvents', { id: event.target.value });
 
+            console.log(calendarDataResponse.data)
+            console.log(calendarDataResponse.data)
+            setCalendarDataResponse(calendarDataResponse.data)
+            toast.success("Data Loaded")
+        } catch {
+            toast.error("Error while fetching data.")
+        }
 
-        console.log(calendarDataResponse.data)
-        console.log(calendarDataResponse.data)
-        setCalendarDataResponse(calendarDataResponse.data)
     };
 
     const handleButtonClick = async () => {
@@ -100,8 +106,20 @@ const Calendar = () => {
     };
 
     useEffect(() => {
-        handleButtonClick();
-    }, []); // Run this effect once on component mount
+
+        if (!props.id) {
+            handleButtonClick();
+        } else {
+            const simulatedEvent: { target: { value: any } } = {
+                target: {
+                  value: props.id, // Replace with the desired value
+                },
+              };
+              
+            loadCalendarData(simulatedEvent);
+        }
+
+    }, []);
 
     const clickEvent = (info: any) => {
         console.log('Event: ' + info.event.title);
@@ -109,12 +127,8 @@ const Calendar = () => {
         window.location.href = `/summary/${info.event.id}`;
     };
 
-    const handleDateClick = (arg: { dateStr: any }) => {
-        alert(arg.dateStr);
-    };
-
     return (
-        
+
         <div className='text-[#04304D] font-bold'>
 
             <FullCalendar
@@ -144,27 +158,22 @@ const Calendar = () => {
                 headerToolbar={{
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'customViewButton dayGridMonth,timeGridWeek,timeGridDay',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
                 }}
                 businessHours={[
                     {
-                      daysOfWeek: [1, 2, 3, 4, 5,6],
-                      startTime: '08:00',
-                      endTime: '24:00'
+                        daysOfWeek: [1, 2, 3, 4, 5, 6],
+                        startTime: '08:00',
+                        endTime: '24:00'
                     }
-                  ]}
+                ]}
                 lazyFetching={true}
                 eventOverlap={false}
                 hiddenDays={[0]}
                 slotMinTime={"08:00"}
                 slotMaxTime={"24:00"}
-                customButtons={{
-                    customViewButton: {
-                        text: 'Load Data',
-                        click: handleButtonClick,
-                    },
-                }}
             />
+
         </div>
     );
 };

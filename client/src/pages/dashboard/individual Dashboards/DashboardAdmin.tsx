@@ -81,7 +81,7 @@ const Dashboard: React.FC = () => {
             <Link to="/new/classroom"><button type='button' className='bg-[#04304d] p-3 px-5 text-white rounded-lg font-bold'><FontAwesomeIcon icon={faPlus} className='mr-2'/>Classroom</button></Link> */}
           </div>
           
-          <CalendarUI />
+          <CalendarUI id={NaN}/>
 
         </div>
 

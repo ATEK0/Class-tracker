@@ -13,7 +13,7 @@ class Config:
     SESSION_COOKIE_HTTPONLY = False
     SESSION_PERMANENT = False
     SESSION_REDIS = redis.from_url("redis://127.0.0.1:6379")
-    
+    SQLALCHEMY_POOL_RECYCLE = 280
     
 class Development(Config):
     SQLALCHEMY_ECHO = True
