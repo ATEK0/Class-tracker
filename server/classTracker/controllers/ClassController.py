@@ -5,6 +5,7 @@ from .. import db
 from ..models.Class_Subject import Class_Subject
 from ..models.Subject import Subject
 from ..models.Class_ import Class_
+from ..models.User import User
 
 class_subjects = Blueprint('class_subjects', __name__)
 
@@ -51,3 +52,17 @@ def getClassesCount():
     #fazer igual para os outros endpoints do get...Count
 
     return jsonify(count)
+
+@class_subjects.route("/getClassStudents", methods=["GET"])
+def getClassStudents():
+    class_id = request.args.get("class_id")
+
+    students = User.query.filter_by(class_id = class_id).all()
+
+    student_info = [{
+        "id": student.id,
+        "name": student.name,
+        "surname": student.surname
+    } for student in students] 
+
+    return (student_info)

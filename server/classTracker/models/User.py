@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.String(30), default=lambda: datetime.now())
     state = db.Column(db.String(15), default="Ativo")
     type = db.Column(db.Integer, db.ForeignKey("user_types.id"), default=2)
+    class_id = db.Column(db.Integer, db.ForeignKey("classes.id"), nullable=True)
 
     user_type = db.relationship("User_Type", back_populates="users")
     teaching_cs = db.relationship('Teacher_CS', back_populates='teacher_')
