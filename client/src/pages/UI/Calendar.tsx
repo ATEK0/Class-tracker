@@ -6,8 +6,9 @@ import interactionPlugin from '@fullcalendar/interaction';
 import httpClient from '../../httpClient';
 import { ClassListType, TeacherListType } from '../../types';
 import { Dictionary } from '@fullcalendar/core/internal';
+import toast from 'react-hot-toast';
 
-const Calendar = () => {
+const Calendar = (props: any) => {
     const calendarRef = useRef(null);
     const selectRef = useRef<HTMLSelectElement | null>(null);
     const [calendarDataResponse, setCalendarDataResponse] = useState<Dictionary>()
@@ -18,12 +19,17 @@ const Calendar = () => {
 
         setCalendarDataResponse([])
 
-        const calendarDataResponse = await httpClient.post('//localhost:1222/getCalendarEvents', { id: event.target.value });
+        try {
+            const calendarDataResponse = await httpClient.post('//localhost:1222/getCalendarEvents', { id: event.target.value });
 
+            console.log(calendarDataResponse.data)
+            console.log(calendarDataResponse.data)
+            setCalendarDataResponse(calendarDataResponse.data)
+            toast.success("Data Loaded")
+        } catch {
+            toast.error("Error while fetching data.")
+        }
 
-        console.log(calendarDataResponse.data)
-        console.log(calendarDataResponse.data)
-        setCalendarDataResponse(calendarDataResponse.data)
     };
 
     const handleButtonClick = async () => {
@@ -35,14 +41,13 @@ const Calendar = () => {
             const classesList: ClassListType[] = classesResponse.data;
 
             const selectCalendar = document.querySelectorAll('.fc-toolbar-chunk')[1];
-            selectCalendar.setAttribute("class", "fc-toolbar-chunk flex flex-col")
-            // selectCalendar.classList.add("flex justify-center items-center")
+            selectCalendar.setAttribute("class", "fc-toolbar-chunk flex flex-col justify-center items-center text-center")
 
             if (!selectRef.current) {
                 const selectElement = document.createElement('select');
                 selectElement.setAttribute(
                     'class',
-                    'shadow appearance-none m-0 border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                    'shadow appearance-none m-0 min-w-[210px] w-[210px] border rounded py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 );
                 selectElement.setAttribute(
                     'style',
@@ -99,9 +104,56 @@ const Calendar = () => {
         }
     };
 
+    const determineView = () => {
+        const width = window.innerWidth;
+
+        const selectCalendar = document.querySelector('.fc-header-toolbar');
+
+
+        if (selectCalendar) {
+
+            if (width <= 600) {
+                selectCalendar.setAttribute("class", "fc-header-toolbar fc-toolbar fc-toolbar-ltr flex flex-col gap-y-5");
+                return 'timeGridDay'; // Set to daily view for small screens
+            } else {
+                selectCalendar.setAttribute("class", "fc-header-toolbar fc-toolbar fc-toolbar-ltr flex flex-row");
+                return 'timeGridWeek'; // Set to monthly view for larger screens
+            }
+
+        }
+
+    };
+
+    const handleResize = () => {
+        const calendarApi = calendarRef.current.getApi();
+        const newView = determineView();
+        calendarApi.changeView(newView);
+    };
+
     useEffect(() => {
-        handleButtonClick();
-    }, []); // Run this effect once on component mount
+
+        window.addEventListener('resize', handleResize);
+
+
+
+        if (!props.id) {
+            handleButtonClick();
+        } else {
+            const simulatedEvent: { target: { value: any } } = {
+                target: {
+                    value: props.id, // Replace with the desired value
+                },
+            };
+
+            loadCalendarData(simulatedEvent);
+        }
+
+        // Cleanup the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+
+    }, []);
 
     const clickEvent = (info: any) => {
         console.log('Event: ' + info.event.title);
@@ -109,12 +161,8 @@ const Calendar = () => {
         window.location.href = `/summary/${info.event.id}`;
     };
 
-    const handleDateClick = (arg: { dateStr: any }) => {
-        alert(arg.dateStr);
-    };
-
     return (
-        
+
         <div className='text-[#04304D] font-bold'>
 
             <FullCalendar
@@ -144,27 +192,29 @@ const Calendar = () => {
                 headerToolbar={{
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'customViewButton dayGridMonth,timeGridWeek,timeGridDay',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
                 }}
                 businessHours={[
                     {
-                      daysOfWeek: [1, 2, 3, 4, 5,6],
-                      startTime: '08:00',
-                      endTime: '24:00'
+                        daysOfWeek: [1, 2, 3, 4, 5, 6],
+                        startTime: '08:00',
+                        endTime: '23:00'
                     }
-                  ]}
+                ]}
                 lazyFetching={true}
                 eventOverlap={false}
                 hiddenDays={[0]}
                 slotMinTime={"08:00"}
-                slotMaxTime={"24:00"}
-                customButtons={{
-                    customViewButton: {
-                        text: 'Load Data',
-                        click: handleButtonClick,
-                    },
-                }}
+                slotMaxTime={"23:00"}
+                eventTimeFormat={{
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }} 
+                slotLabelFormat={{ hour: '2-digit', minute: '2-digit', hour12: false }}  
             />
+
+
         </div>
     );
 };
