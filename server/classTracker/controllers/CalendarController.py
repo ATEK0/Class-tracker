@@ -20,7 +20,7 @@ def getCalendarEvents():
 
     currentDate = datetime.datetime.now()
 
-    classroomState = ["beforeColor":"#a8c6a1", "currentColor":"#219ebc", "afterColor":"#3d5a80"]
+    classroomState = [{"beforeColor":"#a8c6a1", "currentColor":"#219ebc", "afterColor":"#3d5a80"}]
 
     if "teacher" in selected_id:
         selected_id = selected_id[8:]
