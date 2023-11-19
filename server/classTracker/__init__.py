@@ -62,6 +62,9 @@ def create_app():
     from .models.User_Type import User_Type
     from .models.Teacher_CS import Teacher_CS
     from .models.Classroom import Classroom
+    from .models.Parent import Parent
+    from .models.Student import Student
+    from .models.Teacher import Teacher
 
     
     return app
