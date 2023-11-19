@@ -4,7 +4,7 @@ from flask_login import login_required, current_user, logout_user
 from .. import db, bcrypt
 
 from ..models.User import User
-from ..models.User_Type import User_Type
+# from ..models.User_Type import User_Type
 
 authController = Blueprint('authController', __name__)
 
@@ -16,7 +16,7 @@ def get_current_user():
         return jsonify({"error": "Unauthorized"}), 401
 
     user = User.query.filter_by(id = user_id).first()
-    userType = User_Type.query.get(user.type)
+    # userType = User_Type.query.get(user.type)
 
     print(user.type)
 
@@ -25,7 +25,7 @@ def get_current_user():
         "email": user.email,
         "name": user.name,
         "surname": user.surname,
-        "type": userType.label
+        "type": "dar update depois"
     })
 
 @authController.route('/register', methods=["POST"])

@@ -59,7 +59,6 @@ def create_app():
     from .models.Class_ import Class_
     from .models.Subject import Subject
     from .models.Summary import Summary
-    from .models.User_Type import User_Type
     from .models.Teacher_CS import Teacher_CS
     from .models.Classroom import Classroom
     from .models.Parent import Parent
