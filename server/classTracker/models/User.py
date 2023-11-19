@@ -20,3 +20,6 @@ class User(Base, db.Model):
     birthdate = db.Column(db.Date)
     created_at = db.Column(db.String(30), default=lambda: datetime.now())
     state = db.Column(db.String(15), default="Ativo")
+
+    students = db.relationship("Student", back_populates="users")
+    teachers = db.relationship("Teacher", back_populates="users")
