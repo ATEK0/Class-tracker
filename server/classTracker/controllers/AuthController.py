@@ -18,8 +18,6 @@ def get_current_user():
     user = User.query.filter_by(id = user_id).first()
     # userType = User_Type.query.get(user.type)
 
-    print(user.type)
-
     return jsonify({
         "id": user.id,
         "email": user.email,
