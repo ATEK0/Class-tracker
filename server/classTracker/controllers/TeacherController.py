@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, redirect, session
 from .. import db
 
 from ..models.User import User
+from ..models.Class_Subject import Class_Subject
 
 teacherController = Blueprint('teacher', __name__)
 
@@ -30,3 +31,16 @@ def getTeachers():
 
 
     return jsonify(teachers_info)
+
+@teacherController.route("/teste", methods=["GET"])
+def teste():
+    
+    classSubject = Class_Subject.query.all()
+
+    resposta = [
+         {
+            "coiso": class_subject2.teacher
+         }  for class_subject2 in classSubject
+    ]
+
+    return jsonify(resposta)
