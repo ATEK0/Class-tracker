@@ -5,9 +5,9 @@ from .. import db
 
 from ..models.User import User
 
-studentsController = Blueprint('studentsController', __name__)
+studentController = Blueprint('studentController', __name__)
 
-@studentsController.route('/getStudentsCount', methods=["GET"])
+@studentController.route('/getStudentsCount', methods=["GET"])
 def getCount():
     userType = request.args.get("type")
     

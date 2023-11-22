@@ -35,8 +35,8 @@ def create_app():
     from .controllers.SummaryController import summaryController
     app.register_blueprint(summaryController)
     
-    from .controllers.ClassController import class_subjects
-    app.register_blueprint(class_subjects)
+    from .controllers.ClassController import classController
+    app.register_blueprint(classController)
 
     from .controllers.SubjectController import subjectController
     app.register_blueprint(subjectController)
@@ -44,8 +44,8 @@ def create_app():
     from .controllers.TeacherController import teacherController
     app.register_blueprint(teacherController)
 
-    from .controllers.StudentsController import studentsController
-    app.register_blueprint(studentsController)
+    from .controllers.StudentController import studentController
+    app.register_blueprint(studentController)
     
     from .controllers.ClassroomController import classroomController
     app.register_blueprint(classroomController)

@@ -5,11 +5,11 @@ from .. import db
 from ..models.Class_Subject import Class_Subject
 from ..models.Subject import Subject
 from ..models.Class_ import Class_
-from ..models.User import User
+from ..models.User import User, isAdmin
 
-class_subjects = Blueprint('class_subjects', __name__)
+classController = Blueprint('classController', __name__)
 
-@class_subjects.route("/getClassSubjects", methods=["POST"])
+@classController.route("/getClassSubjects", methods=["POST"])
 def getClassSubjects():
     class_ = request.json["class_ID"]
 
@@ -25,7 +25,7 @@ def getClassSubjects():
     print(subject_info)
     return jsonify(subject_info)
     
-@class_subjects.route("/getClasses", methods=["get"])
+@classController.route("/getClasses", methods=["get"])
 def getClasses():
     classes = Class_.query.all()
 
@@ -38,22 +38,23 @@ def getClasses():
 
     return jsonify(class_info)
 
-@class_subjects.route("/getClassesCount", methods=["GET"])
+@classController.route("/getClassesCount", methods=["GET"])
 def getClassesCount():
 
     userType = request.args.get("type")
     user_id = session.get("user_id")
 
-    if userType == "Admin":
+    if isAdmin(user_id):
         count = Class_.query.count()
-    elif userType == "Teacher":
-        ... #retorna a contagem de turmas que o professor leciona
+    # elif userType == "Teacher":
+    else:
+        count = 0 #retorna a contagem de turmas que o professor leciona
 
     #fazer igual para os outros endpoints do get...Count
 
     return jsonify(count)
 
-@class_subjects.route("/getClassStudents", methods=["GET"])
+@classController.route("/getClassStudents", methods=["GET"])
 def getClassStudents():
     class_id = request.args.get("class_id")
 
