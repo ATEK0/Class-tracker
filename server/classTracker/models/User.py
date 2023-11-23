@@ -12,7 +12,7 @@ def get_uuid():
 
 def isAdmin(user_id):
     user = User.query.get(user_id)
-    return user.admin == True
+    return user.admin
 
 class User(Base, db.Model):
     __tablename__ = 'users'

@@ -3,7 +3,7 @@ from flask_login import login_required, current_user, logout_user
 
 from .. import db, bcrypt
 
-from ..models.User import User
+from ..models.User import User, isAdmin
 # from ..models.User_Type import User_Type
 
 authController = Blueprint('authController', __name__)
@@ -18,12 +18,15 @@ def get_current_user():
     user = User.query.filter_by(id = user_id).first()
     # userType = User_Type.query.get(user.type)
 
+    if isAdmin(user.id):
+        userType="Admin"
+
     return jsonify({
         "id": user.id,
         "email": user.email,
         "name": user.name,
         "surname": user.surname,
-        "type": "dar update depois"
+        "type": userType
     })
 
 @authController.route('/register', methods=["POST"])
