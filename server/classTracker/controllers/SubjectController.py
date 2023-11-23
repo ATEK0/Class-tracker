@@ -4,18 +4,18 @@ from .. import db
 
 from ..models.Subject import Subject
 from ..models.Class_Subject import Class_Subject
-from ..models.User import User
+from ..models.User import User, isAdmin
 
 subjectController = Blueprint('subjectController', __name__)
 
 @subjectController.route('/getSubjectCount', methods=["GET"])
 def getSubjectCount():
-    userType = request.args.get("type")
+    user_id = session.get("user_id")
     
-    if userType == "Admin":
+    if isAdmin(user_id):
         subjectCount = Subject.query.count()
-    elif userType == "Teacher":
-        ...
+    # elif userType == "Teacher":
+    #     ...
 
     return jsonify(subjectCount)
 

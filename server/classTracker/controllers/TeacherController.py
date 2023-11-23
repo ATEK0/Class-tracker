@@ -2,7 +2,8 @@ from flask import Blueprint, request, jsonify, redirect, session
 
 from .. import db
 
-from ..models.User import User
+from ..models.User import User, isAdmin
+from ..models.Teacher import Teacher
 from ..models.Class_Subject import Class_Subject
 
 teacherController = Blueprint('teacher', __name__)
@@ -11,8 +12,12 @@ teacherController = Blueprint('teacher', __name__)
 @teacherController.route('/getTeachersCount', methods=["GET"])
 def getTeachersCount():
 
-    teachersCount = User.query.filter_by(type=1).count()
-    return jsonify(teachersCount)
+    user_id = session.get("user_id")
+    
+    if isAdmin(user_id):
+        count = Teacher.query.count()
+
+    return jsonify(count)
 
 @teacherController.route("/getTeachers", methods=["GET"])
 def getTeachers():
@@ -21,13 +26,19 @@ def getTeachers():
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
 
-    teachers = User.query.filter_by(type = 1).all()
+    teachers = Teacher.query.all()
+    teachers_ids = [teacher.user_id for teacher in teachers]
+    user_teacher = User.query.filter(User.id.in_(teachers_ids)).all()
+
+    print(teachers)
+    print(teachers_ids)
+    print(user_teacher)
 
     teachers_info = [{
             "id": teacher.id,
             "name": teacher.name,
             "surname": teacher.surname,
-        } for teacher in teachers] 
+        } for teacher in user_teacher] 
 
 
     return jsonify(teachers_info)
