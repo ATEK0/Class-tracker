@@ -1,20 +1,21 @@
-from flask import Blueprint, render_template, request, flash, jsonify, url_for, send_file, redirect
+from flask import Blueprint, render_template, request, flash, jsonify, url_for, send_file, redirect, session
 from flask_login import login_required, current_user, logout_user
 
 from .. import db
 
-from ..models.User import User
+from ..models.User import User, isAdmin
+from  ..models.Teacher import Teacher
 
 studentController = Blueprint('studentController', __name__)
 
 @studentController.route('/getStudentsCount', methods=["GET"])
 def getCount():
-    userType = request.args.get("type")
+    user_id = session.get("user_id")
     
-    if userType == "Admin":
-        count = User.query.filter_by(type = 2).count()
-    elif userType == "Teacher":
-        ...
+    if isAdmin(user_id):
+        count = Teacher.query.count()
+    # elif userType == "Teacher":
+    #     ...
         
     return jsonify(count)
 
