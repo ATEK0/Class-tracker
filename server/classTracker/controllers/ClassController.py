@@ -40,10 +40,8 @@ def getClasses():
 
 @classController.route("/getClassesCount", methods=["GET"])
 def getClassesCount():
-
-    userType = request.args.get("type")
     user_id = session.get("user_id")
-
+    
     if isAdmin(user_id):
         count = Class_.query.count()
     # elif userType == "Teacher":
