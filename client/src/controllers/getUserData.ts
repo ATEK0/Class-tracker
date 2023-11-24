@@ -18,6 +18,6 @@ export const useFetchUser = (): User | null => {
 
     fetchData();
   }, []);
-
+  
   return user;
 };
