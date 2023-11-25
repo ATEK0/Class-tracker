@@ -27,18 +27,12 @@ def getTeachers():
         return jsonify({"error": "Unauthorized"}), 401
 
     teachers = Teacher.query.all()
-    teachers_ids = [teacher.user_id for teacher in teachers]
-    user_teacher = User.query.filter(User.id.in_(teachers_ids)).all()
-
-    print(teachers)
-    print(teachers_ids)
-    print(user_teacher)
 
     teachers_info = [{
             "id": teacher.id,
             "name": teacher.name,
             "surname": teacher.surname,
-        } for teacher in user_teacher] 
+        } for teacher in teachers] 
 
 
     return jsonify(teachers_info)
