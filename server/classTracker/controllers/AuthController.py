@@ -4,6 +4,8 @@ from flask_login import login_required, current_user, logout_user
 from .. import db, bcrypt
 
 from ..models.User import User, isAdmin
+from ..models.Teacher import isTeacher
+from ..models.Student import isStudent
 # from ..models.User_Type import User_Type
 
 authController = Blueprint('authController', __name__)
@@ -16,10 +18,15 @@ def get_current_user():
         return jsonify({"error": "Unauthorized"}), 401
 
     user = User.query.filter_by(id = user_id).first()
-    # userType = User_Type.query.get(user.type)
 
     if isAdmin(user.id):
         userType="Admin"
+    elif isTeacher(user.id):
+        userType="Teacher"
+    elif isStudent(user_id):
+        userType="Student"
+    else:
+        userType="Undefined"
 
     return jsonify({
         "id": user.id,

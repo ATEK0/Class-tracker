@@ -2,6 +2,10 @@ from .. import db
 
 from ..models.User import User
 
+def isStudent(user_id):
+    student = Student.query.get(user_id)
+    return student
+
 class Student(User, db.Model):
     __tablename__ = 'students'
     student_id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
