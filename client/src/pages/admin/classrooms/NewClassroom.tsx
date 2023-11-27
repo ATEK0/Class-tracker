@@ -43,14 +43,20 @@ const NewClassroom: React.FC = () => {
     };
 
     const handleSubjectChange = async (event: ChangeEvent<HTMLSelectElement>) => {
-        setSubject(event.target.value);
+        
+        const selectedSubject = event.target.value;
+        setSubject(selectedSubject); 
+
         const teacherResp = await httpClient.post("//localhost:1222/getSubjectTeachers", {
-            class_ID, subject
+            class_ID,
+            subject: selectedSubject, 
         });
+
         const fetchedTeachers: TeacherListType[] = teacherResp.data;
         setTeacherList(fetchedTeachers);
 
     };
+    
 
     const handleClassChange = async (event: ChangeEvent<HTMLSelectElement>) => {
         setClass_ID(event.target.value);
@@ -122,10 +128,10 @@ const NewClassroom: React.FC = () => {
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="class">
                         Subject
                     </label>
-                    <select onChange={handleSubjectChange} className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <select onChange={(event) => {setSubject(event.target.value);handleSubjectChange(event)}} className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <option value="" key={"a"} selected>{(subjectList.length > 0) ? 'Select Subject' : 'No Subjects'}</option>
                         {subjectList.map((item) => (
-                            <option value={item.id} key={item.id}>{item.name}</option>                        
+                            <option value={item.id}>{item.name}</option>                        
                         ))}
                     </select>
                 </div>
