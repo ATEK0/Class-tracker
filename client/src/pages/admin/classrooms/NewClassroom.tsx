@@ -138,7 +138,7 @@ const NewClassroom: React.FC = () => {
                     <select onChange={handleTeacherChange} className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <option value="" key={"a"} selected>{(subjectList.length > 0) ? 'Select Teacher' : 'No Teachers'}</option>
                         {teacherList.map((item) => (
-                            <option value={item.id} key={item.id}>{item.name}</option>                        
+                            <option value={item.id} key={item.id}>{item.name} {item.surname}</option>                        
                         ))}
                         
                     </select>
