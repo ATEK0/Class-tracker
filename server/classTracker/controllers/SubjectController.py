@@ -4,7 +4,9 @@ from .. import db
 
 from ..models.Subject import Subject
 from ..models.Class_Subject import Class_Subject
+from ..models.Teacher_CS import Teacher_CS
 from ..models.User import User, isAdmin
+from ..models.Teacher import Teacher
 
 subjectController = Blueprint('subjectController', __name__)
 
@@ -33,24 +35,26 @@ def getSubject():
 
 @subjectController.route("/getSubjectTeachers", methods=["POST"])
 def getSubjectTeachers():
-    try:
-        class_id = int(request.json["class_ID"])
-        subject_id = int(request.json["subject"])
-    except Exception as e:
-        return jsonify({"error": e})
+
+    class_id = request.json["class_ID"]
+    subject_id = request.json["subject"]
+
+    print(class_id)
+    print(subject_id)
 
     class_subject = Class_Subject.query.filter_by(class_id=class_id, subject_id=subject_id).first()
 
-    teacher_ids = [teacher_cs.teacher for teacher_cs in class_subject.teachers]
+    tcs = Teacher_CS.query.filter_by(csid = class_subject.id).all()
 
-    teacher_info = []
-    for teacher_id in teacher_ids:
-        teacher = User.query.get(teacher_id)
-        teacher_info.append({
+    teacher_ids = [record.teacher_id for record in tcs]
+
+    teacher = Teacher.query.filter(Teacher.teacher_id.in_(teacher_ids)).all()
+
+    teacher_info = [{
             "id": teacher.id,
             "name": teacher.name,
-            "surname": teacher.surname
-        })
+            "surname": teacher.surname,
+        } for teacher in teacher] 
 
     return jsonify(teacher_info)
 
