@@ -21,6 +21,7 @@
     "@headlessui/react": "latest",
     "@material-tailwind/react": "^2.1.4",
     "axios": "^1.6.0",
+    "flowbite": "^2.2.0",
     "flowbite-react": "^0.6.4",
     "react": "^18.2.0",
     "react-cookie": "^6.1.1",
