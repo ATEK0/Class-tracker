@@ -6,6 +6,7 @@ from ..models.Class_Subject import Class_Subject
 from ..models.Subject import Subject
 from ..models.Class_ import Class_
 from ..models.User import User, isAdmin
+from ..models.Student import Student
 
 classController = Blueprint('classController', __name__)
 
@@ -56,7 +57,9 @@ def getClassesCount():
 def getClassStudents():
     class_id = request.args.get("class_id")
 
-    students = User.query.filter_by(class_id = class_id).all()
+    students = Student.query.filter_by(class_id = class_id).all()
+
+    print(students)
 
     student_info = [{
         "id": student.id,
