@@ -6,7 +6,7 @@ from ..models.Subject import Subject
 from ..models.Class_Subject import Class_Subject
 from ..models.Teacher_CS import Teacher_CS
 from ..models.User import User, isAdmin
-from ..models.Teacher import Teacher
+from ..models.Teacher import Teacher, isTeacher
 
 subjectController = Blueprint('subjectController', __name__)
 
@@ -16,8 +16,8 @@ def getSubjectCount():
     
     if isAdmin(user_id):
         subjectCount = Subject.query.count()
-    # elif userType == "Teacher":
-    #     ...
+    elif isTeacher(user_id):
+        ...
 
     return jsonify(subjectCount)
 

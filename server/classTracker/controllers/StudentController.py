@@ -4,7 +4,7 @@ from flask_login import login_required, current_user, logout_user
 from .. import db
 
 from ..models.User import User, isAdmin
-from  ..models.Teacher import Teacher
+from  ..models.Teacher import Teacher, isTeacher
 
 studentController = Blueprint('studentController', __name__)
 
@@ -14,8 +14,8 @@ def getCount():
     
     if isAdmin(user_id):
         count = Teacher.query.count()
-    # elif userType == "Teacher":
-    #     ...
+    elif isTeacher(user_id):
+        ...
         
     return jsonify(count)
 
