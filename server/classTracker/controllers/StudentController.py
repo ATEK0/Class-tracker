@@ -5,11 +5,12 @@ from .. import db
 
 from ..models.User import User, isAdmin
 from  ..models.Teacher import Teacher, isTeacher
+from  ..models.Student import Student, isStudent
 
 studentController = Blueprint('studentController', __name__)
 
 @studentController.route('/getStudentsCount', methods=["GET"])
-def getCount():
+def getStudentsCount():
     user_id = session.get("user_id")
     
     if isAdmin(user_id):
@@ -18,5 +19,25 @@ def getCount():
         ...
         
     return jsonify(count)
+
+@studentController.route("/getStudents", methods=["GET"])
+def getStudents():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    students = Student.query.all()
+
+    students_info = [{
+            "id": student.id,
+            "fullname": student.name + " " + student.surname,
+            "email": student.email,
+            "class_id": student.class_id,
+            "process_number": student.process_number
+        } for student in students] 
+
+
+    return jsonify(students_info)
 
 
