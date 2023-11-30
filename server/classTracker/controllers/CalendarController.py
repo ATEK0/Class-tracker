@@ -41,7 +41,7 @@ def getCalendarEvents():
         for classroom in classrooms:
             start_time = datetime.datetime.combine(classroom.day, classroom.begin)
             end_time = datetime.datetime.combine(classroom.day, classroom.end)
-            classroom_color = classroomState[0]['afterColor'] if currentDate > end_time else classroomState[0]['currentColor'] if currentDate >= start_time else classroomState[0]['beforeColor']
+            classroom_color = classroomState[0] if currentDate > end_time else classroomState[1] if currentDate >= start_time else classroomState[2]
             
             classroom_data.append({
                 'id': classroom.id,
@@ -63,7 +63,8 @@ def getCalendarEvents():
         )
 
         for classroom in classrooms:
-            teacher = User.query.filter_by(id=classroom.teacher_cs.teacher).first()
+            tcs = Teacher_CS.query.filter_by(id=classroom.teacher_cs.teacher_id).first()
+            teacher = Teacher.query.filter_by(teacher_id = tcs.teacher_id).first()
 
             start_time = datetime.datetime.combine(classroom.day, classroom.begin)
             end_time = datetime.datetime.combine(classroom.day, classroom.end)
