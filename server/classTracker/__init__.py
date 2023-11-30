@@ -74,6 +74,9 @@ def create_app():
     from .controllers.CalendarController import calendarController
     app.register_blueprint(calendarController)
     
+    from .controllers.ProfileController import profileController
+    app.register_blueprint(profileController)
+    
     from .models.User import User
     from .models.Class_Subject import Class_Subject
     from .models.Class_Type import Class_Type
