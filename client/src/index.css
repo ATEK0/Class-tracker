@@ -16,3 +16,7 @@ td {
 }
 
 .fc-slots tr { height: 50px !important; }
+
+html {
+    overflow-x: hidden;
+}

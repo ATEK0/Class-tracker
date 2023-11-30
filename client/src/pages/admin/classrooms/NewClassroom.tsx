@@ -43,7 +43,7 @@ const NewClassroom: React.FC = () => {
     };
 
     const handleSubjectChange = async (event: ChangeEvent<HTMLSelectElement>) => {
-        
+
         const selectedSubject = event.target.value;
         setSubject(selectedSubject); 
 
@@ -116,7 +116,7 @@ const NewClassroom: React.FC = () => {
                         Class
                     </label>
                     <select onChange={handleClassChange} className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="" key={"a"} selected>Select Class</option>
+                        <option value="" key={""} selected>Select Class</option>
                         {classList.map((item) => (
                             <option value={item.id} key={item.id}>{item.grade}º {item.label}</option>                        
                         ))}
@@ -129,7 +129,7 @@ const NewClassroom: React.FC = () => {
                         Subject
                     </label>
                     <select onChange={(event) => {setSubject(event.target.value);handleSubjectChange(event)}} className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="" key={"a"} selected>{(subjectList.length > 0) ? 'Select Subject' : 'No Subjects'}</option>
+                    <option value="" key={""} selected>{(subjectList.length > 0) ? 'Select Subject' : 'No Subjects'}</option>
                         {subjectList.map((item) => (
                             <option value={item.id}>{item.name}</option>                        
                         ))}
@@ -142,7 +142,7 @@ const NewClassroom: React.FC = () => {
                     </label>
                     
                     <select onChange={handleTeacherChange} className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="" key={"a"} selected>{(subjectList.length > 0) ? 'Select Teacher' : 'No Teachers'}</option>
+                        <option value="" key={""} selected>{(subjectList.length > 0) ? 'Select Teacher' : 'No Teachers'}</option>
                         {teacherList.map((item) => (
                             <option value={item.id} key={item.id}>{item.name} {item.surname}</option>                        
                         ))}
