@@ -6,6 +6,7 @@ from .. import db
 from ..models.User import User, isAdmin
 from  ..models.Teacher import Teacher, isTeacher
 from  ..models.Student import Student, isStudent
+from  ..models.Class_ import Class_
 
 studentController = Blueprint('studentController', __name__)
 
@@ -29,14 +30,17 @@ def getStudents():
 
     students = Student.query.all()
 
-    students_info = [{
+    students_info = []
+    for student in students:
+        class_info = Class_.query.get(student.class_id)
+        students_info.append({
             "id": student.id,
             "name": student.name + " " + student.surname,
             "email": student.email,
-            "class": student.class_id,
+            "class_id": student.class_id,
+            "class_label": str(class_info.grade) + "º " + class_info.label,
             "process": student.process_number
-        } for student in students] 
-
+        })
 
     return jsonify(students_info)
 
