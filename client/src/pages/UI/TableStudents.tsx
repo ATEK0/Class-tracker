@@ -20,16 +20,15 @@ const Table = (props: {
   
           const tableColumns = props.namesList.map((name: string) => ({
             name: name.charAt(0).toUpperCase() + name.slice(1),
-            selector: row => row[name.toLowerCase()],
+            selector: (row: { [x: string]: any; }) => row[name.toLowerCase()],
             sortable: true,
           }));
           
-  
           setTableData(tableDataResp.data);
           setTableCols(tableColumns);
           setIsLoading(false);
+          toast.success("Data loaded");
         } catch {
-          toast.error("Error loading data. Try again");
         }
       }
   
@@ -63,6 +62,7 @@ const Table = (props: {
       },
       cells: {
         style: {
+          cursor: 'pointer',
           textAlign: 'center' as TextAlign | undefined
         },
       },
@@ -82,7 +82,7 @@ const Table = (props: {
                 pagination
                 responsive
                 highlightOnHover
-                onRowClicked={(event: { [s: string]: unknown; }) => { window.location.href = `classes/${event["id"]}/${event["grade"]}${event["label"]}` }}
+                onRowClicked={(event: { [s: string]: unknown; }) => { window.location.href = `students/${event["id"]}` }}
                 customStyles={customStyles}
                 progressPending={isLoading}
                 progressComponent={<div>Loading...</div>}

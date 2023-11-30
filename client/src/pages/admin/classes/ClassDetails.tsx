@@ -1,24 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Calendar from '../../UI/Calendar';
-import Table from '../../UI/Table';
+import Table from '../../UI/TableClasses';
 
 const ClassDetails = () => {
     const { classId } = useParams();
-    const { classLabel } = useParams();
-
-    const [ClassInfo, setClassInfo] = useState([])
-    
-    useEffect(() => {
-      
-      async function getClassInfo() {
-
-      }
-
-      getClassInfo()
-
-    }, [])
-    
+    const { classLabel } = useParams();   
 
 
   return (

@@ -17,6 +17,7 @@ import TeachersDashboard from "./pages/admin/teachers/TeachersDashboard"
 import ClassesDashboard from "./pages/admin/classes/ClassesDashboard"
 import ClassDetails from "./pages/admin/classes/ClassDetails"
 import Profile from "./pages/profile/Profile"
+import StudentIndividual from "./pages/students/StudentIndividual"
 
 
 const Router: React.FC = () => {
@@ -26,6 +27,7 @@ const Router: React.FC = () => {
       <NavBarMain/>
       <Toaster/>
       <Routes>
+
         <Route path="/" element={<HomePage />}/>
         <Route path="/register" element={<RegisterForm />}/>
         <Route path="/login" element={<LoginForm />}/>
@@ -40,15 +42,16 @@ const Router: React.FC = () => {
         <Route path="/admin/classes/:classId/:classLabel" element={<ClassDetails />} />
         <Route path="/admin/general" element={<GeneralDashboard />} />
         <Route path="/admin/students" element={<StudentsDashboard />} />
+        <Route path="/admin/students/:classId" element={<StudentIndividual />} />
         <Route path="/admin/subjects" element={<SubjectsDashboard />} />
         <Route path="/admin/teachers" element={<TeachersDashboard />} />
-
 
 
         <Route path="/profile" element={<Profile />} />
         
 
         <Route path="*" element={<NotFound />}/>
+
       </Routes>
     </BrowserRouter>
   )

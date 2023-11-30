@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DataTable from 'react-data-table-component';
 
 
 import { HiOutlineAcademicCap } from "react-icons/hi2"
-import httpClient from '../../../httpClient';
 import toast from 'react-hot-toast';
-import Table from '../../UI/Table';
+import Table from '../../UI/TableClasses';
 
 const ClassroomDashboard: React.FC = () => {
 
@@ -51,40 +49,6 @@ const ClassroomDashboard: React.FC = () => {
   }, [])
 
 
-  // const columns = [
-  //   { name: 'ID', selector: 'id', sortable: true },
-  //   { name: 'Name', selector: 'name', sortable: true },
-  //   { name: 'Age', selector: 'age', sortable: true },
-  //   { name: 'City', selector: 'city', sortable: true },
-  // ];
-
-  // const data = [
-  //   { id: 1, name: 'John Doe', age: 25, city: 'New York' },
-  //   { id: 2, name: 'Jane Doe', age: 30, city: 'San Francisco' },
-  //   // Add more data as needed
-  // ];
-
-  const customStyles = {
-    headRow: {
-      style: {
-        backgroundColor: '#04304D',
-        color: 'white'
-      },
-    },
-    headCells: {
-      style: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        textAlign: 'center',
-      },
-    },
-    cells: {
-      style: {
-        textAlign: 'center'
-      },
-    },
-  };
-
   return (
     <div className='pt-[64px] p-x-5 mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8'>
       <h1 className="font-bold text-3xl text-[#04304D] pt-8 mb-5">Classrooms</h1>
@@ -99,7 +63,7 @@ const ClassroomDashboard: React.FC = () => {
       </div>
 
       <h1 className="font-bold text-3xl text-[#04304D] pt-8 mb-5">Classrooms</h1>
-      <Table endpoint={"getClasses"} namesList={["grade", "label"]}/>
+      <Table endpoint={"getClasses"} namesList={["grade", "label"]} />
 
     </div>
   )

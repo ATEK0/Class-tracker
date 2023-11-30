@@ -31,10 +31,10 @@ def getStudents():
 
     students_info = [{
             "id": student.id,
-            "fullname": student.name + " " + student.surname,
+            "name": student.name + " " + student.surname,
             "email": student.email,
-            "class_id": student.class_id,
-            "process_number": student.process_number
+            "class": student.class_id,
+            "process": student.process_number
         } for student in students] 
 
 

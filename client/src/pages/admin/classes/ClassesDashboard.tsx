@@ -1,7 +1,7 @@
 
 import { HiOutlineAcademicCap } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
-import Table from '../../UI/Table';
+import Table from '../../UI/TableClasses';
 
 const ClassesDashboard = () => {
 

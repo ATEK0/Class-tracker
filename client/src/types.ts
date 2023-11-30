@@ -22,6 +22,7 @@ export interface ClassListType {
 }
 
 export interface SubjectListType {
+    label: ReactNode;
     id: string;
     name: string;
 }

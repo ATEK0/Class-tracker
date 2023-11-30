@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import httpClient from '../httpClient';
-import { useFetchUser } from '../controllers/getUserData';
+import React from 'react';
 
 import Typed from "react-typed"
 
@@ -9,14 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChalkboard, faCircleCheck, faUserGraduate, faUserTie } from '@fortawesome/free-solid-svg-icons';
 
 const HomePage: React.FC = () => {
-  const user = useFetchUser();
-
-  const logoutUser = async () => {
-    const resp = await httpClient.post("//localhost:1222/logout")
-    window.location.reload()
-  }
-
-
 
   return (
     <div>

@@ -21,7 +21,7 @@ def getSubjectCount():
 
     return jsonify(subjectCount)
 
-@subjectController.route("/get_subject", methods=["get"])
+@subjectController.route("/getSubject", methods=["GET"])
 def getSubject():
     subjects = Subject.query.all()
 

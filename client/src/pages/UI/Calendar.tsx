@@ -22,12 +22,9 @@ const Calendar = (props: any) => {
         try {
             const calendarDataResponse = await httpClient.post('//localhost:1222/getCalendarEvents', { id: event.target.value });
 
-            console.log(calendarDataResponse.data)
-            console.log(calendarDataResponse.data)
             setCalendarDataResponse(calendarDataResponse.data)
-            toast.success("Data Loaded")
+            toast.success("Schedule Loaded")
         } catch {
-            toast.error("Error while fetching data.")
         }
 
     };
