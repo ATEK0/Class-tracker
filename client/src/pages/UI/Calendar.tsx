@@ -71,7 +71,7 @@ const Calendar = (props: any) => {
                 teachersList.forEach((option) => {
                     const optionElement = document.createElement('option');
                     optionElement.value = `teacher-${option.id}`;
-                    optionElement.text = `${option.name} ${option.surname}`;
+                    optionElement.text = `${option.name}`;
 
                     selectElement.appendChild(optionElement);
                 });
