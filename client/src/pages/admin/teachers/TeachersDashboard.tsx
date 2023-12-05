@@ -1,35 +1,17 @@
-import { Link } from 'react-router-dom'; 
-import CalendarUI from "../../UI/Calendar"
+import Table from '../../UI/TableTeachers'
+import { Link } from 'react-router-dom'
 
-import Stats from "../../UI/Stats"
-
-import { useCookies } from 'react-cookie';
-import { useFetchUser } from '../../../controllers/getUserData';
-
-
-
-const TeachersDashboard: React.FC = () => {
-
-  const [cookies, setCookie] = useCookies();
-
-  const user = useFetchUser();
-
-
-   
-
+const TeachersDashboard = () => {
   return (
-    <div className='pt-[64px] pl-[24px] mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8'>
-        <h1 className="font-bold text-3xl text-[#04304D] pt-8">Olá {user?.name},</h1><small className='text-sm text-[#04304D] pb-3'>{user?.type}</small><br />
-        <div>
+    <div className='pt-[64px] p-x-5 mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8'>
 
-          <Stats type="Teacher"/>
+      <h1 className="font-bold text-3xl text-[#04304D] pt-8 mb-5">Teachers</h1>
 
-          <CalendarUI />
 
-        </div>
-
+      <Table endpoint={"/getTeachers"} namesList={["id", "name", "contact", "email", "state"]}/>
+      <Link to={"/admin/students/new"}><button type="button" className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full mb-3' >Create Teacher</button></Link>
     </div>
-  );
-};
+  )
+}
 
-export default TeachersDashboard;
+export default TeachersDashboard

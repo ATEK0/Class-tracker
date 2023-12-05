@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import httpClient from '../../../httpClient';
 import { SubjectListType } from '../../../types';
+import { Link } from 'react-router-dom';
 
 const SubjectsDashboard = () => {
   const [subjectList, setSubjectList] = useState<SubjectListType[]>([]);
@@ -25,10 +26,12 @@ const SubjectsDashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {subjectList.map((subject) => (
-          <div key={subject.id} className="bg-white p-4 rounded-lg shadow shadow-slate-400 flex justify-center items-center hover:scale-105 ease-in-out duration-300">
-            <h2 className="text-xl font-semibold mb-2">{subject.label}</h2>
+          <Link to={"/admin/subjects/" + subject.id}>
+            <div key={subject.id} className="bg-white p-4 rounded-lg shadow shadow-slate-400 flex justify-center items-center hover:scale-105 ease-in-out duration-300">
+              <h2 className="text-xl font-semibold mb-2">{subject.label}</h2>
 
-          </div>
+            </div>
+          </Link>
         ))}
       </div>
     </div>

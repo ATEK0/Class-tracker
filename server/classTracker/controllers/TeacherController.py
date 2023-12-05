@@ -30,8 +30,10 @@ def getTeachers():
 
     teachers_info = [{
             "id": teacher.id,
-            "name": teacher.name,
-            "surname": teacher.surname,
+            "name": teacher.name + " " + teacher.surname,
+            "contact": teacher.contact,
+            "email": teacher.email,
+            "state": teacher.state,
         } for teacher in teachers] 
 
 

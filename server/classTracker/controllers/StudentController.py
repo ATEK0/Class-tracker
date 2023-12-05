@@ -38,7 +38,7 @@ def getStudents():
             "name": student.name + " " + student.surname,
             "email": student.email,
             "class_id": student.class_id,
-            "class_label": str(class_info.grade) + "º " + class_info.label,
+            "class": str(class_info.grade) + "º " + class_info.label,
             "process": student.process_number
         })
 
