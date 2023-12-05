@@ -15,7 +15,7 @@ def getStudentsCount():
     user_id = session.get("user_id")
     
     if isAdmin(user_id):
-        count = Teacher.query.count()
+        count = Student.query.count()
     elif isTeacher(user_id):
         ...
         
