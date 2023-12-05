@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import httpClient from '../../httpClient';
-import { User } from '../../types';
 import Loading from '../UI/Loading';
 import Admin from './Admin';
 import Teacher from './Teacher';

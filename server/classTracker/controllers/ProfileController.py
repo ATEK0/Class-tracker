@@ -22,6 +22,6 @@ def getClassSubjects():
             db.session.commit()
             return jsonify ({"message": "ok"}), 200
         else:
-            return jsonify({"error": "Same Password"}), 400
+            return jsonify({"error": "Same Password"})
     else:
-        return jsonify({"error": "Wrong Password"}), 401
+        return jsonify({"error": "Wrong Password"})
