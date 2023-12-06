@@ -11,15 +11,17 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
   const [confirmnewPassword, setconfirmnewPassword] = useState('');
 
   const [openModalProfile, setOpenModalProfile] = useState(false);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<File>();
 
 
   function onCloseModal() {
+    
     setOpenModalCP(false);
     setcPassword("");
     setnewPassword("");
     setconfirmnewPassword("");
     setOpenModalProfile(false);
+
   }
 
 
@@ -40,6 +42,14 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
       toast.error("Passwords dont match")
     }
 
+  }
+
+  async function changeProfilePicture() {
+    console.log(image)
+    var changeProfile = await httpClient.post('//localhost:1222/updateProfileImage', { image : image });
+    var response = changeProfile.data
+    console.log(response)
+    onCloseModal()
   }
 
   return (
@@ -121,39 +131,53 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Upload Image</h3>
             
-            <div className="flex w-full items-center justify-center">
-              <Label
-                htmlFor="dropzone-file"
-                className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-              >
-                <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                  <svg
-                    className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 16"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                    />
-                  </svg>
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Click to upload</span> or drag and drop
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG or WEBP</p>
-                </div>
-                <FileInput id="dropzone-file" className="hidden" value={image} onChange={(event) => { setImage(event.target.value) }} accept=".jpg, .jpeg, .png, .webp"/>
-              </Label>
-            </div>
+
+          <div className="flex w-full items-center justify-center">
+            <label
+              htmlFor="imageUpload"
+              className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            >
+              <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                <svg
+                  className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  />
+                </svg>
+                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  <span className="font-semibold">Click to upload</span> or drag and drop
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, or WEBP</p>
+              </div>
+              <input
+                id="imageUpload"
+                type="file"
+                className="hidden"
+                onChange={(event) => {
+
+                  const selectedFile = event.target.files[0];
+                  setImage(selectedFile);
+                  
+                }}
+                accept=".jpg, .jpeg, .png, .webp"
+              />
+            </label>
+          </div>
+
+
 
             <div className="w-full flex justify-between">
               <Button className='bg-[#7d7d7d]' onClick={() => { setOpenModalProfile(false) }}>Cancel</Button>
-              <Button className='bg-[#04304d]' onClick={changePassword}>Change Image</Button>
+              <Button className='bg-[#04304d]' onClick={changeProfilePicture}>Change Image</Button>
             </div>
 
           </div>
