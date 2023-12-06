@@ -7,7 +7,7 @@ from ..models.User import User
 profileController = Blueprint('profileController', __name__)
 
 @profileController.route("/changeProfilePassword", methods=["POST"])
-def getClassSubjects():
+def changeProfilePassword():
 
     user_id = session.get("user_id")
 

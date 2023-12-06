@@ -33,7 +33,8 @@ def get_current_user():
         "email": user.email,
         "name": user.name,
         "surname": user.surname,
-        "type": userType
+        "type": userType,
+        "image": user.image_path
     })
 
 @authController.route('/register', methods=["POST"])
