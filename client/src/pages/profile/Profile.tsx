@@ -20,7 +20,7 @@ const Profile = () => {
         if (userTyperesp.type === "Admin") {
           document.title = 'Admin Profile - Class Tracker';
           setComponentToRender(<Admin user={userTyperesp}/>);
-
+        
         } else if (userTyperesp.type === "Teacher") {
           document.title = 'Teacher Profile - Class Tracker';
           setComponentToRender(<Teacher user={userTyperesp}/>);
