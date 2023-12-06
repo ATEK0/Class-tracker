@@ -25,3 +25,12 @@ def changeProfilePassword():
             return jsonify({"error": "Same Password"})
     else:
         return jsonify({"error": "Wrong Password"})
+
+@profileController.route("/updateProfileImage", methods=["POST"])
+def updateProfileImage():
+
+    user_id = session.get("user_id")
+
+    image_data = request.json["image"]
+
+    return ({"a": "a"})
