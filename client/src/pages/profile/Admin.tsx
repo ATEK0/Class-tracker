@@ -170,6 +170,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
               </div>
               <input
                 id="imageUpload"
+                name="imageUpload"
                 type="file"
                 className="hidden"
                 onChange={(event) => {
