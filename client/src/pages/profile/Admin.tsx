@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, Label, TextInput, Button, FileInput } from 'flowbite-react';
+import { Modal, Label, TextInput, Button } from 'flowbite-react';
 import httpClient from '../../httpClient';
 import toast from 'react-hot-toast';
 
@@ -45,12 +45,23 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
   }
 
   async function changeProfilePicture() {
-    console.log(image)
-    var changeProfile = await httpClient.post('//localhost:1222/updateProfileImage', { image : image });
-    var response = changeProfile.data
-    console.log(response)
-    onCloseModal()
+    try {
+      const formData = new FormData();
+      formData.append('image', image);
+  
+      // Make sure the endpoint is correct
+      const changeProfile = await httpClient.post('//localhost:1222/updateProfileImage', formData);
+  
+      const response = changeProfile.data;
+      console.log(response);
+  
+      onCloseModal();
+    } catch (error) {
+      // Handle errors here
+      console.error('Error uploading image:', error);
+    }
   }
+  
 
   return (
     <div className='pt-[64px] p-x-5 mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8 h-full flex justify-center items-center'>
@@ -131,7 +142,6 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Upload Image</h3>
             
-
           <div className="flex w-full items-center justify-center">
             <label
               htmlFor="imageUpload"
@@ -163,10 +173,11 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
                 type="file"
                 className="hidden"
                 onChange={(event) => {
-
-                  const selectedFile = event.target.files[0];
-                  setImage(selectedFile);
+                  if (!event.target.files) return;
                   
+                  const selectedFile = event.target.files[0];
+                  setImage(selectedFile);   
+
                 }}
                 accept=".jpg, .jpeg, .png, .webp"
               />
@@ -181,6 +192,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
             </div>
 
           </div>
+          
         </Modal.Body>
       </Modal>
       {/* final modal profile picture */}
