@@ -44,21 +44,24 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
 
   }
 
-  async function changeProfilePicture() {
-    try {
-      const formData = new FormData();
-      formData.append('image', image);
+  async function handleFormSubmit(event) {
+    event.preventDefault(); 
   
-      // Make sure the endpoint is correct
-      const changeProfile = await httpClient.post('//localhost:1222/updateProfileImage', formData);
+    var formData = new FormData();
+
+    const fileInput = document.getElementById('imageInput');
   
-      const response = changeProfile.data;
+    if (fileInput && fileInput.files.length > 0) {
+
+      formData.append('image', fileInput.files[0]);
+  
+  
+      var changeProfile = await httpClient.post('//localhost:1222/updateProfileImage', formData);
+      var response = changeProfile.data;
       console.log(response);
-  
       onCloseModal();
-    } catch (error) {
-      // Handle errors here
-      console.error('Error uploading image:', error);
+    } else {
+      toast.error("Please select an image");
     }
   }
   
@@ -139,12 +142,14 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
       <Modal dismissible show={openModalProfile} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
+          <form encType='multipart/form-data' id="imageUpload" onSubmit={handleFormSubmit}>
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Upload Image</h3>
             
+
           <div className="flex w-full items-center justify-center">
             <label
-              htmlFor="imageUpload"
+              htmlFor="imageInput"
               className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
             >
               <div className="flex flex-col items-center justify-center pb-6 pt-5">
@@ -169,17 +174,16 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
                 <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, or WEBP</p>
               </div>
               <input
-                id="imageUpload"
-                name="imageUpload"
+                id="imageInput"
                 type="file"
                 className="hidden"
-                onChange={(event) => {
-                  if (!event.target.files) return;
+                // onChange={(event) => {
+                //   if (!event.target.files) return;
                   
-                  const selectedFile = event.target.files[0];
-                  setImage(selectedFile);   
+                //   const selectedFile = event.target.files[0];
+                //   setImage(selectedFile);   
 
-                }}
+                // }}
                 accept=".jpg, .jpeg, .png, .webp"
               />
             </label>
@@ -189,11 +193,11 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
 
             <div className="w-full flex justify-between">
               <Button className='bg-[#7d7d7d]' onClick={() => { setOpenModalProfile(false) }}>Cancel</Button>
-              <Button className='bg-[#04304d]' onClick={changeProfilePicture}>Change Image</Button>
+              <Button className='bg-[#04304d]' type='submit'>Change Image</Button>
             </div>
 
           </div>
-          
+          </form>
         </Modal.Body>
       </Modal>
       {/* final modal profile picture */}

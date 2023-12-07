@@ -31,6 +31,8 @@ def updateProfileImage():
 
     user_id = session.get("user_id")
 
-    image_data = request.json["image"]
+    image_data = request.files.get("image")
+
+    print(image_data)
 
     return ({"a": "a"})
