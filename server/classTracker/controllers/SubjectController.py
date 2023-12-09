@@ -58,5 +58,16 @@ def getSubjectTeachers():
 
     return jsonify(teacher_info)
 
+@subjectController.route("/createSubject", methods=["POST"])
+def createSubject():
+    label = request.json["label"]
 
+    newSubject = Subject(label = label)
+
+    db.session.add(newSubject)
+    db.session.commit()
+
+    return jsonify ({
+        "message": "ok"
+    }), 200
     

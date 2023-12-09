@@ -68,3 +68,18 @@ def getClassStudents():
     } for student in students] 
 
     return (student_info)
+
+@classController.route("/createClass", methods=["POST"])
+def createClass():
+    label = request.json["label"]
+    grade = request.json["grade"]
+    type_id = request.json["type_id"]
+
+    newClass = Class_(label = label, grade = grade, type_id = type_id)
+
+    db.session.add(newClass)
+    db.session.commit()
+
+    return jsonify ({
+        "message": "ok"
+    }), 200
