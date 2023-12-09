@@ -20,3 +20,16 @@ td {
 html {
     overflow-x: hidden;
 }
+
+.infoLabel {
+    margin: 15px;
+}
+
+.linkLabel {
+    width: fit-content !important;
+    text-decoration: underline !important;
+}
+
+.linkLabel:hover {
+    font-weight: bold !important;
+}

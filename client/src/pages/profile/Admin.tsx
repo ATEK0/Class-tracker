@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Label, TextInput, Button } from 'flowbite-react';
 import httpClient from '../../httpClient';
 import toast from 'react-hot-toast';
@@ -12,6 +12,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
 
   const [openModalProfile, setOpenModalProfile] = useState(false);
   const [image, setImage] = useState<File>();
+  const [profileImage, setProfileImage] = useState("https://cdn-icons-png.flaticon.com/512/149/149071.png");
 
 
   function onCloseModal() {
@@ -46,16 +47,16 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
 
   async function handleFormSubmit(event) {
     event.preventDefault(); 
-  
+    
     var formData = new FormData();
 
     const fileInput = document.getElementById('imageInput');
-  
+    
     if (fileInput && fileInput.files.length > 0) {
 
       formData.append('image', fileInput.files[0]);
-  
-  
+      
+
       var changeProfile = await httpClient.post('//localhost:1222/updateProfileImage', formData);
       var response = changeProfile.data;
       console.log(response);
@@ -66,10 +67,31 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
   }
   
 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Assuming `httpClient` is an Axios instance
+        const changeProfile = await httpClient.get('//localhost:1222/getProfileImage', { responseType: 'blob' });
+
+        // Convert the blob to a data URL
+        const imageUrl = URL.createObjectURL(new Blob([changeProfile.data]));
+        
+        setProfileImage(imageUrl);
+      } catch (error) {
+        console.error('Error loading profile image:', error);
+        // Handle error, e.g., setProfileImage(null) or show an error message
+      }
+    };
+
+    loadData();
+  }, []);
+  
+  
+
   return (
     <div className='pt-[64px] p-x-5 mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8 h-full flex justify-center items-center'>
       <div className="card w-96 mx-auto bg-white  shadow-xl hover:shadow">
-        <img className="w-32 mx-auto rounded-full -mt-20 border-8 border-white" src={"https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="" />
+        <img className="w-32 mx-auto rounded-full -mt-20 border-8 border-white" src={profileImage} alt="" />
         <div className="text-center mt-2 font-light text-sm">{props.user.email}</div>
         <div className="text-center mt-2 text-3xl font-bold text-[#04304d]">{props.user.name} {props.user.surname}</div>
         <div className="text-center mt-2 font-light text-sm">{props.user.id}</div>

@@ -12,3 +12,5 @@ sqlalchemy
 mysql-connector
 
 python-dotenv
+
+pillow

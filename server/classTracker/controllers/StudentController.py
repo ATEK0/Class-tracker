@@ -45,3 +45,33 @@ def getStudents():
     return jsonify(students_info)
 
 
+@studentController.route("/getStudentInfo", methods=["POST"])
+def getStudentInfo():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    studentId = request.json["id"]
+
+    student = Student.query.filter_by(id = studentId).first()
+    class_info = Class_.query.get(student.class_id)
+
+    students_info = {
+            "id": student.id,
+            "name": student.name,
+            "surname": student.surname,
+            "email": student.email,
+            "state": student.state,
+            "type": "Student",
+            "image": student.image_path,
+            "class_id": student.class_id,
+            "address": student.address,
+            "birthdate": student.birthdate,
+            "class": str(class_info.grade) + class_info.label,
+            "class_director": "Pra já nada",
+            "process": student.process_number
+        }
+
+    return jsonify(students_info)
+

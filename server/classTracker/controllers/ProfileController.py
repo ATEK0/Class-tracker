@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, session
+from flask import Blueprint, request, jsonify, redirect, send_file, session
 
 from .. import db, bcrypt
 
@@ -51,7 +51,7 @@ def updateProfileImage():
         with open(f"profile_images/{filename}", "wb") as f:
             f.write(image_data.read())
 
-    user.image_path = f"profile_images/{filename}"
+    user.image_path = f"../profile_images/{filename}"
     db.session.commit()
 
     return ({"a": "a"})
@@ -61,11 +61,16 @@ def getProfileImage():
 
     user_id = session.get("user_id")
     user = User.query.filter_by(id = user_id).first()
-    image_path = user.image_path
+    
+    if user and user.image_path:
+        _, extension = os.path.splitext(user.image_path)
+        mimetype = {
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.gif': 'image/gif',
+        }.get(extension.lower(), 'application/octet-stream')
 
-    if image_path:
-        with open(image_path, 'rb') as f:
-            image_data = f.read()
-            return image_data
+        return send_file(user.image_path, mimetype=mimetype)
     else:
         return jsonify({"error": "No profile image found"}), 404

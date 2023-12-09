@@ -1,10 +1,22 @@
+import { ReactNode } from "react";
+
 export interface User {
     id: string;
-    email: string;
     name: string;
     surname: string;
+    email: string;
     state: string;
     type: string;
+    image: string;
+}
+
+export interface Student extends User {
+    class_id: string;
+    class: string;
+    class_director: string;
+    process: string;
+    address: string;
+    birthdate: string;
 }
 
 export interface TeacherListType {

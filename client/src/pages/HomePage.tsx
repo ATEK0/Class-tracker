@@ -44,9 +44,21 @@ const HomePage: React.FC = () => {
         </div>
 
         <div className="grid grid-rows-3 lg:grid-cols-3 gap-6 text-center m-20">
-          <div className="administration bg-[whitesmoke] rounded-md shadow-lg shadow-[#04304d6e] m-5 p-5 h-full">
-            <FontAwesomeIcon icon={faUserTie} className='w-10 h-10 text-[#04304d]'/>
-            <h1 className='text-2xl text-[#04304d] p-3 font-bold'>Administration</h1>
+          <div className="administration rounded-xl shadow-lg bg-[#04304d] m-5 p-5 h-full text-white">
+            <FontAwesomeIcon icon={faUserTie} className='w-10 h-10 text-white'/>
+            <h1 className='text-2xl text-white pt-3 font-bold'>Administration</h1>
+            <p className='text-white'>full controll in all devices</p>
+            <ul>
+              <li className='p-1 py-4 text-xl'><FontAwesomeIcon icon={faCircleCheck} className='text-[#50bd50] mr-2' />Full controll hover schedules</li>
+              <li className='p-1 py-4 text-xl'><FontAwesomeIcon icon={faCircleCheck} className='text-[#50bd50] mr-2' />Full controll hover teachers</li>
+              <li className='p-1 py-4 text-xl'><FontAwesomeIcon icon={faCircleCheck} className='text-[#50bd50] mr-2' />Full controll hover schedules</li>
+              <li className='p-1 py-4 text-xl'><FontAwesomeIcon icon={faCircleCheck} className='text-[#50bd50] mr-2' />Full controll hover schedules</li>
+
+            </ul>
+          </div>
+          <div className="students rounded-xl shadow-lg bg-[#04304d] m-5 p-5 h-full text-white">
+            <FontAwesomeIcon icon={faUserGraduate} className='w-10 h-10 '/>
+            <h1 className='text-2xl p-3 font-bold'>Students</h1>
             <ul>
               <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2' />Full controll hover schedules</li>
               <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Full controll hover teachers</li>
@@ -55,20 +67,9 @@ const HomePage: React.FC = () => {
               <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Infrastructure management</li>
             </ul>
           </div>
-          <div className="students bg-[whitesmoke] rounded-md shadow-lg shadow-[#04304d6e] m-5 p-5 h-full">
-            <FontAwesomeIcon icon={faUserGraduate} className='w-10 h-10 text-[#04304d]'/>
-            <h1 className='text-2xl text-[#04304d] p-3 font-bold'>Students</h1>
-            <ul>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2' />Full controll hover schedules</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Full controll hover teachers</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Full controll hover students</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Access to personal information</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Infrastructure management</li>
-            </ul>
-          </div>
-          <div className="teachers bg-[whitesmoke] rounded-md shadow-lg shadow-[#04304d6e] m-5 p-5 h-full">
-            <FontAwesomeIcon icon={faChalkboard} className='w-10 h-10 text-[#04304d]'/>
-            <h1 className='text-2xl text-[#04304d] p-3 font-bold'>Teachers</h1>
+          <div className="teachers rounded-xl shadow-lg bg-[#04304d] m-5 p-5 h-full text-white">
+            <FontAwesomeIcon icon={faChalkboard} className='w-10 h-10'/>
+            <h1 className='text-2xl p-3 font-bold'>Teachers</h1>
             <ul>
               <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2' />Full controll hover schedules</li>
               <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Full controll hover teachers</li>
