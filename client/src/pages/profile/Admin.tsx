@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Label, TextInput, Button } from 'flowbite-react';
 import httpClient from '../../httpClient';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const Admin = (props: { user: { email: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; surname: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; id: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; type: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined } }) => {
 
@@ -14,6 +15,8 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
   const [image, setImage] = useState<File>();
   const [profileImage, setProfileImage] = useState("https://cdn-icons-png.flaticon.com/512/149/149071.png");
 
+  const [selectedFile, setSelectedFile] = useState<File | null>();
+
 
   function onCloseModal() {
     
@@ -22,6 +25,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
     setnewPassword("");
     setconfirmnewPassword("");
     setOpenModalProfile(false);
+    setSelectedFile(null);
 
   }
 
@@ -45,7 +49,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
 
   }
 
-  async function handleFormSubmit(event) {
+  async function handleFormSubmit(event: { preventDefault: () => void; }) {
     event.preventDefault(); 
     
     var formData = new FormData();
@@ -58,9 +62,10 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
       
 
       var changeProfile = await httpClient.post('//localhost:1222/updateProfileImage', formData);
-      var response = changeProfile.data;
-      console.log(response);
+
+      toast.success("Profile image changed");
       onCloseModal();
+      window.location.reload()
     } else {
       toast.error("Please select an image");
     }
@@ -70,16 +75,13 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
   useEffect(() => {
     const loadData = async () => {
       try {
-        // Assuming `httpClient` is an Axios instance
         const changeProfile = await httpClient.get('//localhost:1222/getProfileImage', { responseType: 'blob' });
 
-        // Convert the blob to a data URL
         const imageUrl = URL.createObjectURL(new Blob([changeProfile.data]));
         
         setProfileImage(imageUrl);
       } catch (error) {
         console.error('Error loading profile image:', error);
-        // Handle error, e.g., setProfileImage(null) or show an error message
       }
     };
 
@@ -90,8 +92,8 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
 
   return (
     <div className='pt-[64px] p-x-5 mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8 h-full flex justify-center items-center'>
-      <div className="card w-96 mx-auto bg-white  shadow-xl hover:shadow">
-        <img className="w-32 mx-auto rounded-full -mt-20 border-8 border-white" src={profileImage} alt="" />
+      <div className="card w-96 mx-auto bg-white shadow-xl rounded-md">
+        <img className="w-32 h-32 mx-auto rounded-full -mt-10 border-2 border-gray shadow-md" src={profileImage} alt="Profile image" />
         <div className="text-center mt-2 font-light text-sm">{props.user.email}</div>
         <div className="text-center mt-2 text-3xl font-bold text-[#04304d]">{props.user.name} {props.user.surname}</div>
         <div className="text-center mt-2 font-light text-sm">{props.user.id}</div>
@@ -109,7 +111,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
           </div>
 
           <div className="w-1/3 text-center p-1">
-            <button type="button" className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full' >Ajuda</button>
+            <Link to="/support"><button type="button" className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full' >Ajuda</button></Link>
           </div>
         </div>
       </div>
@@ -148,7 +150,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
             </div>
 
             <div className="w-full flex justify-between">
-              <Button className='bg-[#7d7d7d]' onClick={() => { setOpenModalCP(false) }}>Cancel</Button>
+              <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>
               <Button className='bg-[#04304d]' onClick={changePassword}>Change Password</Button>
             </div>
 
@@ -174,38 +176,52 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
               htmlFor="imageInput"
               className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
             >
-              <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                <svg
-                  className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 16"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                  />
-                </svg>
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click to upload</span> or drag and drop
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, or WEBP</p>
-              </div>
+
+                {selectedFile ? (
+                  <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center justify-center flex-col">
+                      <span className="font-semibold">Selected file</span><br />{selectedFile.name}
+                      <img
+                        src={URL.createObjectURL(selectedFile)}
+                        alt="Selected image"
+                        className="w-16 h-16 object-cover mt-5"
+                      />
+                    </p>
+                  </div>
+                ) : (
+                  <div className='flex flex-col items-center justify-center pb-6 pt-5'>
+                    <svg
+                    className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 16"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      />
+                    </svg>
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold">Click to upload</span> or drag and drop
+                    </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, or WEBP</p>
+                  </div>
+                )}
               <input
                 id="imageInput"
                 type="file"
                 className="hidden"
-                // onChange={(event) => {
-                //   if (!event.target.files) return;
-                  
-                //   const selectedFile = event.target.files[0];
-                //   setImage(selectedFile);   
+                onChange={(event) => {
+                  if (!event.target.files) return;
 
-                // }}
+                  const newSelectedFile = event.target.files[0];
+                  setSelectedFile(newSelectedFile);
+
+                }}
                 accept=".jpg, .jpeg, .png, .webp"
               />
             </label>
@@ -214,7 +230,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
 
 
             <div className="w-full flex justify-between">
-              <Button className='bg-[#7d7d7d]' onClick={() => { setOpenModalProfile(false) }}>Cancel</Button>
+              <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>
               <Button className='bg-[#04304d]' type='submit'>Change Image</Button>
             </div>
 

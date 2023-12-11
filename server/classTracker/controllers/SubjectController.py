@@ -70,4 +70,29 @@ def createSubject():
     return jsonify ({
         "message": "ok"
     }), 200
+
+@subjectController.route('/deleteSubject/<int:subject_id>', methods=['DELETE'])
+def deleteSubject(subject_id):
+    subject = Subject.query.get(subject_id)
+
+    if subject:
+        db.session.delete(subject)
+        db.session.commit()
+        return jsonify({"message": "ok"}), 200
+    else:
+        return jsonify({"message": "Subject not found"}), 404
+    
+@subjectController.route('/editSubject/<int:subject_id>', methods=['POST'])
+def editSubject(subject_id):
+
+    label = request.json['label']
+
+    subject = Subject.query.get(subject_id)
+
+    if subject:
+        subject.label = label
+        db.session.commit()
+        return jsonify({"message": "ok"}), 200
+    else:
+        return jsonify({"message": "Subject not found"}), 404
     

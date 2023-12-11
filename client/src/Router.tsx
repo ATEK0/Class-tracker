@@ -21,6 +21,7 @@ import StudentIndividual from "./pages/students/StudentIndividual"
 import NewStudent from "./pages/admin/students/NewStudent"
 import SubjectsDetails from "./pages/admin/subjects/SubjectsDetails"
 import TeacherDetails from "./pages/admin/teachers/TeacherDetails"
+import Support from "./pages/Support"
 
 
 const Router: React.FC = () => {
@@ -59,6 +60,8 @@ const Router: React.FC = () => {
 
 
         <Route path="/profile" element={<Profile />} />
+
+        <Route path="/support" element={<Support />} />
         
 
         <Route path="*" element={<NotFound />}/>

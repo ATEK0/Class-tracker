@@ -4,7 +4,7 @@ import Typed from "react-typed"
 
 import classImage from "../assets/students-knowing-right-answer.webp"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChalkboard, faCircleCheck, faUserGraduate, faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboard, faUserGraduate, faUserTie } from "@fortawesome/free-solid-svg-icons";
 
 const HomePage: React.FC = () => {
 
@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
 
 
       {/* features */}
-      <div className='pt-[64px] w-full p-5'>
+      <div className='pt-[64px] w-full p-5 text-center'>
         <div className='w-full text-center'>
           <h1 className='text-5xl font-bold text-[#04304d] pb-3'>Your all in one school platform</h1>
           With class tracker you can get advanced controll hover your learning environment with just a few clicks.
@@ -43,43 +43,35 @@ const HomePage: React.FC = () => {
 
         </div>
 
-        <div className="grid grid-rows-3 lg:grid-cols-3 gap-6 text-center m-20">
-          <div className="administration rounded-xl shadow-lg bg-[#04304d] m-5 p-5 h-full text-white">
-            <FontAwesomeIcon icon={faUserTie} className='w-10 h-10 text-white'/>
-            <h1 className='text-2xl text-white pt-3 font-bold'>Administration</h1>
-            <p className='text-white'>full controll in all devices</p>
-            <ul>
-              <li className='p-1 py-4 text-xl'><FontAwesomeIcon icon={faCircleCheck} className='text-[#50bd50] mr-2' />Full controll hover schedules</li>
-              <li className='p-1 py-4 text-xl'><FontAwesomeIcon icon={faCircleCheck} className='text-[#50bd50] mr-2' />Full controll hover teachers</li>
-              <li className='p-1 py-4 text-xl'><FontAwesomeIcon icon={faCircleCheck} className='text-[#50bd50] mr-2' />Full controll hover schedules</li>
-              <li className='p-1 py-4 text-xl'><FontAwesomeIcon icon={faCircleCheck} className='text-[#50bd50] mr-2' />Full controll hover schedules</li>
+        <div className="grid grid-cols-3 lg:grid-cols-3 gap-15 mt-5 -mx-5 bg-[#04304d] ">
 
-            </ul>
+          <div className="teachers rounded-xl shadow-lg m-5 p-20 h-full text-white flex justify-start flex-col text-left">
+            <FontAwesomeIcon icon={faUserTie} className='w-16 h-16'/>
+            <h1 className='text-xl py-3'>Administration</h1>
+            <p>teste</p>
           </div>
-          <div className="students rounded-xl shadow-lg bg-[#04304d] m-5 p-5 h-full text-white">
-            <FontAwesomeIcon icon={faUserGraduate} className='w-10 h-10 '/>
-            <h1 className='text-2xl p-3 font-bold'>Students</h1>
-            <ul>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2' />Full controll hover schedules</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Full controll hover teachers</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Full controll hover students</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Access to personal information</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Infrastructure management</li>
-            </ul>
+          <div className="teachers rounded-xl shadow-lg m-5 p-20 h-full text-white flex justify-start flex-col text-left">
+            <FontAwesomeIcon icon={faUserGraduate} className='w-16 h-16'/>
+            <h1 className='text-xl py-3'>Students</h1>
+            <p>teste</p>
           </div>
-          <div className="teachers rounded-xl shadow-lg bg-[#04304d] m-5 p-5 h-full text-white">
-            <FontAwesomeIcon icon={faChalkboard} className='w-10 h-10'/>
-            <h1 className='text-2xl p-3 font-bold'>Teachers</h1>
-            <ul>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2' />Full controll hover schedules</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Full controll hover teachers</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Full controll hover students</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Access to personal information</li>
-              <li className='p-1'><FontAwesomeIcon icon={faCircleCheck} className='text-[green] mr-2'/>Infrastructure management</li>
-            </ul>
+          <div className="teachers rounded-xl shadow-lg m-5 p-20 h-full text-white flex justify-start flex-col text-left">
+            <FontAwesomeIcon icon={faChalkboard} className='w-16 h-16'/>
+            <h1 className='text-xl py-3'>Teachers</h1>
+            <p>teste</p>
           </div>
+          
         </div>
+        <div className="contactButton w-1/4 font-bold text-[#04304d] uppercase p-3 rounded-lg mt-10 bg-white border-4 border-[#04304d] mx-auto hover:bg-[#04304d] hover:text-white duration-300 transition-all cursor-pointer">
+          contact us
+        </div>
+      </div>
+      {/* end features */}
 
+      {/* gallery */}
+      <div className="gallery pt-[64px] w-full p-5">
+        <h1 className='text-5xl font-bold text-[#04304d] pb-3 text-center'>Check some of our features!</h1>
+        <p className='text-center'>Wour UX/UI make us the most inovative and practical software in the market!</p>
       </div>
 
     </div>
