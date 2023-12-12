@@ -176,7 +176,7 @@ const SubjectsDashboard = () => {
             <div className="block">
               <Label htmlFor="subjectEditName" value="New name" />
             </div>
-            <TextInput id="subjectEditName" maxLength={50} value={nameBefore} placeholder={nameBefore} required onChange={(event) => setsubjectName(event.target.value)} />
+            <TextInput id="subjectEditName" maxLength={50} placeholder={nameBefore} required onChange={(event) => setsubjectName(event.target.value)} />
 
             <div className="w-full flex justify-between">
               <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>

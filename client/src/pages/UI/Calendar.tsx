@@ -55,7 +55,7 @@ const Calendar = (props: any) => {
 
                 const optionElement = document.createElement('option');
                 optionElement.value = '';
-                optionElement.text = 'Choose option';
+                optionElement.text = 'Choose schedule';
                 optionElement.selected = true;
                 optionElement.disabled = true;
 
@@ -93,7 +93,6 @@ const Calendar = (props: any) => {
 
                 selectCalendar.appendChild(selectElement);
 
-                // Set the ref to the created select element
                 selectRef.current = selectElement;
             }
         } catch (error) {
