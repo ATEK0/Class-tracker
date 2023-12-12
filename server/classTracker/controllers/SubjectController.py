@@ -87,12 +87,7 @@ def editSubject(subject_id):
 
     label = request.json['label']
 
-    label = label.strip()
-
     subject = Subject.query.get(subject_id)
-
-    if (label == ""):
-        return jsonify({"message": "Fill the field"}), 400
 
     if subject:
         subject.label = label
