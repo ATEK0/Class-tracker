@@ -68,7 +68,6 @@ def getProfileImage():
             '.png': 'image/png',
             '.jpg': 'image/jpeg',
             '.jpeg': 'image/jpeg',
-            '.gif': 'image/gif',
         }.get(extension.lower(), 'application/octet-stream')
 
         return send_file(user.image_path, mimetype=mimetype)
