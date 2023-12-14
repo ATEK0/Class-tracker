@@ -12,7 +12,6 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
   const [confirmnewPassword, setconfirmnewPassword] = useState('');
 
   const [openModalProfile, setOpenModalProfile] = useState(false);
-  const [image, setImage] = useState<File>();
   const [profileImage, setProfileImage] = useState("https://cdn-icons-png.flaticon.com/512/149/149071.png");
 
   const [selectedFile, setSelectedFile] = useState<File | null>();
@@ -46,7 +45,6 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
     } else {
       toast.error("Passwords dont match")
     }
-
   }
 
   async function handleFormSubmit(event: { preventDefault: () => void; }) {
@@ -70,7 +68,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
       toast.error("Please select an image");
     }
   }
-  
+
 
   useEffect(() => {
     const loadData = async () => {
@@ -107,11 +105,11 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
           </div>
 
           <div className="w-1/3 text-center p-1">
-            <button type="button" onClick={() => { setOpenModalProfile(true) }} className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full' >Imagem</button>
+            <button type="button" onClick={() => { setOpenModalProfile(true) }} className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full' >Image</button>
           </div>
 
           <div className="w-1/3 text-center p-1">
-            <Link to="/support"><button type="button" className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full' >Ajuda</button></Link>
+            <Link to="/support"><button type="button" className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full' >Help</button></Link>
           </div>
         </div>
       </div>

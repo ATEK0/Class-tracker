@@ -11,9 +11,12 @@ const SubjectsDashboard = () => {
   const [subjectList, setSubjectList] = useState<SubjectListType[]>([]);
 
   const [openModalCreate, setopenModalCreate] = useState(false)
+  const [openModalConfirmation, setopenModalConfirmation] = useState(false)
   const [openModalEdit, setopenModalEdit] = useState(false)
-  const [nameBefore, setnameBefore] = useState("")
-  const [useSubjectID, setuseSubjectID] = useState("")
+  const [nameBefore, setnameBefore] = useState<string>("")
+  const [useSubjectID, setuseSubjectID] = useState<string>("")
+  const [beingDeleted, setbeingDeleted] = useState<string>("")
+  const [beingDeletedID, setbeingDeletedID] = useState<string>("")
   const [subjectName, setsubjectName] = useState<MouseEvent<HTMLButtonElement, MouseEvent> | null>()
 
   function onCloseModal() {
@@ -21,6 +24,7 @@ const SubjectsDashboard = () => {
     setsubjectName(null)
     setopenModalEdit(false)
     setnameBefore("")
+    setopenModalConfirmation(false)
   }
 
   async function updateSubjectList() {
@@ -43,46 +47,56 @@ const SubjectsDashboard = () => {
   
 
   async function createSubject() {
-    try {
-      const create = await httpClient.post('//localhost:1222/createSubject', { label: subjectName });
-      const resp = create.data;
-  
-      if (resp.message === "ok") {
 
-        await updateSubjectList()
-  
+    if (subjectName != null) {
 
-        setopenModalCreate(false);
+      try {      
+        const create = await httpClient.post('//localhost:1222/createSubject', { label: subjectName });
+        const resp = create.data;
+    
+        if (resp.message === "ok") {
   
-        toast.success("Subject created successfully");
-      } else {
-        toast.error("Failed to create subject");
+          await updateSubjectList()
+    
+  
+          setopenModalCreate(false);
+    
+          toast.success("Subject created successfully");
+          setsubjectName(null)
+
+        } else {
+          toast.error("Failed to create subject");
+        }
+      } catch (error) {
+        console.error('Error creating subject:', error);
+  
+        toast.error("An error occurred while creating the subject");
       }
-    } catch (error) {
-      console.error('Error creating subject:', error);
-
-      toast.error("An error occurred while creating the subject");
+        
+    } else {
+      toast.error("Name cant be empty")
     }
+
   }
   
 
-  async function deleteSubject(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, subjectID: string, subjectName: string) {
-    event.preventDefault();
+  async function deleteSubject() {
   
     try {
-      await httpClient.delete(`//localhost:1222/deleteSubject/${subjectID}`);
+      await httpClient.delete(`//localhost:1222/deleteSubject/${beingDeletedID}`);
       
-      await updateSubjectList()
+      updateSubjectList()
       
-      toast.success(subjectName + " deleted successfully")
+      toast.success(beingDeleted + " deleted successfully")
     } catch (error) {
       console.error('Error deleting subject:', error);
     }
+    onCloseModal()
   }
   
   function editSubject(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, subjectID: string, subjectName: string) {
     event.preventDefault();
-    setnameBefore(subjectName)
+    setnameBefore(subjectName.trim())
     setopenModalEdit(true)
     setuseSubjectID(subjectID)
   }
@@ -98,6 +112,14 @@ const SubjectsDashboard = () => {
     } else {
       toast.error("Failed to edit subject");
     } 
+  }
+
+  function editButtonClicked(event: MouseEvent<SVGSVGElement, globalThis.MouseEvent>, subjectName:string, id:string) {
+    event.preventDefault();
+    setbeingDeleted(subjectName.trim())
+    setbeingDeletedID(id)
+
+    setopenModalConfirmation(true)
   }
 
   useEffect(() => {
@@ -129,9 +151,8 @@ const SubjectsDashboard = () => {
               <div className='flex '>
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
-                  onClick={(event) => deleteSubject(event, subject.id, subject.label)}
                 >
-                  <FontAwesomeIcon icon={faTrashCan} className='p-1 w-4 h-4' />
+                  <FontAwesomeIcon icon={faTrashCan} onClick={(event) => {editButtonClicked(event, subject.label, subject.id)}} className='p-1 w-4 h-4' />
                 </button>
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
@@ -187,6 +208,30 @@ const SubjectsDashboard = () => {
         </Modal.Body>
       </Modal>
       {/* final modal edit subject */}
+
+
+      {/* Confirm subject deletion modal */}
+
+      <Modal dismissible show={openModalConfirmation} size="md" onClose={onCloseModal} popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-4">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Delete {beingDeleted}</h3>
+            <div className="block">
+              <Label htmlFor="">Do you want to delete <b>{beingDeleted}</b>? Every related class will also be deleted.</Label>
+            </div>
+
+
+            <div className="w-full flex justify-between">
+              <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>
+              <Button className='bg-[#c82333]' onClick={deleteSubject}>Delete</Button>
+            </div>
+
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      {/* final confirm subject deletion modal */}
 
     </div>
   );
