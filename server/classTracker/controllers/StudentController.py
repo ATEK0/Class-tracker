@@ -64,7 +64,6 @@ def getStudentInfo():
             "email": student.email,
             "state": student.state,
             "type": "Student",
-            "image": student.image_path,
             "class_id": student.class_id,
             "address": student.address,
             "birthdate": student.birthdate,
