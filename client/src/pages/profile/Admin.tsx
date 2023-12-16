@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 const Admin = (props: { user: { email: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; surname: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; id: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; type: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined } }) => {
-
+  
   const [openModalCP, setOpenModalCP] = useState(false);
   const [cPassword, setcPassword] = useState('');
   const [newPassword, setnewPassword] = useState('');
@@ -73,7 +73,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
   useEffect(() => {
     const loadData = async () => {
       try {
-        const changeProfile = await httpClient.get('//localhost:1222/getProfileImage', { responseType: 'blob' });
+        const changeProfile = await httpClient.get('//localhost:1222/getProfileImage/user', { responseType: 'blob' });
 
         const imageUrl = URL.createObjectURL(new Blob([changeProfile.data]));
         

@@ -56,11 +56,13 @@ def updateProfileImage():
 
     return ({"a": "a"})
 
-@profileController.route("/getProfileImage", methods=["GET"])
-def getProfileImage():
+@profileController.route("/getProfileImage/<path:userID>", methods=["GET", "POST"])
+def getProfileImage(userID):
 
-    user_id = session.get("user_id")
-    user = User.query.filter_by(id = user_id).first()
+    if userID == 'user':
+        userID = session.get("user_id")
+        
+    user = User.query.filter_by(id = userID).first()
     
     if user and user.image_path:
         _, extension = os.path.splitext(user.image_path)
@@ -72,4 +74,4 @@ def getProfileImage():
 
         return send_file(user.image_path, mimetype=mimetype)
     else:
-        return jsonify({"error": "No profile image found"}), 404
+        return send_file("../profile_images/defaultProfileImage.png", mimetype='image/png')

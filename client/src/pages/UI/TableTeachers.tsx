@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component';
-import toast from 'react-hot-toast';
 import httpClient from '../../httpClient';
 import { TextAlign } from '../../types';
 import { apiLink } from '../../config';
@@ -27,7 +26,6 @@ const Table = (props: {
           setTableData(tableDataResp.data);
           setTableCols(tableColumns);
           setIsLoading(false);
-          toast.success("Data loaded");
         } catch {
         }
       }

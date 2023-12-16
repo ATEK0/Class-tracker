@@ -26,7 +26,7 @@ class User(Base, db.Model):
     created_at = db.Column(db.String(30), default=lambda: datetime.now())
     state = db.Column(db.String(15), default="Ativo")
     admin = db.Column(db.Boolean, default=0)
-    image_path = db.Column(db.String(255))
+    image_path = db.Column(db.String(255), default='../profile_images/defaultProfileImage.png')
 
     students = db.relationship("Student", back_populates="users")
     teachers = db.relationship("Teacher", back_populates="users")

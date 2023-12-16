@@ -7,6 +7,7 @@ import { Student } from "../../types"
 const StudentIndividual = () => {
   const { studentID } = useParams();
   const [userData, setUserData] = useState<Student | null>();
+  const [UserImage, setUserImage] = useState<string>()
   const [error, setError] = useState<string | null>();
   const maxRetries = 3;
   let retries = 0;
@@ -16,6 +17,10 @@ const StudentIndividual = () => {
       const getUser = await httpClient.post("//localhost:1222/getStudentInfo", { id: studentID });
       const userTyperesp = getUser.data;
       setUserData(userTyperesp);
+      
+      const changeProfile = await httpClient.get('//localhost:1222/getProfileImage/' + studentID, { responseType: 'blob' });
+      setUserImage(URL.createObjectURL(new Blob([changeProfile.data])))
+
       setError(null);
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -43,7 +48,7 @@ const StudentIndividual = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 text-center md:text-left">
 
             <div className="profile w-full flex flex-col items-center">
-              <img src={"https://cdn-icons-png.flaticon.com/512/149/149071.png"} className="object-contain max-w-xs w-52 md:w-full" alt={`Profile Picture of ${userData?.id}`}/>
+              <img src={UserImage} className="object-contain max-w-xs w-52 md:w-full" alt={`Profile Picture of ${userData?.id}`}/>
               <h1 className="text-4xl p-2">{userData?.name} {userData?.surname} </h1>
               <h1 className="text-2xl">{ userData?.type }</h1>
               <h1 className="text-md p-2">{ userData?.process }</h1>
