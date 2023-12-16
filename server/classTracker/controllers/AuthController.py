@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify, redirect, session
-from flask_login import login_required, current_user, logout_user
 
 from .. import db, bcrypt
 
@@ -23,7 +22,7 @@ def get_current_user():
         userType="Admin"
     elif isTeacher(user.id):
         userType="Teacher"
-    elif isStudent(user_id):
+    elif isStudent(user.id):
         userType="Student"
     else:
         userType="Undefined"
