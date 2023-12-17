@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, flash, jsonify, url_for, send_file, redirect, session
-from flask_login import login_required, current_user, logout_user
 
 from .. import db
 
@@ -12,20 +11,23 @@ studentController = Blueprint('studentController', __name__)
 
 @studentController.route('/getStudentsCount', methods=["GET"])
 def getStudentsCount():
-    user_id = session.get("user_id")
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
     
-    if isAdmin(user_id):
+    if isAdmin(current_user):
         count = Student.query.count()
-    elif isTeacher(user_id):
+    elif isTeacher(current_user):
         ...
         
     return jsonify(count)
 
 @studentController.route("/getStudents", methods=["GET"])
 def getStudents():
-    user_id = session.get("user_id")
+    current_user = session.get("user_id")
 
-    if not user_id:
+    if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
 
     students = Student.query.all()
@@ -47,14 +49,14 @@ def getStudents():
 
 @studentController.route("/getStudentInfo", methods=["POST"])
 def getStudentInfo():
-    user_id = session.get("user_id")
+    current_user = session.get("user_id")
 
-    if not user_id:
+    if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
     
-    studentId = request.json["id"]
+    user_id = request.json["id"]
 
-    student = Student.query.filter_by(id = studentId).first()
+    student = Student.query.filter_by(id = user_id).first()
     class_info = Class_.query.get(student.class_id)
 
     students_info = {

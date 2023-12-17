@@ -14,9 +14,12 @@ profileController = Blueprint('profileController', __name__)
 @profileController.route("/changeProfilePassword", methods=["POST"])
 def changeProfilePassword():
 
-    user_id = session.get("user_id")
+    current_user = session.get("user_id")
 
-    user = User.query.filter_by(id = user_id).first()
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user = User.query.filter_by(id = current_user).first()
     
     current_password = request.json["current_password"]
     new_password = request.json["new_password"]
@@ -34,8 +37,12 @@ def changeProfilePassword():
 @profileController.route("/updateProfileImage", methods=["POST"])
 def updateProfileImage():
 
-    user_id = session.get("user_id")
-    user = User.query.filter_by(id = user_id).first()
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user = User.query.filter_by(id = current_user).first()
 
     image_data = request.files.get("image")
 

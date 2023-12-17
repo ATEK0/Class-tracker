@@ -13,6 +13,11 @@ classroomController = Blueprint('classroomController', __name__)
 @classroomController.route("/createClassroom", methods=["POST"])
 def createClassroom():
 
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
     user_id = request.json["teacher"]
     subject_id = request.json["subject"]
     class_ID = request.json["class_ID"]
@@ -36,11 +41,14 @@ def createClassroom():
 
 @classroomController.route("/getClassroomsCount", methods=["GET"])
 def getClassroomsCount():
-    user_id = session.get("user_id")
+    current_user = session.get("user_id")
 
-    if isAdmin(user_id):
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    if isAdmin(current_user):
         count = Classroom.query.count()
-    elif isTeacher(user_id):
+    elif isTeacher(current_user):
         ... #retorna a contagem de turmas que o professor leciona
 
     #fazer igual para os outros endpoints do get...Count

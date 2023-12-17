@@ -16,6 +16,11 @@ calendarController = Blueprint('calendarController', __name__)
 
 @calendarController.route("/getCalendarEvents", methods=["POST"])
 def getCalendarEvents():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+        
     selected_id = request.json["id"]
     classroom_data = []
 

@@ -8,6 +8,11 @@ summaryController = Blueprint('summaryController', __name__)
 
 @summaryController.route("/createSummary", methods=["POST"])
 def createSummary():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+        
     title = request.json["title"]
     content = request.json["content"]
 

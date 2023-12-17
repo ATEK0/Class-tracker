@@ -12,17 +12,26 @@ subjectController = Blueprint('subjectController', __name__)
 
 @subjectController.route('/getSubjectCount', methods=["GET"])
 def getSubjectCount():
-    user_id = session.get("user_id")
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
     
-    if isAdmin(user_id):
+    if isAdmin(current_user):
         subjectCount = Subject.query.count()
-    elif isTeacher(user_id):
+    elif isTeacher(current_user):
         ...
 
     return jsonify(subjectCount)
 
 @subjectController.route("/getSubject", methods=["GET"])
 def getSubject():
+
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
     subjects = Subject.query.all()
 
     subjects_info = [{
@@ -35,6 +44,10 @@ def getSubject():
 
 @subjectController.route("/getSubjectTeachers", methods=["POST"])
 def getSubjectTeachers():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
 
     class_id = request.json["class_ID"]
     subject_id = request.json["subject"]
@@ -60,6 +73,11 @@ def getSubjectTeachers():
 
 @subjectController.route("/createSubject", methods=["POST"])
 def createSubject():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
     label = request.json["label"]
 
     newSubject = Subject(label = label)
@@ -73,6 +91,11 @@ def createSubject():
 
 @subjectController.route('/deleteSubject/<int:subject_id>', methods=['DELETE'])
 def deleteSubject(subject_id):
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
     subject = Subject.query.get(subject_id)
 
     if subject:
@@ -84,6 +107,10 @@ def deleteSubject(subject_id):
     
 @subjectController.route('/editSubject/<int:subject_id>', methods=['POST'])
 def editSubject(subject_id):
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
 
     label = request.json['label']
 

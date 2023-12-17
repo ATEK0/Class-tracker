@@ -12,6 +12,11 @@ classController = Blueprint('classController', __name__)
 
 @classController.route("/getClassSubjects", methods=["POST"])
 def getClassSubjects():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
     class_ = request.json["class_ID"]
 
     classSubjects = Class_Subject.query.filter_by(class_id = class_).all()
@@ -28,6 +33,11 @@ def getClassSubjects():
     
 @classController.route("/getClasses", methods=["get"])
 def getClasses():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
     classes = Class_.query.all()
 
     class_info = [{
@@ -41,9 +51,12 @@ def getClasses():
 
 @classController.route("/getClassesCount", methods=["GET"])
 def getClassesCount():
-    user_id = session.get("user_id")
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
     
-    if isAdmin(user_id):
+    if isAdmin(current_user):
         count = Class_.query.count()
     # elif userType == "Teacher":
     else:
@@ -55,6 +68,11 @@ def getClassesCount():
 
 @classController.route("/getClassStudents", methods=["GET"])
 def getClassStudents():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401    
+
     class_id = request.args.get("class_id")
 
     students = Student.query.filter_by(class_id = class_id).all()
@@ -71,6 +89,11 @@ def getClassStudents():
 
 @classController.route("/createClass", methods=["POST"])
 def createClass():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
     label = request.json["label"]
     grade = request.json["grade"]
     type_id = request.json["type_id"]
@@ -86,6 +109,11 @@ def createClass():
 
 @classController.route('/deleteClass/<int:class_id>', methods=['DELETE'])
 def deleteClass(class_id):
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
     class_ = Class_.query.get(class_id)
 
     if class_:
@@ -97,7 +125,11 @@ def deleteClass(class_id):
     
 @classController.route('/editClass/<int:class_id>', methods=['POST'])
 def editClass(class_id):
+    current_user = session.get("user_id")
 
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+        
     label = request.json['label']
     grade = request.json['grade']
     type_id = request.json['type_id']
