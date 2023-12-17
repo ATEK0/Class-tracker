@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, session
+from flask import Blueprint, request, jsonify, session
 
 from .. import db
 
@@ -10,9 +10,8 @@ from ..models.Teacher import Teacher
 
 import datetime
 
-
-
 calendarController = Blueprint('calendarController', __name__)
+
 
 @calendarController.route("/getCalendarEvents", methods=["POST"])
 def getCalendarEvents():
@@ -31,17 +30,13 @@ def getCalendarEvents():
     if "teacher" in selected_id:
         selected_id = selected_id[8:]
 
-        teacher = Teacher.query.filter_by(user_id = selected_id).first()
-        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id=teacher.teacher_id).all()
-        classroom_ids = [record.id for record in teacher_cs_records]
-        classrooms = Classroom.query.filter(Classroom.tcs_id.in_(classroom_ids)).all()
-
-        # classrooms = (
-        #     db.session.query(Classroom)
-        #     .join(Teacher_CS, Classroom.tcs_id == Teacher_CS.id)
-        #     .filter(Teacher_CS.teacher_id == selected_id)
-        #     .all()
-        # )
+        classrooms = (
+            db.session.query(Classroom)
+            .join(Teacher_CS, Classroom.tcs_id == Teacher_CS.id)
+            .join(Class_Subject, Teacher_CS.csid == Class_Subject.id)
+            .filter(Teacher.user_id == selected_id)
+            .all()
+        )
 
         for classroom in classrooms:
             start_time = datetime.datetime.combine(classroom.day, classroom.begin)
@@ -74,7 +69,7 @@ def getCalendarEvents():
 
             start_time = datetime.datetime.combine(classroom.day, classroom.begin)
             end_time = datetime.datetime.combine(classroom.day, classroom.end)
-            classroom_color = classroomState[0] if currentDate > end_time else classroomState[1] if currentDate >= start_time else classroomState[2]
+            classroom_color = classroomState["beforeColor"] if currentDate > end_time else classroomState["currentColor"] if currentDate >= start_time else classroomState["afterColor"]
 
             classroom_data.append({
                 'id': classroom.id,
@@ -84,7 +79,4 @@ def getCalendarEvents():
                 'color': classroom_color
             })
 
-    print("################ cs data", classroom_data)
-
     return jsonify(classroom_data)
-

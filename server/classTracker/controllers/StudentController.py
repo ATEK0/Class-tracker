@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify, url_for, send_file, redirect, session
+from flask import Blueprint, request, jsonify, send_file, session
 
 from .. import db
 
@@ -8,6 +8,7 @@ from  ..models.Student import Student, isStudent
 from  ..models.Class_ import Class_
 
 studentController = Blueprint('studentController', __name__)
+
 
 @studentController.route('/getStudentsCount', methods=["GET"])
 def getStudentsCount():
@@ -75,4 +76,3 @@ def getStudentInfo():
         }
 
     return jsonify(students_info)
-

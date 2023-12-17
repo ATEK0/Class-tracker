@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, session
+from flask import Blueprint, request, jsonify, session
 
 from .. import db
 
@@ -12,7 +12,6 @@ classroomController = Blueprint('classroomController', __name__)
 
 @classroomController.route("/createClassroom", methods=["POST"])
 def createClassroom():
-
     current_user = session.get("user_id")
 
     if not current_user:
@@ -37,20 +36,3 @@ def createClassroom():
     return jsonify ({
         "message": "ok"
     }), 200
-
-
-@classroomController.route("/getClassroomsCount", methods=["GET"])
-def getClassroomsCount():
-    current_user = session.get("user_id")
-
-    if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
-
-    if isAdmin(current_user):
-        count = Classroom.query.count()
-    elif isTeacher(current_user):
-        ... #retorna a contagem de turmas que o professor leciona
-
-    #fazer igual para os outros endpoints do get...Count
-
-    return jsonify(count)

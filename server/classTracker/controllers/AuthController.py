@@ -1,13 +1,13 @@
-from flask import Blueprint, request, jsonify, redirect, session
+from flask import Blueprint, request, jsonify, session
 
 from .. import db, bcrypt
 
 from ..models.User import User, isAdmin
 from ..models.Teacher import isTeacher
 from ..models.Student import isStudent
-# from ..models.User_Type import User_Type
 
 authController = Blueprint('authController', __name__)
+
 
 @authController.route("/@me", methods=["GET"])
 def get_current_user():
@@ -16,16 +16,16 @@ def get_current_user():
     if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
 
-    user = User.query.filter_by(id = current_user).first()
+    user = User.query.filter_by(id=current_user).first()
 
     if isAdmin(user.id):
-        userType="Admin"
+        userType = "Admin"
     elif isTeacher(user.id):
-        userType="Teacher"
+        userType = "Teacher"
     elif isStudent(user.id):
-        userType="Student"
+        userType = "Student"
     else:
-        userType="Undefined"
+        userType = "Undefined"
 
     return jsonify({
         "id": user.id,
@@ -36,22 +36,21 @@ def get_current_user():
         "image": user.image_path
     })
 
+
 @authController.route('/register', methods=["POST"])
 def register():
-
     name = request.json["name"]
     surname = request.json["surname"]
     email = request.json["email"]
     password = request.json["password"]
 
-    user_exists = User.query.filter_by(email = email).first()
+    user_exists = User.query.filter_by(email=email).first()
 
     if user_exists:
-        return jsonify({"error":"Email already in use, please use another email"}), 409
-
+        return jsonify({"error": "Email already in use, please use another email"}), 409
 
     hashedPassword = bcrypt.generate_password_hash(password)
-    newUser = User(name = name, surname = surname, email = email, password = hashedPassword)
+    newUser = User(name=name, surname=surname, email=email, password=hashedPassword)
 
     db.session.add(newUser)
     db.session.commit()
@@ -60,7 +59,7 @@ def register():
 
     return jsonify({
         "id": newUser.id,
-        "email": newUser.email, 
+        "email": newUser.email,
     })
 
 
@@ -68,19 +67,18 @@ def register():
 def login():
     email = request.json["email"]
     password = request.json["password"]
-    
-    user_exists = User.query.filter_by(email = email).first()
+
+    user_exists = User.query.filter_by(email=email).first()
 
     if not user_exists or not bcrypt.check_password_hash(user_exists.password, password):
         return jsonify({"error": "Unauthorized"}), 401
 
     else:
-        
         session["user_id"] = user_exists.id
-        
+
         return jsonify({
-            "id": user_exists.id, 
-            "email": user_exists.email, 
+            "id": user_exists.id,
+            "email": user_exists.email,
         })
 
 

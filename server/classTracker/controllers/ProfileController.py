@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, send_file, session
+from flask import Blueprint, request, jsonify, send_file, session
 
 from .. import db, bcrypt
 
@@ -6,14 +6,12 @@ from ..models.User import User
 
 import io
 import os
-from PIL import Image
-import base64
 
 profileController = Blueprint('profileController', __name__)
 
+
 @profileController.route("/changeProfilePassword", methods=["POST"])
 def changeProfilePassword():
-
     current_user = session.get("user_id")
 
     if not current_user:
@@ -36,7 +34,6 @@ def changeProfilePassword():
 
 @profileController.route("/updateProfileImage", methods=["POST"])
 def updateProfileImage():
-
     current_user = session.get("user_id")
 
     if not current_user:
@@ -45,8 +42,6 @@ def updateProfileImage():
     user = User.query.filter_by(id = current_user).first()
 
     image_data = request.files.get("image")
-
-    print(image_data.filename)
 
     filename = f"{user_id}.png"
 
@@ -61,11 +56,12 @@ def updateProfileImage():
     user.image_path = f"../profile_images/{filename}"
     db.session.commit()
 
-    return ({"a": "a"})
+    return jsonify ({
+        "message": "ok"
+    }), 200
 
 @profileController.route("/getProfileImage/<path:userID>", methods=["GET", "POST"])
 def getProfileImage(userID):
-
     if userID == 'user':
         userID = session.get("user_id")
         

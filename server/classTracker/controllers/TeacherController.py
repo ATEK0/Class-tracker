@@ -11,7 +11,6 @@ teacherController = Blueprint('teacher', __name__)
 
 @teacherController.route('/getTeachersCount', methods=["GET"])
 def getTeachersCount():
-
     current_user = session.get("user_id")
 
     if not current_user:
@@ -38,6 +37,5 @@ def getTeachers():
             "email": teacher.email,
             "state": teacher.state,
         } for teacher in teachers] 
-
 
     return jsonify(teachers_info)

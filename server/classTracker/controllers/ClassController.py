@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, session
+from flask import Blueprint, request, jsonify, session
 
 from .. import db
 
@@ -9,6 +9,7 @@ from ..models.User import User, isAdmin
 from ..models.Student import Student
 
 classController = Blueprint('classController', __name__)
+
 
 @classController.route("/getClassSubjects", methods=["POST"])
 def getClassSubjects():
@@ -28,7 +29,7 @@ def getClassSubjects():
             "id": subject.id,
             "name": subject.label
         })
-    print(subject_info)
+
     return jsonify(subject_info)
     
 @classController.route("/getClasses", methods=["get"])
@@ -46,7 +47,6 @@ def getClasses():
             "grade": class_.grade
         } for class_ in classes] 
 
-
     return jsonify(class_info)
 
 @classController.route("/getClassesCount", methods=["GET"])
@@ -58,11 +58,8 @@ def getClassesCount():
     
     if isAdmin(current_user):
         count = Class_.query.count()
-    # elif userType == "Teacher":
     else:
         count = 0 #retorna a contagem de turmas que o professor leciona
-
-    #fazer igual para os outros endpoints do get...Count
 
     return jsonify(count)
 
@@ -77,15 +74,13 @@ def getClassStudents():
 
     students = Student.query.filter_by(class_id = class_id).all()
 
-    print(students)
-
-    student_info = [{
+    students_info = [{
         "id": student.id,
         "name": student.name,
         "surname": student.surname
     } for student in students] 
 
-    return (student_info)
+    return jsonify(students_info)
 
 @classController.route("/createClass", methods=["POST"])
 def createClass():
@@ -129,7 +124,7 @@ def editClass(class_id):
 
     if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
-        
+
     label = request.json['label']
     grade = request.json['grade']
     type_id = request.json['type_id']

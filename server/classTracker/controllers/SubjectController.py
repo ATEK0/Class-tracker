@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, session
+from flask import Blueprint, request, jsonify, session
 
 from .. import db
 
@@ -26,7 +26,6 @@ def getSubjectCount():
 
 @subjectController.route("/getSubject", methods=["GET"])
 def getSubject():
-
     current_user = session.get("user_id")
 
     if not current_user:
@@ -51,9 +50,6 @@ def getSubjectTeachers():
 
     class_id = request.json["class_ID"]
     subject_id = request.json["subject"]
-
-    print(class_id)
-    print(subject_id)
 
     class_subject = Class_Subject.query.filter_by(class_id=class_id, subject_id=subject_id).first()
 
@@ -122,4 +118,3 @@ def editSubject(subject_id):
         return jsonify({"message": "ok"}), 200
     else:
         return jsonify({"message": "Subject not found"}), 404
-    
