@@ -7,6 +7,8 @@ from ..models.Subject import Subject
 from ..models.Class_ import Class_
 from ..models.User import User, isAdmin
 from ..models.Student import Student
+from ..models.Teacher import Teacher, isTeacher
+from ..models.Teacher_CS import Teacher_CS
 
 classController = Blueprint('classController', __name__)
 
@@ -58,8 +60,16 @@ def getClassesCount():
     
     if isAdmin(current_user):
         count = Class_.query.count()
-    else:
-        count = 0 #retorna a contagem de turmas que o professor leciona
+    elif isTeacher(current_user):
+        user = User.query.filter_by(id=current_user).first()
+        teacher = Teacher.query.filter_by(user_id = user.id).first()
+        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id = teacher.teacher_id).all()
+        csids = [record.csid for record in teacher_cs_records]
+        class_ids_records = Class_Subject.query.filter(Class_Subject.id.in_(csids)).all()
+        class_ids = [record.class_id for record in class_ids_records]
+        class_ids = set(class_ids)
+
+        count = len(class_ids)
 
     return jsonify(count)
 
