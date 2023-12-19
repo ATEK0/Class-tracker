@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify, send_file, session
 
-from .. import db
+from .. import db, bcrypt
 
 from ..models.User import User, isAdmin
 from  ..models.Teacher import Teacher, isTeacher
 from  ..models.Student import Student, isStudent
 from  ..models.Class_ import Class_
+from  ..models.Parent import Parent
 
 studentController = Blueprint('studentController', __name__)
 
@@ -76,3 +77,49 @@ def getStudentInfo():
         }
 
     return jsonify(students_info)
+
+@studentController.route("/createStudent", methods=["POST"])
+def createStudent():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    name = request.json["firstName"]
+    surname = request.json["lastName"]
+    password = request.json["password"]
+    email = request.json["email"]
+    address = request.json["address"]
+    birthdate = request.json["birthdate"]
+    processNumber = request.json["pNumber"]
+    parentName = request.json["parentName"]
+    parentPhone = request.json["parentPhone"]
+    parentEmail = request.json["parentEmail"]
+    parentAddress = request.json["parentAddress"]
+    class_id = request.json["classID"]
+
+    user_exists = User.query.filter_by(email=email).first()
+
+    if user_exists:
+        return jsonify({"error": "Email already in use, please use another email"}), 409
+
+    hashedPassword = bcrypt.generate_password_hash(password)
+
+    newUser = User(name = name, surname = surname, email = email, password = hashedPassword, address = address, birthdate = birthdate)
+
+    db.session.add(newUser)
+    db.session.commit()
+
+    newParent = Parent(name = parentName, phone = parentPhone, email = parentEmail, address = parentAddress)
+
+    db.session.add(newParent)
+    db.session.commit()
+
+    newStudent = Student(user_id = newUser.id, parent_id = newParent.id, process_number = processNumber, class_id = class_id)
+
+    db.session.add(newStudent)
+    db.session.commit()
+
+    return jsonify ({
+        "message": "ok"
+    }), 200
