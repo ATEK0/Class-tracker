@@ -7,6 +7,8 @@ from  ..models.Teacher import Teacher, isTeacher
 from  ..models.Student import Student, isStudent
 from  ..models.Class_ import Class_
 from  ..models.Parent import Parent
+from  ..models.Teacher_CS import Teacher_CS
+from  ..models.Class_Subject import Class_Subject
 
 studentController = Blueprint('studentController', __name__)
 
@@ -21,7 +23,15 @@ def getStudentsCount():
     if isAdmin(current_user):
         count = Student.query.count()
     elif isTeacher(current_user):
-        ...
+        user = User.query.filter_by(id=current_user).first()
+        teacher = Teacher.query.filter_by(user_id = user.id).first()
+        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id = teacher.teacher_id).all()
+        csids = [record.csid for record in teacher_cs_records]
+        class_ids_records = Class_Subject.query.filter(Class_Subject.id.in_(csids)).all()
+        class_ids = [record.class_id for record in class_ids_records]
+        class_ids = set(class_ids)
+
+        count = Student.query.filter(Student.class_id.in_(class_ids)).count()
         
     return jsonify(count)
 
