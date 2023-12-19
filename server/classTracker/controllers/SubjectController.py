@@ -20,7 +20,15 @@ def getSubjectCount():
     if isAdmin(current_user):
         subjectCount = Subject.query.count()
     elif isTeacher(current_user):
-        ...
+        user = User.query.filter_by(id=current_user).first()
+        teacher = Teacher.query.filter_by(user_id = user.id).first()
+        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id = teacher.teacher_id).all()
+        csids = [record.csid for record in teacher_cs_records]
+        subject_ids_records = Class_Subject.query.filter(Class_Subject.id.in_(csids)).all()
+        subject_ids = [record.subject_id for record in subject_ids_records]
+        subject_ids = set(subject_ids)
+
+        subjectCount = len(subject_ids)
 
     return jsonify(subjectCount)
 
