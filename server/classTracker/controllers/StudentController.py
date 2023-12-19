@@ -96,7 +96,7 @@ def createStudent():
     parentPhone = request.json["parentPhone"]
     parentEmail = request.json["parentEmail"]
     parentAddress = request.json["parentAddress"]
-    class_id = request.json["classID"]
+    class_id = request.json["class_ID"]
 
     user_exists = User.query.filter_by(email=email).first()
 

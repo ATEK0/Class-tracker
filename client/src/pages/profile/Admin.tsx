@@ -59,7 +59,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
       formData.append('image', fileInput.files[0]);
       
 
-      var changeProfile = await httpClient.post('//localhost:1222/updateProfileImage', formData);
+      await httpClient.post('//localhost:1222/updateProfileImage', formData);
 
       toast.success("Profile image changed");
       onCloseModal();
