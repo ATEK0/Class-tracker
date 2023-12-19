@@ -105,17 +105,12 @@ def createStudent():
 
     hashedPassword = bcrypt.generate_password_hash(password)
 
-    newUser = User(name = name, surname = surname, email = email, password = hashedPassword, address = address, birthdate = birthdate)
-
-    db.session.add(newUser)
-    db.session.commit()
-
     newParent = Parent(name = parentName, phone = parentPhone, email = parentEmail, address = parentAddress)
 
     db.session.add(newParent)
     db.session.commit()
 
-    newStudent = Student(user_id = newUser.id, parent_id = newParent.id, process_number = processNumber, class_id = class_id)
+    newStudent = Student(name = name, surname = surname, email = email, password = hashedPassword, address = address, birthdate = birthdate, parent_id = newParent.id, process_number = processNumber, class_id = class_id)
 
     db.session.add(newStudent)
     db.session.commit()
