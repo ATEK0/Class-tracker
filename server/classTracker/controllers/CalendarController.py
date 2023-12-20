@@ -30,13 +30,10 @@ def getCalendarEvents():
     if "teacher" in selected_id:
         selected_id = selected_id[8:]
 
-        classrooms = (
-            db.session.query(Classroom)
-            .join(Teacher_CS, Classroom.tcs_id == Teacher_CS.id)
-            .join(Class_Subject, Teacher_CS.csid == Class_Subject.id)
-            .filter(Teacher.user_id == selected_id)
-            .all()
-        )
+        teacher = Teacher.query.filter_by(user_id = selected_id).first()
+        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id=teacher.teacher_id).all()
+        classroom_ids = [record.id for record in teacher_cs_records]
+        classrooms = Classroom.query.filter(Classroom.tcs_id.in_(classroom_ids)).all()
 
         for classroom in classrooms:
             start_time = datetime.datetime.combine(classroom.day, classroom.begin)
@@ -64,7 +61,7 @@ def getCalendarEvents():
         )
 
         for classroom in classrooms:
-            tcs = Teacher_CS.query.filter_by(id=classroom.teacher_cs.teacher_id).first()
+            tcs = Teacher_CS.query.filter_by(teacher_id=classroom.teacher_cs.teacher_id).first()
             teacher = Teacher.query.filter_by(teacher_id = tcs.teacher_id).first()
 
             start_time = datetime.datetime.combine(classroom.day, classroom.begin)
