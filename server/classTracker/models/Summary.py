@@ -7,6 +7,4 @@ class Summary(db.Model):
     title = db.Column(db.String(50))
     content = db.Column(LONGTEXT)
     classroom_id = db.Column(db.Integer, db.ForeignKey('classrooms.id'))
-
-    classroom = db.relationship('Classroom', back_populates='summary', uselist=False)
     

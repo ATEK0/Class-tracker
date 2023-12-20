@@ -5,7 +5,3 @@ class Class_Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
-
-    subject = db.relationship("Subject", back_populates="classes_subjects")
-    class_ = db.relationship("Class_", back_populates="classes_subjects")
-    teachers = db.relationship('Teacher_CS', back_populates='class_subject')

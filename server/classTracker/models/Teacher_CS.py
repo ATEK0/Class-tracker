@@ -7,6 +7,3 @@ class Teacher_CS(db.Model):
     csid = db.Column(db.Integer, db.ForeignKey('classes_subjects.id'))
 
     __table_args__ = (db.UniqueConstraint(teacher_id, csid),)
-
-    class_subject = db.relationship('Class_Subject', back_populates='teachers')
-    classroom = db.relationship('Classroom', back_populates='teacher_cs')

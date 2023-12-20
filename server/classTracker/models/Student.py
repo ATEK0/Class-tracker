@@ -13,5 +13,3 @@ class Student(User, db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('parents.id'))
     process_number = db.Column(db.String(32))
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
-
-    users = db.relationship("User", back_populates="students")
