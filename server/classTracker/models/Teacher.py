@@ -9,5 +9,7 @@ def isTeacher(user_id):
 class Teacher(User, db.Model):
     __tablename__ = 'teachers'
     teacher_id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
-    user_id = db.Column(db.String(32), db.ForeignKey('users.id'))
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id', ondelete='CASCADE'))
     contact = db.Column(db.String(32))
+
+    user = db.relationship('User')

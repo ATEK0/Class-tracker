@@ -6,5 +6,7 @@ class Summary(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(50))
     content = db.Column(LONGTEXT)
-    classroom_id = db.Column(db.Integer, db.ForeignKey('classrooms.id'))
+    classroom_id = db.Column(db.Integer, db.ForeignKey('classrooms.id', ondelete='CASCADE'))
+
+    classroom = db.relationship('Classroom')
     

@@ -5,4 +5,6 @@ class Class_(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     label = db.Column(db.String(50))
     grade = db.Column(db.Integer)
-    type_id = db.Column(db.Integer, db.ForeignKey("class_types.id"))
+    type_id = db.Column(db.Integer, db.ForeignKey("class_types.id", ondelete='CASCADE'))
+
+    class_type = db.relationship('Class_Type')

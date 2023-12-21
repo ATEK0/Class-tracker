@@ -3,5 +3,8 @@ from .. import db
 class Class_Subject(db.Model):
     __tablename__ = 'classes_subjects'
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
-    subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'))
-    class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
+    subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id', ondelete='CASCADE'))
+    class_id = db.Column(db.Integer, db.ForeignKey('classes.id', ondelete='CASCADE'))
+
+    class_ = db.relationship('Class_')
+    subject = db.relationship('Subject')
