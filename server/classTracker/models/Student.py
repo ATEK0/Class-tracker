@@ -16,4 +16,4 @@ class Student(User, db.Model):
     process_number = db.Column(db.String(32))
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
 
-    users = db.relationship("User", back_populates="students")
+    user = db.relationship("User")

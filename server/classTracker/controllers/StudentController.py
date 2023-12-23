@@ -162,3 +162,21 @@ def editStudent(user_id):
         return jsonify({"message": "ok"}), 200
     else:
         return jsonify({"message": "User not found"}), 404
+
+@studentController.route('/deleteStudent/<user_id>', methods=['DELETE'])
+def deleteStudent(user_id):
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    user = User.query.filter_by(id = user_id).first()
+    student = Student.query.filter_by(user_id = user_id).first()
+
+    if user:
+        db.session.delete(user)
+        db.session.delete(student)
+        db.session.commit()
+        return jsonify({"message": "ok"}), 200
+    else:
+        return jsonify({"message": "User not found"}), 404
