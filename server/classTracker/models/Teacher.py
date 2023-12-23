@@ -12,4 +12,4 @@ class Teacher(User, db.Model):
     user_id = db.Column(db.String(32), db.ForeignKey('users.id', ondelete='CASCADE'))
     contact = db.Column(db.String(32))
 
-    user = db.relationship('User')
+    users = db.relationship("User", back_populates="teachers")

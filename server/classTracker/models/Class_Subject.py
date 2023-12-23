@@ -6,5 +6,6 @@ class Class_Subject(db.Model):
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id', ondelete='CASCADE'))
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id', ondelete='CASCADE'))
 
-    class_ = db.relationship('Class_')
-    subject = db.relationship('Subject')
+    subject = db.relationship("Subject", back_populates="classes_subjects")
+    class_ = db.relationship("Class_", back_populates="classes_subjects")
+    teachers = db.relationship('Teacher_CS', back_populates='class_subject')

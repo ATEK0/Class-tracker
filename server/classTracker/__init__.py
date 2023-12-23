@@ -77,9 +77,6 @@ def create_app():
     from .controllers.ProfileController import profileController
     app.register_blueprint(profileController)
     
-    from .controllers.UserController import userController
-    app.register_blueprint(userController)
-    
     from .models.User import User
     from .models.Class_Subject import Class_Subject
     from .models.Class_Type import Class_Type

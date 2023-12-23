@@ -8,5 +8,5 @@ class Summary(db.Model):
     content = db.Column(LONGTEXT)
     classroom_id = db.Column(db.Integer, db.ForeignKey('classrooms.id', ondelete='CASCADE'))
 
-    classroom = db.relationship('Classroom')
+    classroom = db.relationship('Classroom', back_populates='summary', uselist=False)
     

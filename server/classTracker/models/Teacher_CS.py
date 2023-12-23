@@ -8,5 +8,5 @@ class Teacher_CS(db.Model):
 
     __table_args__ = (db.UniqueConstraint(teacher_id, csid),)
 
-    teacher = db.relationship('Teacher')
-    class_subject = db.relationship('Class_Subject')
+    class_subject = db.relationship('Class_Subject', back_populates='teachers')
+    classroom = db.relationship('Classroom', back_populates='teacher_cs')
