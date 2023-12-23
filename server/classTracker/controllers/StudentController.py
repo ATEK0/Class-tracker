@@ -128,3 +128,37 @@ def createStudent():
     return jsonify ({
         "message": "ok"
     }), 200
+
+@studentController.route('/editStudent/<user_id>', methods=['POST'])
+def editStudent(user_id):
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    name = request.json['name']
+    surname = request.json['surname']
+    email = request.json['email']
+    address = request.json['address']
+    birthdate = request.json['birthdate']
+    state = request.json['state']
+    parent_id = request.json['parent_id']
+    process_number = request.json['process_number']
+    class_id = request.json['class_id']
+
+    user = Student.query.get(user_id)
+
+    if user:
+        user.name = name
+        user.surname = surname
+        user.email = email
+        user.address = address
+        user.birthdate = birthdate
+        user.state = state
+        user.parent_id = parent_id
+        user.process_number = process_number
+        user.class_id = class_id
+        db.session.commit()
+        return jsonify({"message": "ok"}), 200
+    else:
+        return jsonify({"message": "User not found"}), 404
