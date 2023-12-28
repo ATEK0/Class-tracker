@@ -16,6 +16,7 @@ class Config:
 
     SQLALCHEMY_POOL_RECYCLE = 28000
     SQLALCHEMY_POOL_SIZE = 8
+    SQLALCHEMY_POOL_PRE_PING = True
     
 class Development(Config):
     SQLALCHEMY_ECHO = True

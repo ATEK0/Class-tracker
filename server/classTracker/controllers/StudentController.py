@@ -166,7 +166,7 @@ def editStudent(user_id):
 @studentController.route('/deleteStudent/<user_id>', methods=['DELETE'])
 def deleteStudent(user_id):
     current_user = session.get("user_id")
-
+    
     if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
 

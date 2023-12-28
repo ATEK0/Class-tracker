@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { apiLink } from '../../../config';
 
 
 const NewClassroom: React.FC = () => {
@@ -16,7 +17,7 @@ const NewClassroom: React.FC = () => {
         const fetchData = async () => {
             try {
                 
-                const classResp = await httpClient.get("//localhost:1222/getClasses");
+                const classResp = await httpClient.get(apiLink + "/getClasses");
                 const fetchedClass: ClassListType[] = classResp.data;
                 setClassList(fetchedClass);
 
@@ -47,7 +48,7 @@ const NewClassroom: React.FC = () => {
         const selectedSubject = event.target.value;
         setSubject(selectedSubject); 
 
-        const teacherResp = await httpClient.post("//localhost:1222/getSubjectTeachers", {
+        const teacherResp = await httpClient.post(apiLink + "/getSubjectTeachers", {
             class_ID,
             subject: selectedSubject, 
         });
@@ -60,7 +61,7 @@ const NewClassroom: React.FC = () => {
 
     const handleClassChange = async (event: ChangeEvent<HTMLSelectElement>) => {
         setClass_ID(event.target.value);
-        const subjectResp = await httpClient.post("//localhost:1222/getClassSubjects", {class_ID: event.target.value});
+        const subjectResp = await httpClient.post(apiLink + "/getClassSubjects", {class_ID: event.target.value});
         const fetchedSubjects: SubjectListType[] = subjectResp.data;
         setSubjectList(fetchedSubjects);
         setTeacherList([]);
@@ -83,7 +84,7 @@ const NewClassroom: React.FC = () => {
     const createSummary = async () => {
         
 
-        const createSummary = await httpClient.post("//localhost:1222/createClassroom", { 
+        const createSummary = await httpClient.post(apiLink + "/createClassroom", { 
             teacher,
             subject,
             class_ID, 

@@ -2,7 +2,6 @@ import { Label, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import httpClient from "../../../httpClient";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { ClassListType } from "../../../types";
 
 const NewStudent = () => {
@@ -17,6 +16,8 @@ const NewStudent = () => {
   const [parentPhone, setparentPhone] = useState<string>("")
   const [parentEmail, setparentEmail] = useState<string>("")
   const [parentAddress, setparentAddress] = useState<string>("")
+
+  const [loadingStatus, setloadingStatus] = useState<string>("Create")
 
 
   const [classList, setClassList] = useState<ClassListType[]>([])
@@ -39,36 +40,36 @@ const NewStudent = () => {
       class_ID
     };
     console.log("Form Data:", formData);
-
+    setloadingStatus("Creating...")
     try {
-      const response = await httpClient.post('//localhost:1222/createStudent', formData);
+      await httpClient.post('//localhost:1222/createStudent', formData);
       toast.success("Student Created")
 
-      window.location.href = "/dashboard"
-      
+      window.location.href = "/admin/students"
+
     } catch (error) {
-      console.error(error)
+      toast.error("Error, try again")
+      setloadingStatus("Create")
     }
 
   };
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-            
-            const classResp = await httpClient.get("//localhost:1222/getClasses");
-            const fetchedClass: ClassListType[] = classResp.data;
-            setClassList(fetchedClass);
+      try {
+
+        const classResp = await httpClient.get("//localhost:1222/getClasses");
+        const fetchedClass: ClassListType[] = classResp.data;
+        setClassList(fetchedClass);
 
 
-        } catch (error) {
-            
-            console.error("Error fetching data----------------:", error);
-        }
+      } catch (error) {
+        console.error("Error fetching data----------------:", error);
+      }
     };
 
     fetchData();
-}, []);
+  }, []);
 
 
   return (
@@ -77,8 +78,8 @@ const NewStudent = () => {
 
       <h1 className="font-bold text-1xl text-[#04304D] mb-5">Student Information</h1>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-row">
-          <div className="w-1/2 m-2">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-1/2 ">
             <div className="mb-2 block">
               <Label htmlFor="fName" value="First Name *" />
             </div>
@@ -92,7 +93,7 @@ const NewStudent = () => {
               required
             />
           </div>
-          <div className="w-1/2 m-2">
+          <div className="w-full md:w-1/2 ">
             <div className="mb-2 block">
               <Label htmlFor="lName" value="Last Name *" />
             </div>
@@ -185,12 +186,23 @@ const NewStudent = () => {
           <div className="mb-2 block">
             <Label htmlFor="class" value="Class *" />
           </div>
-          <select onChange={(event) => {setClass_ID(event.target.value)}} className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 text-sm rounded-lg">
-              <option value="" key={""} selected>Select Class</option>
-              {classList.map((item) => (
-                  <option value={item.id} key={item.id}>{item.grade}º {item.label}</option>                        
-              ))}
+          <select
+            value={class_ID}
+            onChange={(event) => {
+              setClass_ID(event.target.value);
+            }}
+            className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 text-sm rounded-lg"
+          >
+            <option value="" key={""}>
+              Select Class
+            </option>
+            {classList.map((item) => (
+              <option value={item.id} key={item.id}>
+                {item.grade}º {item.label}
+              </option>
+            ))}
           </select>
+
         </div>
 
 
@@ -257,7 +269,7 @@ const NewStudent = () => {
         </div>
 
         <div className="m-2">
-          <button type="submit" className="bg-[#04304d] rounded-md p-2 mt-4 text-white font-bold w-full">Create</button>
+          <button type="submit" className="bg-[#04304d] rounded-md p-2 mt-4 text-white font-bold w-full">{loadingStatus}</button>
         </div>
       </form>
     </div>
