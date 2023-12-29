@@ -43,11 +43,15 @@ def getClasses():
 
     classes = Class_.query.all()
 
-    class_info = [{
+    class_info = []
+    for class_ in classes:
+        teacher = Teacher.query.filter_by(teacher_id = class_.head_teacher).first()
+        class_info.append({
             "id": class_.id,
             "label": class_.label,
-            "grade": class_.grade
-        } for class_ in classes] 
+            "grade": class_.grade,
+            "name": teacher.name + " " + teacher.surname
+        })
 
     return jsonify(class_info)
 
@@ -102,8 +106,9 @@ def createClass():
     label = request.json["label"]
     grade = request.json["grade"]
     type_id = request.json["type_id"]
+    head_teacher = request.json["head_teacher"]
 
-    newClass = Class_(label = label, grade = grade, type_id = type_id)
+    newClass = Class_(label = label, grade = grade, type_id = type_id, head_teacher = head_teacher)
 
     db.session.add(newClass)
     db.session.commit()
