@@ -146,7 +146,6 @@ def editStudent(user_id):
     surname = request.json['lastName']
     email = request.json['email']
     address = request.json['address']
-    state = request.json['state']
     pNumber = request.json['pNumber']
     parentName = request.json["parentName"]
     parentPhone = request.json["parentPhone"]
@@ -162,7 +161,7 @@ def editStudent(user_id):
         user.surname = surname
         user.email = email
         user.address = address
-        user.state = state
+        user.state = 'Active'
         user.process_number = pNumber
         user.class_id = class_id
         parent.name = parentName

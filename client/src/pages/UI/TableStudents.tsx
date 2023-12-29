@@ -85,17 +85,12 @@ const Table = (props: {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
         const formattedDate = new Date(date.toLocaleDateString('en-US', options).replace(/\//g, '-'));
 
-
-
-        console.log(formattedDate)
-        console.log(student)
         setFirstName(student.name)
         setLastName(student.surname)
         setEmail(student.email)
         setAddress(student.address)
         setClass_ID(student.class_id)
         setpNumber(student.process)
-        setClass_ID(row.id)
         setPassword("")
         setparentName(student.parentName)
         setparentPhone(student.parentPhone)
@@ -153,6 +148,9 @@ const Table = (props: {
             parentAddress,
             class_ID
         };
+
+
+
         console.log("Form Data:", formData);
         setloadingStatus("Creating...")
         try {
