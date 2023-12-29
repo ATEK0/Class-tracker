@@ -106,7 +106,6 @@ def createStudent():
     password = request.json["password"]
     email = request.json["email"]
     address = request.json["address"]
-    birthdate = request.json["birthdate"]
     processNumber = request.json["pNumber"]
     parentName = request.json["parentName"]
     parentPhone = request.json["parentPhone"]
@@ -126,7 +125,7 @@ def createStudent():
     db.session.add(newParent)
     db.session.commit()
 
-    newStudent = Student(name = name, surname = surname, email = email, password = hashedPassword, address = address, birthdate = birthdate, parent_id = newParent.id, process_number = processNumber, class_id = class_id)
+    newStudent = Student(name = name, surname = surname, email = email, password = hashedPassword, address = address, parent_id = newParent.id, process_number = processNumber, class_id = class_id)
 
     db.session.add(newStudent)
     db.session.commit()

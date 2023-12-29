@@ -79,9 +79,9 @@ const NewStudent = () => {
       <h1 className="font-bold text-1xl text-[#04304D] mb-5">Student Information</h1>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-1/2 ">
+          <div className="w-full md:w-1/2 m-2">
             <div className="mb-2 block">
-              <Label htmlFor="fName" value="First Name *" />
+              <Label htmlFor="fName" value="First Name" />
             </div>
             <TextInput
               id="fName"
@@ -90,12 +90,12 @@ const NewStudent = () => {
               type='text'
               maxLength={50}
               onChange={(event) => setFirstName(event.target.value)}
-              required
+
             />
           </div>
-          <div className="w-full md:w-1/2 ">
+          <div className="w-full md:w-1/2 m-2">
             <div className="mb-2 block">
-              <Label htmlFor="lName" value="Last Name *" />
+              <Label htmlFor="lName" value="Last Name" />
             </div>
             <TextInput
               id="lName"
@@ -104,7 +104,7 @@ const NewStudent = () => {
               type='text'
               maxLength={50}
               onChange={(event) => setLastName(event.target.value)}
-              required
+
             />
           </div>
         </div>

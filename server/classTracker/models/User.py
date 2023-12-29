@@ -1,5 +1,5 @@
 from .. import db
-from datetime import datetime
+from datetime import datetime, date
 from sqlalchemy.ext.declarative import declarative_base
 
 from uuid import uuid4
@@ -27,3 +27,4 @@ class User(Base, db.Model):
     state = db.Column(db.String(15), default="Ativo")
     admin = db.Column(db.Boolean, default=0)
     image_path = db.Column(db.String(255), default='../profile_images/defaultProfileImage.png')
+

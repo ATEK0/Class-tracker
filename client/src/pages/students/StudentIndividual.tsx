@@ -17,7 +17,13 @@ const StudentIndividual = () => {
       const getUser = await httpClient.post("//localhost:1222/getStudentInfo", { id: studentID });
       const userTyperesp = getUser.data;
       setUserData(userTyperesp);
-      
+
+      const date = new Date(userData.birthdate);   
+      const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+
+
+      setUserData(prevUserData => ({ ...prevUserData, birthdate: date.toLocaleDateString('en-US', options).replace(/\//g, '-') }));
+
       const changeProfile = await httpClient.get('//localhost:1222/getProfileImage/' + studentID, { responseType: 'blob' });
       setUserImage(URL.createObjectURL(new Blob([changeProfile.data])))
 

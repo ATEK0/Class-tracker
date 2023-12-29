@@ -17,6 +17,7 @@ const Table = (props: {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [searchText, setSearchText] = useState<string>('');
     const [beingDeleted, setbeingDeleted] = useState([])
+    const [beingEdited, setbeingEdited] = useState('')
     const [openModalConfirmDelete, setopenModalConfirmDelete] = useState<boolean>(false);
     const [openModalEdit, setopenModalEdit] = useState<boolean>(false);
 
@@ -26,7 +27,6 @@ const Table = (props: {
     const [lastName, setLastName] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [address, setAddress] = useState<string>("")
-    const [birthdate, setBirthdate] = useState<string>("")
     const [pNumber, setpNumber] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [parentName, setparentName] = useState<string>("")
@@ -68,7 +68,39 @@ const Table = (props: {
         setSearchText(text);
     };
 
-    const handleEditButtonClick = (row: { [s: string]: unknown }) => {
+    const handleEditButtonClick = async (row: { [s: string]: unknown }) => {
+        const classResp = await httpClient.get("//localhost:1222/getClasses");
+        const fetchedClass: ClassListType[] = classResp.data;
+        setClassList(fetchedClass);
+
+
+
+        const resp = await httpClient.post(`${apiLink}/getStudentInfo`, { id: row.id })
+        const student = resp.data
+
+        const date = new Date(student.birthdate);   
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+        const formattedDate = new Date(date.toLocaleDateString('en-US', options).replace(/\//g, '-'));
+
+
+
+        console.log(formattedDate)
+        console.log(student)
+        setFirstName(student.name)
+        setLastName(student.surname)
+        setEmail(student.email)
+        setAddress(student.address)
+        setClass_ID(student.class_id)
+        setpNumber(student.process)
+        setClass_ID(row.id)
+        setPassword("")
+        setparentName(student.parentName)
+        setparentPhone(student.parentPhone)
+        setparentEmail(student.parentEmail)
+        setparentAddress(student.parentAddress)
+
+        
+
         setopenModalEdit(true)
     };
 
@@ -91,7 +123,47 @@ const Table = (props: {
     const onCloseModal = () => {
         setopenModalConfirmDelete(false)
         setopenModalEdit(false)
+        setFirstName("")
+        setLastName("")
+        setEmail("")
+        setAddress("")
+        setpNumber("")
+        setPassword("")
+        setparentName("")
+        setparentPhone("")
+        setparentEmail("")
+        setparentAddress("")
     }
+
+    const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        const formData = {
+            firstName,
+            lastName,
+            email,
+            address,
+            pNumber,
+            password,
+            parentName,
+            parentPhone,
+            parentEmail,
+            parentAddress,
+            class_ID
+        };
+        console.log("Form Data:", formData);
+        setloadingStatus("Creating...")
+        try {
+            await httpClient.post(`//localhost:1222/editStudent/${beingEdited}`, formData);
+            toast.success("Student Updated")
+            
+            window.location.reload()
+            
+        } catch (error) {
+            toast.error("Error, try again")
+            setloadingStatus("Save")
+        }
+    
+    };
 
     const filteredData = tableData.filter((item: { [s: string]: unknown } | ArrayLike<unknown>) =>
         Object.values(item).some(
@@ -180,10 +252,10 @@ const Table = (props: {
                     <h1 className="font-bold text-3xl text-[#04304D] pt-8 mb-5">Edit Student</h1>
                 </Modal.Header>
                 <Modal.Body>
-                    
+
 
                     <h1 className="font-bold text-1xl text-[#04304D] mb-5">Student Information</h1>
-                    <form >
+                    <form onSubmit={handleFormSubmit}>
                         <div className="flex flex-col md:flex-row">
                             <div className="w-full md:w-1/2 m-2">
                                 <div className="mb-2 block">
@@ -196,7 +268,7 @@ const Table = (props: {
                                     type='text'
                                     maxLength={50}
                                     onChange={(event) => setFirstName(event.target.value)}
-                                    required
+                                    
                                 />
                             </div>
                             <div className="w-full md:w-1/2 m-2">
@@ -210,7 +282,7 @@ const Table = (props: {
                                     type='text'
                                     maxLength={50}
                                     onChange={(event) => setLastName(event.target.value)}
-                                    required
+                                    
                                 />
                             </div>
                         </div>
@@ -230,7 +302,7 @@ const Table = (props: {
                         </div>
 
                         <div className="flex flex-row">
-                            <div className="w-1/2 m-2">
+                            <div className="w-full m-2">
                                 <div className="mb-2 block">
                                     <Label htmlFor="address" value="Address" />
                                 </div>
@@ -241,20 +313,7 @@ const Table = (props: {
                                     type='text'
                                     maxLength={100}
                                     onChange={(event) => setAddress(event.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="w-1/2 m-2">
-                                <div className="mb-2 block">
-                                    <Label htmlFor="birthdate" value="Birthdate" />
-                                </div>
-                                <TextInput
-                                    id="birthdate"
-                                    placeholder="Birthdate"
-                                    value={birthdate}
-                                    type='date'
-                                    onChange={(event) => setBirthdate(event.target.value)}
-                                    required
+                                    
                                 />
                             </div>
                         </div>
@@ -270,7 +329,7 @@ const Table = (props: {
                                     value={pNumber}
                                     type='text'
                                     onChange={(event) => setpNumber(event.target.value)}
-                                    required
+                                    
                                 />
                             </div>
                             <div className="w-1/2 m-2">
@@ -283,7 +342,7 @@ const Table = (props: {
                                     value={password}
                                     type='password'
                                     onChange={(event) => setPassword(event.target.value)}
-                                    required
+                                    
                                 />
                             </div>
                         </div>
@@ -296,17 +355,19 @@ const Table = (props: {
                                 value={class_ID}
                                 onChange={(event) => {
                                     setClass_ID(event.target.value);
+                                    
                                 }}
                                 className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 text-sm rounded-lg"
                             >
-                                <option value="" key={""}>
-                                    Select Class
-                                </option>
                                 {classList.map((item) => (
-                                    <option value={item.id} key={item.id}>
+                                    <option
+                                        value={item.id}
+                                        key={item.id}
+                                    >
                                         {item.grade}º {item.label}
                                     </option>
                                 ))}
+
                             </select>
 
                         </div>
@@ -326,7 +387,7 @@ const Table = (props: {
                                 type='text'
                                 maxLength={300}
                                 onChange={(event) => setparentName(event.target.value)}
-                                required
+                                
                             />
                         </div>
 
@@ -341,7 +402,7 @@ const Table = (props: {
                                 type='text'
                                 maxLength={32}
                                 onChange={(event) => setparentPhone(event.target.value)}
-                                required
+                                
                             />
                         </div>
 
@@ -356,7 +417,7 @@ const Table = (props: {
                                 type='email'
                                 maxLength={345}
                                 onChange={(event) => setparentEmail(event.target.value)}
-                                required
+                                
                             />
                         </div>
                         <div className="m-2">
@@ -370,7 +431,7 @@ const Table = (props: {
                                 type='text'
                                 maxLength={120}
                                 onChange={(event) => setparentAddress(event.target.value)}
-                                required
+                                
                             />
                         </div>
 
