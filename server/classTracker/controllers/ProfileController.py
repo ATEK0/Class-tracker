@@ -32,6 +32,9 @@ def changeProfilePassword():
     else:
         return jsonify({"error": "Wrong Password"})
 
+
+
+
 @profileController.route("/updateProfileImage", methods=["POST"])
 def updateProfileImage():
     current_user = session.get("user_id")
@@ -43,7 +46,7 @@ def updateProfileImage():
 
     image_data = request.files.get("image")
 
-    filename = f"{user_id}.png"
+    filename = f"{user.id}.png"
 
     try:
         with open(f"profile_images/{filename}", "wb") as f:

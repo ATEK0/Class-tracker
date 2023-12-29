@@ -21,8 +21,8 @@ const NavBarMain = () => {
     navigation = [
       { name: 'Home', href: '/', current: false },
       { name: 'Features', href: '/features', current: false },
-      { name: 'Login', href: '/login', current: false },
-      { name: 'Sign up', href: '/register', current: true },
+      { name: 'Contacts', href: '/contacts', current: false },
+      { name: 'Login', href: '/login', current: true }
     ]
   }  else {
     navigation = [
@@ -30,7 +30,7 @@ const NavBarMain = () => {
       { name: 'Features', href: '/features', current: false },
       { name: 'Dashboard', href: '/dashboard', current: false },
       { name: 'Profile', href: '/profile', current: false },
-      { name: 'Logout', href: '/logout', current: false },
+      { name: 'Logout', href: '/logout', current: false }
     ]
   }
 

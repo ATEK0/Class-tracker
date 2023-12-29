@@ -112,6 +112,7 @@ const Table = (props: {
         if (resp.data.message == 'ok') {
             loadTableData()
             toast.success("Student deleted")
+            setopenModalConfirmDelete(false)
         } else {
             toast.error("Student Not Found")
         }

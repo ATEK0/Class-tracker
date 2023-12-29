@@ -33,7 +33,7 @@ const Router: React.FC = () => {
       <Routes>
 
         <Route path="/" element={<HomePage />}/>
-        <Route path="/register" element={<RegisterForm />}/>
+        {/* <Route path="/register" element={<RegisterForm />}/> */}
         <Route path="/login" element={<LoginForm />}/>
         <Route path="/logout" element={<Logout />}/>
         <Route path="/dashboard" element={<Dashboard />}/>

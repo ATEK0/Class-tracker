@@ -34,6 +34,7 @@ const HomePage: React.FC = () => {
       </div>
 
 
+
       {/* features */}
       <div className='pt-[80px] w-full p-5 text-center'>
         <div className='w-full text-center mb-10'>
@@ -63,6 +64,37 @@ const HomePage: React.FC = () => {
         </div>
       </div>
       {/* end features */}
+
+
+
+      {/* Pricing */}
+
+      <div className="gallery pt-[64px] w-full p-5">
+        <h1 className='text-5xl font-bold text-[#04304d] pb-3 text-center'>Check some of our features!</h1>
+        <p className='text-center'>Wour UX/UI make us the most inovative and practical software in the market!</p>
+      </div>
+
+      <ul className="grid grid-cols-1 xl:grid-cols-3 gap-y-10 gap-x-6 items-start p-8">
+        <li className="relative flex flex-col sm:flex-row xl:flex-col items-start">
+          <div className="order-1 sm:ml-6 xl:ml-0">
+            123
+          </div>
+        </li>
+        <li className="relative flex flex-col sm:flex-row xl:flex-col items-start">
+          <div className="order-1 sm:ml-6 xl:ml-0">
+            3213
+          </div>
+        </li>
+        <li className="relative flex flex-col sm:flex-row xl:flex-col items-start">
+          <div className="order-1 sm:ml-6 xl:ml-0">
+            3434
+          </div>
+        </li>
+      </ul>
+
+      {/* Pricing */}
+
+
 
       {/* gallery */}
       <div className="gallery pt-[64px] w-full p-5">
@@ -108,7 +140,7 @@ const HomePage: React.FC = () => {
               className="group inline-flex items-center h-9 rounded-full text-sm font-semibold whitespace-nowrap px-3 focus:outline-none focus:ring-2 bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 focus:ring-slate-500 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500 mt-6"
               href="https://heroicons.com">Learn more
               <span className="sr-only">
-              Simple & Intuitive Design
+                Simple & Intuitive Design
               </span>
               <svg
                 className="overflow-visible ml-3 text-slate-300 group-hover:text-slate-400 dark:text-slate-500 dark:group-hover:text-slate-400"
@@ -134,7 +166,7 @@ const HomePage: React.FC = () => {
               className="group inline-flex items-center h-9 rounded-full text-sm font-semibold whitespace-nowrap px-3 focus:outline-none focus:ring-2 bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 focus:ring-slate-500 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500 mt-6"
               href="https://heropatterns.com">Learn more
               <span className="sr-only">
-              Always on time with style
+                Always on time with style
               </span>
               <svg
                 className="overflow-visible ml-3 text-slate-300 group-hover:text-slate-400 dark:text-slate-500 dark:group-hover:text-slate-400"
