@@ -112,7 +112,7 @@ def createClass():
         "message": "ok"
     }), 200
 
-@classController.route('/deleteClass/<int:class_id>', methods=['DELETE'])
+@classController.route('/deleteClass/<class_id>', methods=['DELETE'])
 def deleteClass(class_id):
     current_user = session.get("user_id")
 
@@ -128,7 +128,7 @@ def deleteClass(class_id):
     else:
         return jsonify({"message": "Class not found"}), 404
     
-@classController.route('/editClass/<int:class_id>', methods=['POST'])
+@classController.route('/editClass/<class_id>', methods=['POST'])
 def editClass(class_id):
     current_user = session.get("user_id")
 

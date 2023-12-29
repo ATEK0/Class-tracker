@@ -136,17 +136,21 @@ def editStudent(user_id):
     if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
 
-    name = request.json['name']
-    surname = request.json['surname']
+    name = request.json['firstName']
+    surname = request.json['lastName']
     email = request.json['email']
     address = request.json['address']
     birthdate = request.json['birthdate']
     state = request.json['state']
-    parent_id = request.json['parent_id']
-    process_number = request.json['process_number']
-    class_id = request.json['class_id']
+    pNumber = request.json['pNumber']
+    parentName = request.json["parentName"]
+    parentPhone = request.json["parentPhone"]
+    parentEmail = request.json["parentEmail"]
+    parentAddress = request.json["parentAddress"]
+    class_id = request.json['class_ID']
 
     user = Student.query.get(user_id)
+    parent = Parent.query.get(user.parent_id)
 
     if user:
         user.name = name
@@ -155,9 +159,12 @@ def editStudent(user_id):
         user.address = address
         user.birthdate = birthdate
         user.state = state
-        user.parent_id = parent_id
-        user.process_number = process_number
+        user.process_number = pNumber
         user.class_id = class_id
+        parent.name = parentName
+        parent.phone = parentPhone
+        parent.email = parentEmail
+        parent.address = parentAddress
         db.session.commit()
         return jsonify({"message": "ok"}), 200
     else:
@@ -172,10 +179,15 @@ def deleteStudent(user_id):
 
     user = User.query.filter_by(id = user_id).first()
     student = Student.query.filter_by(user_id = user_id).first()
+    parent = Parent.query.filter_by(id = student.parent_id).first()
+    count = Student.query.filter_by(parent_id = parent.id).count()
+    print(count)
 
     if user:
         db.session.delete(user)
         db.session.delete(student)
+        if count == 1:
+            db.session.delete(parent)
         db.session.commit()
         return jsonify({"message": "ok"}), 200
     else:
