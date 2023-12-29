@@ -3,8 +3,10 @@ from flask import Blueprint, request, jsonify, session
 from .. import db, bcrypt
 
 from ..models.User import User, isAdmin
-from ..models.Teacher import isTeacher
-from ..models.Student import isStudent
+from ..models.Teacher import Teacher, isTeacher
+from ..models.Student import Student, isStudent
+from ..models.Parent import Parent
+from ..models.Class_ import Class_
 
 authController = Blueprint('authController', __name__)
 
@@ -18,23 +20,41 @@ def get_current_user():
 
     user = User.query.filter_by(id=current_user).first()
 
-    if isAdmin(user.id):
-        userType = "Admin"
-    elif isTeacher(user.id):
-        userType = "Teacher"
-    elif isStudent(user.id):
-        userType = "Student"
-    else:
-        userType = "Undefined"
-
-    return jsonify({
+    user_info = {
         "id": user.id,
         "email": user.email,
         "name": user.name,
         "surname": user.surname,
-        "type": userType,
+        "address": user.address,
+        "birthdate": user.birthdate,
         "image": user.image_path
-    })
+    }
+
+    if isAdmin(user.id):
+        user_info["userType"] = "Admin"
+    elif isTeacher(user.id):
+        teacher = Teacher.query.get(user.id)
+        user_info["userType"] = "Teacher"
+        user_info["contact"] = teacher.contact
+    elif isStudent(user.id):
+        student = Student.query.get(user.id)
+        parent = Parent.query.filter_by(id = student.parent_id).first()
+        class_ = Class_.query.get(student.class_id)
+        teacher = Teacher.query.filter_by(teacher_id = class_.head_teacher).first()
+        user_info["userType"] = "Student"
+        user_info["pNumber"] = student.process_number
+        user_info["parentName"] = parent.name
+        user_info["parentEmail"] = parent.email
+        user_info["parentAddress"] = parent.address
+        user_info["parentPhone"] = parent.phone
+        user_info["className"] = str(class_.grade) + " º" + class_.label
+        user_info["classType"] = class_.type_id
+        user_info["classHeadTeacher"] = teacher.name + " " + teacher.surname
+
+    else:
+        user_info["userType"] = "Undefined"
+
+    return jsonify(user_info)
 
 
 @authController.route('/register', methods=["POST"])
