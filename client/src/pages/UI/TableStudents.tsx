@@ -69,6 +69,9 @@ const Table = (props: {
     };
 
     const handleEditButtonClick = async (row: { [s: string]: unknown }) => {
+
+        setbeingEdited(row.id)
+
         const classResp = await httpClient.get("//localhost:1222/getClasses");
         const fetchedClass: ClassListType[] = classResp.data;
         setClassList(fetchedClass);
