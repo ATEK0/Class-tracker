@@ -71,6 +71,7 @@ def getStudentInfo():
     student = Student.query.filter_by(id = user_id).first()
     parent = Parent.query.get(student.parent_id)
     class_info = Class_.query.get(student.class_id)
+    teacher = Teacher.query.filter_by(teacher_id = class_info.head_teacher).first()
 
     students_info = {
             "id": student.id,
@@ -83,7 +84,7 @@ def getStudentInfo():
             "address": student.address,
             "birthdate": student.birthdate,
             "class": str(class_info.grade) + class_info.label,
-            "class_director": "Pra já nada",
+            "class_director": teacher.name + " " + teacher.surname,
             "process": student.process_number,
             "parentID": parent.id,
             "parentName": parent.name,
