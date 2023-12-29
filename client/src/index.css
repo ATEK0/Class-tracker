@@ -33,3 +33,30 @@ html {
 .linkLabel:hover {
     font-weight: bold !important;
 }
+
+
+.footer-link-ateko {
+    box-shadow: inset 0 0 0 0 #8400ff;
+    color: #ca92ff;
+    margin: 0 .25rem;
+    padding: 0 -.25rem;
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.footer-link-ateko:hover {
+    box-shadow: inset 100px 0 0 0 #8400ff;
+    color: white;
+}
+
+.footer-link-kayun {
+    box-shadow: inset 0 0 0 0 #3078c6;
+    color: #579fec;
+    margin: 0 .25rem;
+    padding: 0 -.25rem;
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.footer-link-kayun:hover {
+    box-shadow: inset 100px 0 0 0 #3078c6;
+    color: white;
+}
