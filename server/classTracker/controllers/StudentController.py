@@ -69,6 +69,7 @@ def getStudentInfo():
     user_id = request.json["id"]
 
     student = Student.query.filter_by(id = user_id).first()
+    parent = Parent.query.get(student.parent_id)
     class_info = Class_.query.get(student.class_id)
 
     students_info = {
@@ -83,7 +84,12 @@ def getStudentInfo():
             "birthdate": student.birthdate,
             "class": str(class_info.grade) + class_info.label,
             "class_director": "Pra já nada",
-            "process": student.process_number
+            "process": student.process_number,
+            "parentID": parent.id,
+            "parentName": parent.name,
+            "parentPhone": parent.phone,
+            "parentEmail": parent.email,
+            "parentAddress": parent.address
         }
 
     return jsonify(students_info)
