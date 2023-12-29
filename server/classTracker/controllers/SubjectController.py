@@ -93,7 +93,7 @@ def createSubject():
         "message": "ok"
     }), 200
 
-@subjectController.route('/deleteSubject/<int:subject_id>', methods=['DELETE'])
+@subjectController.route('/deleteSubject/<subject_id>', methods=['DELETE'])
 def deleteSubject(subject_id):
     current_user = session.get("user_id")
 
@@ -109,7 +109,7 @@ def deleteSubject(subject_id):
     else:
         return jsonify({"message": "Subject not found"}), 404
     
-@subjectController.route('/editSubject/<int:subject_id>', methods=['POST'])
+@subjectController.route('/editSubject/<subject_id>', methods=['POST'])
 def editSubject(subject_id):
     current_user = session.get("user_id")
 
