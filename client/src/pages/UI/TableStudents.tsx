@@ -194,18 +194,7 @@ const Table = (props: {
             },
         },
     };
-
-    const conditionalRowStyles = [
-        {
-            when: (row: { [s: string]: unknown }) => true,
-            style: {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            },
-        },
-    ];
-
+    
     const columnsWithButton = [...tableCols, {
         name: 'Actions',
         button: true,
@@ -457,7 +446,6 @@ const Table = (props: {
                 customStyles={customStyles}
                 progressPending={isLoading}
                 progressComponent={<div>Loading...</div>}
-                conditionalRowStyles={conditionalRowStyles}
             />
         </div>
     );

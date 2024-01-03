@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import httpClient from "../../httpClient";
 
 import logoClass from "../../assets/logoClassTracker.png"
+import toast from "react-hot-toast";
 
 const LoginForm: React.FC = () => {
 
@@ -9,8 +10,8 @@ const LoginForm: React.FC = () => {
     const [password,setPassword] = useState<string>("");
 
 
-    const loginUser = async () => {
-
+    const loginUser = async (event: { preventDefault: () => void; }) => {
+      event.preventDefault()
       try {
         const resp = await httpClient.post("//localhost:1222/login", {
           email,password
@@ -18,7 +19,7 @@ const LoginForm: React.FC = () => {
         window.location.href="/dashboard";
       } catch (error: any) {
         if (error.response.status === 401) {
-          alert("Credentials wrong"); 
+          toast.error("Invalid Credentials"); 
         }
       }
 
@@ -85,7 +86,7 @@ const LoginForm: React.FC = () => {
     
                 <div>
                   <button
-                    type="button"
+                    type="submit"
                     onClick={loginUser}
                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >

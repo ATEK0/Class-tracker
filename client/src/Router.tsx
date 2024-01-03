@@ -7,7 +7,6 @@ import Dashboard from "./pages/dashboard/Dashboard"
 import NavBarMain from "./pages/NavBar/NavbarMain"
 import Logout from "./pages/auth/Logout"
 import ElementDetails from "./pages/classrooms/EventDetails"
-import NewClassRoom from "./pages/admin/classrooms/NewClassroom"
 import { Toaster } from "react-hot-toast"
 import ClassroomDashboard from "./pages/admin/classrooms/ClassroomDashboard"
 import GeneralDashboard from "./pages/admin/general/GeneralDashboard"
@@ -22,6 +21,7 @@ import NewStudent from "./pages/admin/students/NewStudent"
 import SubjectsDetails from "./pages/admin/subjects/SubjectsDetails"
 import TeacherDetails from "./pages/admin/teachers/TeacherDetails"
 import Support from "./pages/Support"
+import NewClass from "./pages/admin/classes/NewClass"
 
 
 const Router: React.FC = () => {
@@ -40,11 +40,12 @@ const Router: React.FC = () => {
         <Route path="/summary/:eventId" element={<ElementDetails />} />
 
 
-        <Route path="/admin/classrooms/new" element={<NewClassRoom />} />
         <Route path="/admin/classrooms" element={<ClassroomDashboard />} />
 
         <Route path="/admin/classes" element={<ClassesDashboard />} />
         <Route path="/admin/classes/:classId/:classLabel" element={<ClassDetails />} />
+        <Route path="/admin/classes/new" element={<NewClass />} />
+
 
         <Route path="/admin/general" element={<GeneralDashboard />} />
 

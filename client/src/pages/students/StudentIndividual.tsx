@@ -50,38 +50,56 @@ const StudentIndividual = () => {
   return (
     <div>
       <div className="container pt-[70px] p-x-5 mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8 h-[100vh] flex justify-center items-center">
-        <div className="card bg-[#f5f5f5] w-full border rounded-xl shadow-xl border-[#00000039] py-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 text-center md:text-left">
+        <div className="card bg-[#f5f5f5] w-full rounded-xl shadow-xl border-[#00000039] py-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 text-center md:text-left">
 
             <div className="profile w-full flex flex-col items-center">
               <img src={UserImage} className="object-contain max-w-xs w-52 md:w-full" alt={`Profile Picture of ${userData?.id}`}/>
-              <h1 className="text-4xl p-2">{userData?.name} {userData?.surname} </h1>
-              <h1 className="text-2xl">{ userData?.type }</h1>
+              <h1 className="text-3xl p-2">{userData?.name} {userData?.surname} </h1>
+              <h1 className="text-xl">{ userData?.type }</h1>
               <h1 className="text-md p-2">{ userData?.process }</h1>
             </div>
 
             <div className="information w-full">
-              <h1 className="text-4xl p-2 font-bold text-center md:text-left">{ userData?.type } Information</h1>
+              <h1 className="text-2xl p-2 font-bold text-center md:text-left">{ userData?.type } Information</h1>
               <div className="information-content grid grid-cols-2 text-center md:text-left">
-                <div className="labels font-bold">
+                <div className="labels text-[#04304dbe] font-bold">
                   <div className="infoLabel">Name</div>
                   <div className="infoLabel">Surname</div>
                   <div className="infoLabel">Email</div>
                   <div className="infoLabel">Class</div>
-                  <div className="infoLabel">Class Director</div>
+                  <div className="infoLabel">Head Teacher</div>
                   <div className="infoLabel">Process Number</div>
                   <div className="infoLabel">Address</div>
                   <div className="infoLabel">Birthdate</div>
                 </div>
-                <div className="informations">
+                <div className="informations ">
                   <div className="infoLabel">{userData?.name}</div>
                   <div className="infoLabel">{userData?.surname}</div>
                   <div className="infoLabel">{userData?.email}</div>
                   <div className="infoLabel linkLabel"><Link to={`/admin/classes/${userData?.class_id}/${userData?.class}`}>{userData?.class}</Link></div>
                   <div className="infoLabel">{userData?.class_director}</div>
                   <div className="infoLabel">{userData?.process}</div>
-                  <div className="infoLabel">{userData?.address ? userData?.address : "No information"}</div>
-                  <div className="infoLabel">{userData?.birthdate ? userData?.birthdate : "No information"}</div>
+                  <div className="infoLabel">{userData?.address}</div>
+                  <div className="infoLabel">{userData?.birthdate}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="information w-full">
+              <h1 className="text-2xl p-2 font-bold text-center md:text-left">Parent Information</h1>
+              <div className="information-content grid grid-cols-2 text-center md:text-left">
+                <div className="labels text-[#04304dbe] font-bold">
+                  <div className="infoLabel">Parent Name</div>
+                  <div className="infoLabel">Parent Phone</div>
+                  <div className="infoLabel">Parent Email</div>
+                  <div className="infoLabel">Parent Address</div>
+                </div>
+                <div className="informations">
+                  <div className="infoLabel">{userData?.parentName}</div>
+                  <div className="infoLabel">{userData?.parentPhone}</div>
+                  <div className="infoLabel">{userData?.parentEmail}</div>
+                  <div className="infoLabel">{userData?.parentAddress}</div>
                 </div>
               </div>
             </div>

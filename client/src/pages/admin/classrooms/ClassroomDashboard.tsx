@@ -15,7 +15,6 @@ const ClassroomDashboard: React.FC = () => {
 
   useEffect(() => {
 
-
     async function loadTableData() {
 
       try {
@@ -36,8 +35,6 @@ const ClassroomDashboard: React.FC = () => {
         setTableData(tableDataResp)
         setTableCols(tableColumns)
         setIsLoading(false)
-
-        
 
       } catch {
         toast.error("Error loading data. Try again")

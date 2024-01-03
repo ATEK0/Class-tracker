@@ -12,11 +12,16 @@ export interface User {
 
 export interface Student extends User {
     class_id: string;
+    address: string;
+    birthdate: string;
     class: string;
     class_director: string;
     process: string;
-    address: string;
-    birthdate: string;
+    parentID: string;
+    parentName: string;
+    parentPhone: string;
+    parentEmail: string;
+    parentAddress: string;
 }
 
 export interface TeacherListType {

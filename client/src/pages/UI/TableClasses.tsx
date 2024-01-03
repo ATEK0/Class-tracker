@@ -5,7 +5,7 @@ import { TextAlign } from '../../types';
 import { apiLink } from '../../config';
 
 const Table = (props: {
-    namesList: string[]; endpoint: string; 
+    namesList: string[]; endpoint: string; classNumber: string;
 }) => {
     const [tableData, setTableData] = useState<any>([]);
     const [tableCols, setTableCols] = useState<any>([]);
@@ -15,8 +15,8 @@ const Table = (props: {
     useEffect(() => {
       async function loadTableData() {
         try {
-          const tableDataResp = await httpClient.get(`${apiLink}/${props.endpoint}`);
-  
+          const tableDataResp = await httpClient.get(`${apiLink}/${props.endpoint}`, { "class_id":"1" });
+          console.log(tableDataResp)
           const tableColumns = props.namesList.map((name: string) => ({
             name: name.charAt(0).toUpperCase() + name.slice(1),
             selector: (row: { [x: string]: any; }) => row[name.toLowerCase()],

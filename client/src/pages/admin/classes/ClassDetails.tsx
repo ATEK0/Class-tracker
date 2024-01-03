@@ -18,7 +18,7 @@ const ClassDetails = () => {
 
         <h1 className='font-bold text-2xl text-[#04304D] py-5 mb-5'>Student List </h1>
 
-        <Table endpoint={""} namesList={["abc", "cba"]}/>
+        <Table endpoint={"/getClassStudents"} namesList={["Id", "Name", "Surname"]} classNumber={classId}/>
 
     </div>
   )

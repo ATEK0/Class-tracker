@@ -80,7 +80,9 @@ const Table = (props: {
                 pagination
                 responsive
                 highlightOnHover
-                onRowClicked={(event: { [s: string]: unknown; }) => { window.location.href = `teachers/edit/${event["id"]}/${event["name"]}` }}
+                onRowClicked={(event: { [s: string]: unknown; }) => {
+                    window.location.href = `teachers/edit/${event["id"]}/${event["name"]}`
+                }}
                 customStyles={customStyles}
                 progressPending={isLoading}
                 progressComponent={<div>Loading...</div>}

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { apiLink } from '../../../config';
 
 
-const NewClassroom: React.FC = () => {
+const NewClass: React.FC = () => {
     const [teacherList, setTeacherList] = useState<TeacherListType[]>([]);
     const [classList, setClassList] = useState<ClassListType[]>([]);
     const [subjectList, setSubjectList] = useState<SubjectListType[]>([]);
@@ -107,7 +107,7 @@ const NewClassroom: React.FC = () => {
 
   return (
     <div className='pt-[64px] mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
-        <h1 className='text-3xl font-bold py-3 text-[#04304d]'><FontAwesomeIcon icon={faGraduationCap} className='mr-2'/>Create new classroom</h1>
+        <h1 className='text-3xl font-bold py-3 text-[#04304d]'><FontAwesomeIcon icon={faGraduationCap} className='mr-2'/>Schedule new class</h1>
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="flex flex-row gap-3 justify-between mb-4">
 
@@ -192,4 +192,4 @@ const NewClassroom: React.FC = () => {
 
 }
 
-export default NewClassroom
+export default NewClass
