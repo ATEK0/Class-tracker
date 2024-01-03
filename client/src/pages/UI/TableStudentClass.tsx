@@ -5,18 +5,18 @@ import { TextAlign } from '../../types';
 import { apiLink } from '../../config';
 
 const Table = (props: {
-    namesList: string[]; endpoint: string; 
+    namesList: string[]; endpoint: string; class_id: string;
 }) => {
     const [tableData, setTableData] = useState<any>([]);
     const [tableCols, setTableCols] = useState<any>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
-  
+
     useEffect(() => {
       async function loadTableData() {
         try {
-          const tableDataResp = await httpClient.get(`${apiLink}/${props.endpoint}`);
-  
+          const tableDataResp = await httpClient.post(`${apiLink}/${props.endpoint}`, {class_id: props.class_id});
+          console.log(tableDataResp, props.class_id)
           const tableColumns = props.namesList.map((name: string) => ({
             name: name.charAt(0).toUpperCase() + name.slice(1),
             selector: (row: { [x: string]: any; }) => row[name.toLowerCase()],
@@ -80,7 +80,7 @@ const Table = (props: {
                 pagination
                 responsive
                 highlightOnHover
-                onRowClicked={(event: { [s: string]: unknown; }) => { window.location.href = `classes/${event["id"]}/${event["grade"]}${event["label"]}` }}
+                onRowClicked={(event: { [s: string]: unknown; }) => { window.location.href = `/admin/students/${event["id"]}/${event["name"]}` }}
                 customStyles={customStyles}
                 progressPending={isLoading}
                 progressComponent={<div>Loading...</div>}

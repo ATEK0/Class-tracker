@@ -16,7 +16,7 @@ const ClassesDashboard = () => {
           Create Class
         </Link>
       </div>
-
+      
       <Table endpoint={"getClasses"} namesList={["grade", "label"]}/>
 
     </div>

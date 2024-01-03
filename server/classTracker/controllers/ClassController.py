@@ -34,7 +34,7 @@ def getClassSubjects():
 
     return jsonify(subject_info)
     
-@classController.route("/getClasses", methods=["get"])
+@classController.route("/getClasses", methods=["GET"])
 def getClasses():
     current_user = session.get("user_id")
 
@@ -77,15 +77,15 @@ def getClassesCount():
 
     return jsonify(count)
 
-@classController.route("/getClassStudents", methods=["GET"])
+@classController.route("/getClassStudents", methods=["POST"])
 def getClassStudents():
     current_user = session.get("user_id")
 
     if not current_user:
         return jsonify({"error": "Unauthorized"}), 401    
 
-    class_id = request.args.get("class_id")
-    print(class_id)
+    class_id = request.json.get("class_id")
+    print("--------------", class_id)
 
     students = Student.query.filter_by(class_id = class_id).all()
 

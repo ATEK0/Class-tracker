@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import Calendar from '../../UI/Calendar';
-import Table from '../../UI/TableClasses';
+import Table from '../../UI/TableStudentClass';
 
 const ClassDetails = () => {
     const { classId } = useParams();
@@ -18,7 +18,7 @@ const ClassDetails = () => {
 
         <h1 className='font-bold text-2xl text-[#04304D] py-5 mb-5'>Student List </h1>
 
-        <Table endpoint={"/getClassStudents"} namesList={["Id", "Name", "Surname"]} classNumber={classId}/>
+        <Table endpoint={"/getClassStudents"} namesList={["Id", "Name", "Surname"]} class_id={classId}/>
 
     </div>
   )
