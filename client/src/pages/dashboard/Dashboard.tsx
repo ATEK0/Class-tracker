@@ -18,20 +18,20 @@ const Dashboard = () => {
         const getUserType = await httpClient.get("//localhost:1222/@me");
         const userTyperesp = getUserType.data;
 
-        if (userTyperesp.type === "Admin") {
+        if (userTyperesp.userType === "Admin") {
           document.title = 'Admin Dashboard - Class Tracker';
           setComponentToRender(<DashboardAdmin />);
 
-        } else if (userTyperesp.type === "Teacher") {
+        } else if (userTyperesp.userType === "Teacher") {
           document.title = 'Teacher Dashboard - Class Tracker';
           setComponentToRender(<DashboardTeacher />);
 
-        } else if (userTyperesp.type === "Student") {
+        } else if (userTyperesp.userType === "Student") {
           document.title = 'Student Dashboard - Class Tracker';
           setComponentToRender(<DashboardStudent />);
 
         } else {
-            console.warn("Unexpected user type:", userTyperesp.type);
+            console.warn("Unexpected user type:", userTyperesp.userType);
         }
       } catch (error) {
         console.error("Error fetching data:", error);

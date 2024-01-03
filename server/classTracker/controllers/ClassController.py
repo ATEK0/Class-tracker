@@ -85,6 +85,7 @@ def getClassStudents():
         return jsonify({"error": "Unauthorized"}), 401    
 
     class_id = request.args.get("class_id")
+    print(class_id)
 
     students = Student.query.filter_by(class_id = class_id).all()
 

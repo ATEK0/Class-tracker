@@ -6,7 +6,7 @@ export interface User {
     surname: string;
     email: string;
     state: string;
-    type: string;
+    userType: string;
     image: string;
 }
 

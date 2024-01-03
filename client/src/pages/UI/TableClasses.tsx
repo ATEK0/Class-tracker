@@ -15,8 +15,8 @@ const Table = (props: {
     useEffect(() => {
       async function loadTableData() {
         try {
-          const tableDataResp = await httpClient.get(`${apiLink}/${props.endpoint}`, { "class_id":"1" });
-          console.log(tableDataResp)
+          const tableDataResp = await httpClient.get(`${apiLink}/${props.endpoint}`);
+          console.log(tableDataResp, props.classNumber)
           const tableColumns = props.namesList.map((name: string) => ({
             name: name.charAt(0).toUpperCase() + name.slice(1),
             selector: (row: { [x: string]: any; }) => row[name.toLowerCase()],
