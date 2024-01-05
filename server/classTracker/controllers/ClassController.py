@@ -144,6 +144,7 @@ def editClass(class_id):
     label = request.json['label']
     grade = request.json['grade']
     type_id = request.json['type_id']
+    head_teacher = request.json["head_teacher"]
 
     class_ = Class.query.get(class_id)
 
@@ -151,6 +152,7 @@ def editClass(class_id):
         class_.label = label
         class_.grade = grade
         class_.type_id = type_id
+        class_.head_teacher = head_teacher
         db.session.commit()
         return jsonify({"message": "ok"}), 200
     else:
