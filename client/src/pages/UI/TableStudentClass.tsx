@@ -5,7 +5,7 @@ import { TextAlign } from '../../types';
 import { apiLink } from '../../config';
 
 const Table = (props: {
-    namesList: string[]; endpoint: string; class_id: string;
+    namesList: string[]; endpoint: string; class_id: any;
 }) => {
     const [tableData, setTableData] = useState<any>([]);
     const [tableCols, setTableCols] = useState<any>([]);

@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import httpClient from "../../httpClient";
 
 import logoClass from "../../assets/logoClassTracker.png"
+import { apiLink } from "../../config";
 
 
 const RegisterForm: React.FC = () => {
@@ -15,7 +16,7 @@ const RegisterForm: React.FC = () => {
   const registerUser = async () => {
 
     try {
-      const resp = await httpClient.post("//localhost:1222/register", {
+      await httpClient.post(apiLink + "/register", {
         name,
         surname,
         email,

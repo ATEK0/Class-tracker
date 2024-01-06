@@ -81,10 +81,6 @@ const Table = (props: {
         const resp = await httpClient.post(`${apiLink}/getStudentInfo`, { id: row.id })
         const student = resp.data
 
-        const date = new Date(student.birthdate);   
-        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-        const formattedDate = new Date(date.toLocaleDateString('en-US', options).replace(/\//g, '-'));
-
         setFirstName(student.name)
         setLastName(student.surname)
         setEmail(student.email)

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import httpClient from "../../../httpClient";
 import toast from "react-hot-toast";
 import { ClassListType } from "../../../types";
+import { apiLink } from "../../../config";
 
 const NewStudent = () => {
   const [firstName, setFirstName] = useState<string>("")
@@ -58,7 +59,7 @@ const NewStudent = () => {
     const fetchData = async () => {
       try {
 
-        const classResp = await httpClient.get("//localhost:1222/getClasses");
+        const classResp = await httpClient.get(apiLink + "/getClasses");
         const fetchedClass: ClassListType[] = classResp.data;
         setClassList(fetchedClass);
 
