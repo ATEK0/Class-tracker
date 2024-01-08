@@ -63,9 +63,8 @@ const NewStudent = () => {
         const fetchedClass: ClassListType[] = classResp.data;
         setClassList(fetchedClass);
 
-
       } catch (error) {
-        console.error("Error fetching data----------------:", error);
+        console.error("Error fetching data- ", error);
       }
     };
 
