@@ -62,7 +62,12 @@ def getTeacherInfo():
 
     classes = Class_.query.filter(Class_.id.in_(class_ids)).all()
 
-    classes_list = [str(record.grade) + "º " + record.label for record in classes]
+    classes_list = [
+        {
+            "id": str(record.id),
+            "label": str(record.grade) + "º " + record.label
+        } for record in classes
+    ]
 
     subject_ids_records = Class_Subject.query.filter(Class_Subject.id.in_(csids)).all()
     subject_ids = [record.subject_id for record in subject_ids_records]
@@ -70,7 +75,12 @@ def getTeacherInfo():
 
     subjects = Subject.query.filter(Subject.id.in_(subject_ids)).all()
 
-    subjects_list = [record.label for record in subjects]
+    subjects_list = [
+        {
+            "id": str(record.id),
+            "label": record.label
+        } for record in subjects
+    ]
 
     teacher_info = {
         "id": teacher.id,
@@ -87,3 +97,13 @@ def getTeacherInfo():
     }
 
     return jsonify(teacher_info)
+
+def parse_subjects(subjects_list):
+    subjects_json = []
+    for subject in subjects_list:
+        id, label = subject.split(" ")
+        subjects_json.append({
+            "id": int(id),
+            "label": label
+        })
+    return json.dumps(subjects_json)
