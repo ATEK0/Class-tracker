@@ -88,7 +88,7 @@ def getTeacherInfo():
         "surname": teacher.surname,
         "email": teacher.email,
         "state": teacher.state,
-        "type": "Teacher",
+        "userType": "Teacher",
         "address": teacher.address,
         "birthdate": teacher.birthdate,
         "contact": teacher.contact,

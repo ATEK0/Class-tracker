@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export interface User {
     id: string;
     name: string;
@@ -7,13 +5,12 @@ export interface User {
     email: string;
     state: string;
     userType: string;
-    image: string;
+    address: string;
+    birthdate: string;
 }
 
 export interface Student extends User {
     class_id: string;
-    address: string;
-    birthdate: string;
     class: string;
     class_director: string;
     process: string;
@@ -23,6 +20,14 @@ export interface Student extends User {
     parentEmail: string;
     parentAddress: string;
 }
+
+
+export interface Teacher extends User {
+    contact: string;
+    subjects: string[];
+    classes: string[];
+}
+
 
 export interface TeacherListType {
     forEach(arg0: (option: any) => void): unknown;
@@ -39,7 +44,7 @@ export interface ClassListType {
 }
 
 export interface SubjectListType {
-    label: ReactNode;
+    label: string;
     id: string;
     name: string;
 }

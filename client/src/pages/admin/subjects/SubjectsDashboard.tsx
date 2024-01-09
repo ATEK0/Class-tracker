@@ -6,6 +6,7 @@ import { Modal, Label, TextInput, Button } from 'flowbite-react';
 import { faPencil, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import toast from 'react-hot-toast';
+import { apiLink } from '../../../config';
 
 const SubjectsDashboard = () => {
   const [subjectList, setSubjectList] = useState<SubjectListType[]>([]);
@@ -17,7 +18,7 @@ const SubjectsDashboard = () => {
   const [useSubjectID, setuseSubjectID] = useState<string>("")
   const [beingDeleted, setbeingDeleted] = useState<string>("")
   const [beingDeletedID, setbeingDeletedID] = useState<string>("")
-  const [subjectName, setsubjectName] = useState<MouseEvent<HTMLButtonElement, MouseEvent> | null>()
+  const [subjectName, setsubjectName] = useState<MouseEvent<HTMLButtonElement, MouseEvent<Element, MouseEvent>> | null | undefined>()
 
   function onCloseModal() {
     setopenModalCreate(false)
@@ -33,7 +34,7 @@ const SubjectsDashboard = () => {
   
     while (currentRetry < maxRetries) {
       try {
-        const updatedSubjectList = await httpClient.get("//localhost:1222/getSubject");
+        const updatedSubjectList = await httpClient.get(apiLink + "/getSubject");
         setSubjectList(updatedSubjectList.data);
         return;
       } catch (error) {
@@ -51,7 +52,7 @@ const SubjectsDashboard = () => {
     if (subjectName != null) {
 
       try {      
-        const create = await httpClient.post('//localhost:1222/createSubject', { label: subjectName });
+        const create = await httpClient.post(apiLink + "/createSubject", { label: subjectName });
         const resp = create.data;
     
         if (resp.message === "ok") {
@@ -83,7 +84,7 @@ const SubjectsDashboard = () => {
   async function deleteSubject() {
   
     try {
-      await httpClient.delete(`//localhost:1222/deleteSubject/${beingDeletedID}`);
+      await httpClient.delete(apiLink + `/deleteSubject/${beingDeletedID}`);
       
       updateSubjectList()
       
@@ -125,7 +126,7 @@ const SubjectsDashboard = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const subjectList = await httpClient.get("//localhost:1222/getSubject");
+        const subjectList = await httpClient.get(apiLink + "/getSubject");
         const fetchedSubjectList: SubjectListType[] = subjectList.data;
         setSubjectList(fetchedSubjectList);
       } catch (error) {
@@ -238,3 +239,7 @@ const SubjectsDashboard = () => {
 };
 
 export default SubjectsDashboard;
+function SetStateAction<T>() {
+  throw new Error('Function not implemented.');
+}
+

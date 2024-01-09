@@ -9,7 +9,7 @@ import Logout from "./pages/auth/Logout"
 import ElementDetails from "./pages/classrooms/EventDetails"
 import { Toaster } from "react-hot-toast"
 import ClassroomDashboard from "./pages/admin/classrooms/ClassroomDashboard"
-import GeneralDashboard from "./pages/admin/general/GeneralDashboard"
+import AdminSettings from "./pages/admin/general/AdminSettinngs"
 import StudentsDashboard from "./pages/admin/students/StudentsDashboard"
 import SubjectsDashboard from "./pages/admin/subjects/SubjectsDashboard"
 import TeachersDashboard from "./pages/admin/teachers/TeachersDashboard"
@@ -21,7 +21,7 @@ import NewStudent from "./pages/admin/students/NewStudent"
 import SubjectsDetails from "./pages/admin/subjects/SubjectsDetails"
 import TeacherDetails from "./pages/admin/teachers/TeacherDetails"
 import Support from "./pages/Support"
-import NewClass from "./pages/admin/classes/NewClass"
+import NewClassroom from "./pages/admin/classrooms/NewClass"
 
 
 const Router: React.FC = () => {
@@ -44,10 +44,10 @@ const Router: React.FC = () => {
 
         <Route path="/admin/classes" element={<ClassesDashboard />} />
         <Route path="/admin/classes/:classId/:classLabel" element={<ClassDetails />} />
-        <Route path="/admin/classes/new" element={<NewClass />} />
+        <Route path="/admin/classrooms/new" element={<NewClassroom />} />
 
 
-        <Route path="/admin/general" element={<GeneralDashboard />} />
+        <Route path="/admin/general" element={<AdminSettings />} />
 
         <Route path="/admin/students" element={<StudentsDashboard />} />
         <Route path="/admin/students/:studentID/:name" element={<StudentIndividual />} />

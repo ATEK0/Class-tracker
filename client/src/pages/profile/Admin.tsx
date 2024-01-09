@@ -3,8 +3,9 @@ import { Modal, Label, TextInput, Button } from 'flowbite-react';
 import httpClient from '../../httpClient';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { apiLink } from '../../config';
 
-const Admin = (props: { user: { email: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; surname: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; id: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; type: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined } }) => {
+const Admin = (props: { user: { email: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; surname: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; id: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; userType: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined } }) => {
   
   const [openModalCP, setOpenModalCP] = useState(false);
   const [cPassword, setcPassword] = useState('');
@@ -32,7 +33,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
   async function changePassword() {
 
     if (newPassword == confirmnewPassword) {
-      var changePassResponse = await httpClient.post('//localhost:1222/changeProfilePassword', { current_password: cPassword, new_password: newPassword });
+      var changePassResponse = await httpClient.post(apiLink + "/changeProfilePassword", { current_password: cPassword, new_password: newPassword });
       var response = changePassResponse.data
 
       if (response.error) {
@@ -59,7 +60,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
       formData.append('image', fileInput.files[0]);
       
 
-      await httpClient.post('//localhost:1222/updateProfileImage', formData);
+      await httpClient.post(apiLink + "/updateProfileImage", formData);
 
       toast.success("Profile image changed");
       onCloseModal();
@@ -73,7 +74,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
   useEffect(() => {
     const loadData = async () => {
       try {
-        const changeProfile = await httpClient.get('//localhost:1222/getProfileImage/user', { responseType: 'blob' });
+        const changeProfile = await httpClient.get(apiLink + '/getProfileImage/user', { responseType: 'blob' });
 
         const imageUrl = URL.createObjectURL(new Blob([changeProfile.data]));
         
@@ -95,7 +96,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
         <div className="text-center mt-2 font-light text-sm">{props.user.email}</div>
         <div className="text-center mt-2 text-3xl font-bold text-[#04304d]">{props.user.name} {props.user.surname}</div>
         <div className="text-center mt-2 font-light text-sm">{props.user.id}</div>
-        <div className="text-center font-normal text-lg">{props.user.type}</div>
+        <div className="text-center font-normal text-lg">{props.user.userType}</div>
 
         <hr className="mt-8" />
 

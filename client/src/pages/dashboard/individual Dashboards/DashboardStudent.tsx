@@ -1,11 +1,8 @@
 import CalendarStudents from '../../UI/CalendarStudents'
-import { useCookies } from 'react-cookie'
 import { useFetchUser } from '../../../controllers/getUserData'
 
 
 const DashboardTeacher = () => {
-
-  const [cookies, setCookie] = useCookies();
 
   const user = useFetchUser();
 
@@ -14,7 +11,7 @@ const DashboardTeacher = () => {
 
       <div className="mb-8">
         <h1 className="font-bold text-3xl text-[#04304D] pt-8">Olá {user?.name}</h1>
-        <small className='text-sm text-[#04304D] '>{user?.type}</small>
+        <small className='text-sm text-[#04304D] '>{user?.userType}</small>
       </div>
 
 

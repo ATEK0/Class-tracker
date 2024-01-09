@@ -1,6 +1,7 @@
 // userApi.ts
 import { useState, useEffect } from "react";
 import httpClient from "../httpClient";
+import { apiLink } from "../config";
 
 export const fetchTeachers = () => {
   const [data, setData] = useState();
@@ -8,7 +9,7 @@ export const fetchTeachers = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resp = await httpClient.get("//localhost:1222/getSubjects");
+        const resp = await httpClient.get(apiLink + "/getSubjects");
         setData(resp.data);
       } catch (error) {
         console.error("Error fetching user:", error);

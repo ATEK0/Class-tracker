@@ -1,36 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import httpClient from '../../httpClient';
 import Loading from '../UI/Loading';
 import Admin from './Admin';
 import Teacher from './Teacher';
 import Student from './Student';
 import { Navigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { useFetchUser } from '../../controllers/getUserData';
 
 const Profile = () => {
-    const [cookies] = useCookies();
+  const [cookies] = useCookies();
   const [componentToRender, setComponentToRender] = useState<React.JSX.Element | null>(null);
+
+  const user  = useFetchUser();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const getUserType = await httpClient.get("//localhost:1222/@me");
-        const userTyperesp = getUserType.data;
+      
 
-        if (userTyperesp.type === "Admin") {
+        if (user?.userType === "Admin") {
           document.title = 'Admin Profile - Class Tracker';
-          setComponentToRender(<Admin user={userTyperesp}/>);
+          setComponentToRender(<Admin user={user}/>);
         
-        } else if (userTyperesp.type === "Teacher") {
+        } else if (user?.userType === "Teacher") {
           document.title = 'Teacher Profile - Class Tracker';
-          setComponentToRender(<Teacher user={userTyperesp}/>);
+          setComponentToRender(<Teacher user={user}/>);
 
-        } else if (userTyperesp.type === "Student") {
+        } else if (user?.userType === "Student") {
           document.title = 'Student Profile - Class Tracker';
-          setComponentToRender(<Student user={userTyperesp}/>);
+          setComponentToRender(<Student user={user}/>);
 
         } else {
-            console.warn("Unexpected user type:", userTyperesp.type);
+            console.warn("Unexpected user type:", user?.userType);
         }
       } catch (error) {
         console.error("Error fetching data:", error);

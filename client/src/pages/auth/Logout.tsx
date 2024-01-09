@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import httpClient from '../../httpClient'
 import mandatoryLoginCheck from '../../controllers/mandatoryLoginCheck'
+import { apiLink } from '../../config'
 
 const Logout: React.FC = () => {
 
     mandatoryLoginCheck()
 
     async function logoutUser() {
-        const resp = await httpClient.post("//localhost:1222/logout")
+        await httpClient.post(apiLink + "/logout")
         window.location.href="/"
     }
     
