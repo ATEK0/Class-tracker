@@ -41,7 +41,7 @@ def getClasses():
     if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
 
-    classes = Class_.query.all()
+    classes = Class_.query.filter_by(is_deleted = 0).all()
 
     class_info = []
     for class_ in classes:
@@ -109,7 +109,7 @@ def createClass():
     type_id = request.json["type_id"]
     head_teacher = request.json["head_teacher"]
 
-    newClass = Class_(label = label, grade = grade, type_id = type_id, head_teacher = head_teacher)
+    newClass = Class_(label = label, grade = grade, type_id = type_id, head_teacher = head_teacher, is_deleted = 0)
 
     db.session.add(newClass)
     db.session.commit()
@@ -118,7 +118,7 @@ def createClass():
         "message": "ok"
     }), 200
 
-@classController.route('/deleteClass/<class_id>', methods=['DELETE'])
+@classController.route('/deleteClass/<class_id>', methods=['POST'])
 def deleteClass(class_id):
     current_user = session.get("user_id")
 
@@ -126,9 +126,13 @@ def deleteClass(class_id):
         return jsonify({"error": "Unauthorized"}), 401
 
     class_ = Class_.query.get(class_id)
+    classes_subjects = Class_Subject.query.filter_by(class_id = class_.id).all()
 
     if class_:
-        db.session.delete(class_)
+        class_.is_deleted = 1
+        if classes_subjects:
+            for class_subject in classes_subjects:
+                class_subject.is_deleted = 1
         db.session.commit()
         return jsonify({"message": "ok"}), 200
     else:
