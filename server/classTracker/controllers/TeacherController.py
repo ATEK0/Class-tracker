@@ -97,13 +97,3 @@ def getTeacherInfo():
     }
 
     return jsonify(teacher_info)
-
-def parse_subjects(subjects_list):
-    subjects_json = []
-    for subject in subjects_list:
-        id, label = subject.split(" ")
-        subjects_json.append({
-            "id": int(id),
-            "label": label
-        })
-    return json.dumps(subjects_json)
