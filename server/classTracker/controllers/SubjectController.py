@@ -18,11 +18,11 @@ def getSubjectCount():
         return jsonify({"error": "Unauthorized"}), 401
     
     if isAdmin(current_user):
-        subjectCount = Subject.query.count()
+        subjectCount = Subject.query.filter_by(is_deleted = 0).count()
     elif isTeacher(current_user):
         user = User.query.filter_by(id=current_user).first()
         teacher = Teacher.query.filter_by(user_id = user.id).first()
-        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id = teacher.teacher_id).all()
+        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id = teacher.teacher_id, is_deleted = 0).all()
         csids = [record.csid for record in teacher_cs_records]
         subject_ids_records = Class_Subject.query.filter(Class_Subject.id.in_(csids)).all()
         subject_ids = [record.subject_id for record in subject_ids_records]
@@ -39,7 +39,7 @@ def getSubject():
     if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
 
-    subjects = Subject.query.all()
+    subjects = Subject.query.filter_by(is_deleted = 0).all()
 
     subjects_info = [{
             "id": subject.id,
@@ -84,7 +84,7 @@ def createSubject():
 
     label = request.json["label"]
 
-    newSubject = Subject(label = label)
+    newSubject = Subject(label = label, is_deleted = 1)
 
     db.session.add(newSubject)
     db.session.commit()
@@ -93,7 +93,7 @@ def createSubject():
         "message": "ok"
     }), 200
 
-@subjectController.route('/deleteSubject/<subject_id>', methods=['DELETE'])
+@subjectController.route('/deleteSubject/<subject_id>', methods=['POST'])
 def deleteSubject(subject_id):
     current_user = session.get("user_id")
 
@@ -101,9 +101,13 @@ def deleteSubject(subject_id):
         return jsonify({"error": "Unauthorized"}), 401
 
     subject = Subject.query.get(subject_id)
+    classes_subjects = Class_Subject.query.filter_by(subject_id = subject.id).all()
 
     if subject:
-        db.session.delete(subject)
+        subject.is_deleted = 1
+        if classes_subjects:
+            for class_subject in classes_subjects:
+                class_subject.is_deleted = 1
         db.session.commit()
         return jsonify({"message": "ok"}), 200
     else:
