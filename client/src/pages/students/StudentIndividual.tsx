@@ -6,7 +6,7 @@ import { Student } from "../../types"
 
 const StudentIndividual = () => {
   const { studentID } = useParams();
-  const [userData, setUserData] = useState<Student | null>();
+  const [userData, setUserData] = useState<Student | any>();
   const [UserImage, setUserImage] = useState<string>()
   const [error, setError] = useState<string | null>();
   const maxRetries = 3;
@@ -19,10 +19,10 @@ const StudentIndividual = () => {
       setUserData(userTyperesp);
 
       const date = new Date(userData.birthdate);
-      const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+      const options : any = { year: 'numeric', month: 'numeric', day: 'numeric' };
 
 
-      setUserData(prevUserData => ({ ...prevUserData, birthdate: date.toLocaleDateString('en-US', options).replace(/\//g, '-') }));
+      setUserData((prevUserData: any) => ({ ...prevUserData, birthdate: date.toLocaleDateString('en-US', options).replace(/\//g, '-') }));
 
       const changeProfile = await httpClient.get('//localhost:1222/getProfileImage/' + studentID, { responseType: 'blob' });
       setUserImage(URL.createObjectURL(new Blob([changeProfile.data])))

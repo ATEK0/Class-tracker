@@ -9,7 +9,7 @@ import { Dictionary } from '@fullcalendar/core/internal';
 import toast from 'react-hot-toast';
 
 const Calendar = (props: any) => {
-    const calendarRef = useRef(null);
+    const calendarRef = useRef<any>();
     const selectRef = useRef<HTMLSelectElement | null>(null);
     const [calendarDataResponse, setCalendarDataResponse] = useState<Dictionary>()
 
@@ -51,7 +51,7 @@ const Calendar = (props: any) => {
                     'margin-left: 0px !important;'
                 );
 
-                selectElement.addEventListener('change', loadCalendarData);
+                selectElement.addEventListener('change', () => {loadCalendarData});
 
                 const optionElement = document.createElement('option');
                 optionElement.value = '';
@@ -137,14 +137,13 @@ const Calendar = (props: any) => {
         } else {
             const simulatedEvent: { target: { value: any } } = {
                 target: {
-                    value: props.id, // Replace with the desired value
+                    value: props.id, 
                 },
             };
 
             loadCalendarData(simulatedEvent);
         }
 
-        // Cleanup the event listener when the component unmounts
         return () => {
             window.removeEventListener('resize', handleResize);
         };

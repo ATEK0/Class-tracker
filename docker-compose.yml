@@ -1,0 +1,18 @@
+version: '3'
+services:
+  flask-app:
+    build: ./server
+    ports:
+      - "1222:1222"
+    depends_on:
+      - redis
+
+  react-app:
+    build: ./client
+    ports:
+      - "5173:5173"
+    depends_on:
+      - flask-app
+
+  redis:
+    image: "redis:alpine"

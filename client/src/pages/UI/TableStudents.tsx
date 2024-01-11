@@ -16,7 +16,7 @@ const Table = (props: {
     const [tableCols, setTableCols] = useState<any>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [searchText, setSearchText] = useState<string>('');
-    const [beingDeleted, setbeingDeleted] = useState([])
+    const [beingDeleted, setbeingDeleted] = useState<any>([])
     const [beingEdited, setbeingEdited] = useState('')
     const [openModalConfirmDelete, setopenModalConfirmDelete] = useState<boolean>(false);
     const [openModalEdit, setopenModalEdit] = useState<boolean>(false);
@@ -68,9 +68,11 @@ const Table = (props: {
         setSearchText(text);
     };
 
-    const handleEditButtonClick = async (row: { [s: string]: unknown }) => {
+    const handleEditButtonClick = async (row: any) => {
+        
+        setbeingEdited(row.id);
 
-        setbeingEdited(row.id)
+      
 
         const classResp = await httpClient.get("//localhost:1222/getClasses");
         const fetchedClass: ClassListType[] = classResp.data;
@@ -98,7 +100,7 @@ const Table = (props: {
         setopenModalEdit(true)
     };
 
-    const handleDeleteButtonClick = async (row: { [s: string]: unknown }) => {
+    const handleDeleteButtonClick = async (row: any) => {
         setbeingDeleted([row.id, row.name])
         setopenModalConfirmDelete(true)
     };

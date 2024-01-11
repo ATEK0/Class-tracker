@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route} from "react-router-dom"
-import RegisterForm from "./pages/auth/RegisterForm"
 import LoginForm from "./pages/auth/LoginForm"
 import HomePage from "./pages/HomePage"
 import NotFound from "./pages/errors/NotFound"

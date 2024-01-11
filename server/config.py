@@ -24,4 +24,8 @@ class Development(Config):
 class Production(Config):
     SQLALCHEMY_ECHO = False
 
-app_config = Development
+class Dockerization(Config):
+    SESSION_REDIS = redis.from_url("redis://redis:6379")
+
+
+app_config = Dockerization

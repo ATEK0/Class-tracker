@@ -7,17 +7,18 @@ import httpClient from '../../httpClient';
 import { Dictionary } from '@fullcalendar/core/internal';
 import toast from 'react-hot-toast';
 import { apiLink } from '../../config';
-import { Student } from '../../types';
+// import { Student } from '../../types';
 
 const Calendar = () => {
     const calendarRef = useRef(null);
-    const selectRef = useRef<HTMLSelectElement | null>(null);
+    // const selectRef = useRef<HTMLSelectElement | null>(null);
     const [calendarDataResponse, setCalendarDataResponse] = useState<Dictionary>()
 
-    const [student, setstudent] = useState<Student>()
+    // const [student, setstudent] = useState<Student>()
 
     useEffect(() => {
         loadCalendarData()
+        determineView()
     }, [])
     
 
@@ -25,7 +26,7 @@ const Calendar = () => {
     const loadCalendarData = async () => {
         const user = await httpClient.get(`${apiLink}/@me`)
         console.log(user.data)
-        setstudent(user.data)
+        // setstudent(user.data)
         setCalendarDataResponse([])
 
         try {
