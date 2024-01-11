@@ -67,7 +67,7 @@ def getClassesCount():
     elif isTeacher(current_user):
         user = User.query.filter_by(id=current_user).first()
         teacher = Teacher.query.filter_by(user_id = user.id).first()
-        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id = teacher.teacher_id).all()
+        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id = teacher.teacher_id, is_deleted = 0).all()
         csids = [record.csid for record in teacher_cs_records]
         class_ids_records = Class_Subject.query.filter(Class_Subject.id.in_(csids)).all()
         class_ids = [record.class_id for record in class_ids_records]
@@ -150,7 +150,7 @@ def editClass(class_id):
     type_id = request.json['type_id']
     head_teacher = request.json["head_teacher"]
 
-    class_ = Class.query.get(class_id)
+    class_ = Class_.query.get(class_id)
 
     if class_:
         class_.label = label
