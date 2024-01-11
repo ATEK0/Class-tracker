@@ -1,49 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 
 import { HiOutlineAcademicCap } from "react-icons/hi2"
-import toast from 'react-hot-toast';
 import Table from '../../UI/TableClasses';
 
 const ClassroomDashboard: React.FC = () => {
-
-  const [TableData, setTableData] = useState<any[]>([])
-  const [TableCols, setTableCols] = useState<any[]>([])
-
-  const [IsLoading, setIsLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-
-    async function loadTableData() {
-
-      try {
-        // const tableDataResp = await httpClient.get(`//localhost:1222/getClassrooms`); //fazer endpoint para getClassrooms
-
-        const tableDataResp = [
-          { id: 1, name: 'John Doe', age: 25, city: 'New York' },
-          { id: 2, name: 'Jane Doe', age: 30, city: 'San Francisco' },
-        ]
-
-        const tableColumns = Object.keys(tableDataResp[0]).map((name) => ({
-          name: name.charAt(0).toUpperCase() + name.slice(1), // Capitalize the first letter
-          selector: name,
-          sortable: true,
-        }));
-
-        // setTableData(tableDataResp.data)
-        setTableData(tableDataResp)
-        setTableCols(tableColumns)
-        setIsLoading(false)
-
-      } catch {
-        toast.error("Error loading data. Try again")
-      }
-    }
-
-    loadTableData()
-
-  }, [])
 
 
   return (

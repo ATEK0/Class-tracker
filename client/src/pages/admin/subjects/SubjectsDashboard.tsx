@@ -18,7 +18,7 @@ const SubjectsDashboard = () => {
   const [useSubjectID, setuseSubjectID] = useState<string>("")
   const [beingDeleted, setbeingDeleted] = useState<string>("")
   const [beingDeletedID, setbeingDeletedID] = useState<string>("")
-  const [subjectName, setsubjectName] = useState<MouseEvent<HTMLButtonElement, MouseEvent<Element, MouseEvent>> | null | undefined>()
+  const [subjectName, setsubjectName] = useState<any | null | undefined>()
 
   function onCloseModal() {
     setopenModalCreate(false)
@@ -95,7 +95,7 @@ const SubjectsDashboard = () => {
     onCloseModal()
   }
   
-  function editSubject(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, subjectID: string, subjectName: string) {
+  function editSubject(event: any, subjectID: string, subjectName: string) {
     event.preventDefault();
     setnameBefore(subjectName.trim())
     setopenModalEdit(true)
@@ -239,7 +239,4 @@ const SubjectsDashboard = () => {
 };
 
 export default SubjectsDashboard;
-function SetStateAction<T>() {
-  throw new Error('Function not implemented.');
-}
 

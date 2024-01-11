@@ -15,6 +15,14 @@ const TeacherDetails = () => {
   const [TeacherData, setTeacherData] = useState<Teacher>()
   const [Loaded, setLoaded] = useState<boolean>(false)
 
+  function unassignClass() {
+    
+  }
+  
+  function unassignSubject() {
+    
+  }
+
   useEffect(() => {
 
     async function loadUserData() {

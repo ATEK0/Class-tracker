@@ -51,7 +51,7 @@ const Student = (props: { user: { email: string | number | boolean | React.React
     
     var formData = new FormData();
 
-    const fileInput = document.getElementById('imageInput');
+    const fileInput : any = document.getElementById('imageInput');
     
     if (fileInput && fileInput.files.length > 0) {
 

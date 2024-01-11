@@ -1,0 +1,16 @@
+flask==2.3.3
+flask-login
+flask-sqlalchemy
+flask-migrate
+flask-bcrypt
+flask-session
+redis
+
+flask-cors
+
+sqlalchemy
+mysql-connector
+
+python-dotenv
+
+pillow

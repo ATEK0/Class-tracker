@@ -1,9 +1,4 @@
 import { Label, TextInput } from "flowbite-react";
-import { useEffect, useState } from "react";
-import httpClient from "../../../httpClient";
-import toast from "react-hot-toast";
-import { ClassListType } from "../../../types";
-import { apiLink } from "../../../config";
 
 const AdminSettings = () => {
 

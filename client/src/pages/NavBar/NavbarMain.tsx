@@ -13,7 +13,7 @@ function classNames(...classes: string[]) {
 
 
 const NavBarMain = () => {
-  const [cookies, setCookie] = useCookies();
+  const cookies:any = useCookies();
 
   var navigation: any[] = [];
 
