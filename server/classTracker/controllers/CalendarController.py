@@ -18,7 +18,7 @@ def getCalendarEvents():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
         
     selected_id = request.json["id"]
     classroom_data = []

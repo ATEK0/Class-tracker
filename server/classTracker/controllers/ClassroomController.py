@@ -15,7 +15,7 @@ def createClassroom():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     user_id = request.json["teacher"]
     subject_id = request.json["subject"]

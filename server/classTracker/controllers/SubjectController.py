@@ -15,7 +15,7 @@ def getSubjectCount():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
     
     if isAdmin(current_user):
         subjectCount = Subject.query.filter_by(is_deleted = 0).count()
@@ -37,7 +37,7 @@ def getSubject():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     subjects = Subject.query.filter_by(is_deleted = 0).all()
 
@@ -54,7 +54,7 @@ def getSubjectTeachers():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     class_id = request.json["class_ID"]
     subject_id = request.json["subject"]
@@ -80,7 +80,7 @@ def createSubject():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     label = request.json["label"]
 
@@ -89,16 +89,14 @@ def createSubject():
     db.session.add(newSubject)
     db.session.commit()
 
-    return jsonify ({
-        "message": "ok"
-    }), 200
+    return "Subject successfully created", 200
 
 @subjectController.route('/deleteSubject/<subject_id>', methods=['POST'])
 def deleteSubject(subject_id):
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     subject = Subject.query.get(subject_id)
     classes_subjects = Class_Subject.query.filter_by(subject_id = subject.id).all()
@@ -109,16 +107,16 @@ def deleteSubject(subject_id):
             for class_subject in classes_subjects:
                 class_subject.is_deleted = 1
         db.session.commit()
-        return jsonify({"message": "ok"}), 200
+        return " successfully archived", 200
     else:
-        return jsonify({"message": "Subject not found"}), 404
+        return "Subject not found", 404
     
 @subjectController.route('/editSubject/<subject_id>', methods=['POST'])
 def editSubject(subject_id):
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     label = request.json['label']
 
@@ -127,6 +125,6 @@ def editSubject(subject_id):
     if subject:
         subject.label = label
         db.session.commit()
-        return jsonify({"message": "ok"}), 200
+        return "Subject successfully edited", 200
     else:
-        return jsonify({"message": "Subject not found"}), 404
+        return "Subject not found", 404

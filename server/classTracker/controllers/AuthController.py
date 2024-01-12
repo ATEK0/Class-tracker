@@ -16,7 +16,7 @@ def get_current_user():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     user = User.query.filter_by(id=current_user).first()
 
@@ -91,7 +91,7 @@ def login():
     user_exists = User.query.filter_by(email=email).first()
 
     if not user_exists or not bcrypt.check_password_hash(user_exists.password, password):
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     else:
         session["user_id"] = user_exists.id

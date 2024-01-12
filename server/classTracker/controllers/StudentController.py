@@ -18,7 +18,7 @@ def getStudentsCount():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
     
     if isAdmin(current_user):
         count = Student.query.count()
@@ -40,7 +40,7 @@ def getStudents():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     students = Student.query.all()
 
@@ -64,7 +64,7 @@ def getStudentInfo():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
     
     user_id = request.json["id"]
 
@@ -100,7 +100,7 @@ def createStudent():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     name = request.json["firstName"]
     surname = request.json["lastName"]
@@ -118,7 +118,7 @@ def createStudent():
     user_exists = User.query.filter_by(email=email).first()
 
     if user_exists:
-        return jsonify({"error": "Email already in use, please use another email"}), 409
+        return "Email already in use, please use another email", 409
 
     hashedPassword = bcrypt.generate_password_hash(password)
 
@@ -132,16 +132,14 @@ def createStudent():
     db.session.add(newStudent)
     db.session.commit()
 
-    return jsonify ({
-        "message": "ok"
-    }), 200
+    return "Student successfully created", 200
 
 @studentController.route('/editStudent/<user_id>', methods=['POST'])
 def editStudent(user_id):
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     name = request.json['firstName']
     surname = request.json['lastName']
@@ -170,16 +168,16 @@ def editStudent(user_id):
         parent.email = parentEmail
         parent.address = parentAddress
         db.session.commit()
-        return jsonify({"message": "ok"}), 200
+        return "Student successfully edited", 200
     else:
-        return jsonify({"message": "User not found"}), 404
+        return "User not found", 404
 
 @studentController.route('/deleteStudent/<user_id>', methods=['DELETE'])
 def deleteStudent(user_id):
     current_user = session.get("user_id")
     
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     user = User.query.filter_by(id = user_id).first()
     student = Student.query.filter_by(user_id = user_id).first()
@@ -193,6 +191,6 @@ def deleteStudent(user_id):
         if count == 1:
             db.session.delete(parent)
         db.session.commit()
-        return jsonify({"message": "ok"}), 200
+        return "Student successfully deleted", 200
     else:
-        return jsonify({"message": "User not found"}), 404
+        return "User not found", 404

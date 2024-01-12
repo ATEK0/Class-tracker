@@ -15,7 +15,7 @@ def changeProfilePassword():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     user = User.query.filter_by(id = current_user).first()
     
@@ -26,11 +26,11 @@ def changeProfilePassword():
         if(not bcrypt.check_password_hash(user.password, new_password)):
             user.password = bcrypt.generate_password_hash(new_password)
             db.session.commit()
-            return jsonify ({"message": "ok"}), 200
+            return "Profile password successfully updated", 200
         else:
-            return jsonify({"error": "Same Password"})
+            return "Same Password"
     else:
-        return jsonify({"error": "Wrong Password"})
+        return "Wrong Password"
 
 
 
@@ -40,7 +40,7 @@ def updateProfileImage():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     user = User.query.filter_by(id = current_user).first()
 
@@ -59,9 +59,8 @@ def updateProfileImage():
     user.image_path = f"../profile_images/{filename}"
     db.session.commit()
 
-    return jsonify ({
-        "message": "ok"
-    }), 200
+    return "Profile image successfully updated", 200
+
 
 @profileController.route("/getProfileImage/<path:userID>", methods=["GET", "POST"])
 def getProfileImage(userID):

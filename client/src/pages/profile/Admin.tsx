@@ -36,12 +36,11 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
       var changePassResponse = await httpClient.post(apiLink + "/changeProfilePassword", { current_password: cPassword, new_password: newPassword });
       var response = changePassResponse.data
 
-      if (response.error) {
-        toast.error(response["error"])
-      } else {
-        toast.success("Password changed")
-        setOpenModalCP(false)
+      if (changePassResponse.status !== 200) {
+        return toast.error(response)
       }
+
+      toast.success(response)
 
     } else {
       toast.error("Passwords dont match")
@@ -60,9 +59,9 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
       formData.append('image', fileInput.files[0]);
       
 
-      await httpClient.post(apiLink + "/updateProfileImage", formData);
+      const response = await httpClient.post(apiLink + "/updateProfileImage", formData);
 
-      toast.success("Profile image changed");
+      toast.success(response.data);
       onCloseModal();
       window.location.reload()
     } else {

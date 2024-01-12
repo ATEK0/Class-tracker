@@ -107,13 +107,14 @@ const Table = (props: {
 
     const deleteStudent = async (studentID: any) => {
         const resp = await httpClient.delete(`${apiLink}/deleteStudent/${studentID}`);
-        if (resp.data.message == 'ok') {
-            loadTableData()
-            toast.success("Student deleted")
-            setopenModalConfirmDelete(false)
-        } else {
-            toast.error("Student Not Found")
+        if (resp.status !== 200) {
+            return toast.error(resp.data)
         }
+
+        loadTableData()
+        toast.success(resp.data)
+        setopenModalConfirmDelete(false)
+
         console.log('Deletar:', studentID);
     }
 
@@ -153,10 +154,18 @@ const Table = (props: {
         console.log("Form Data:", formData);
         setloadingStatus("Creating...")
         try {
-            await httpClient.post(`//localhost:1222/editStudent/${beingEdited}`, formData);
-            toast.success("Student Updated")
+            const response = await httpClient.post(`//localhost:1222/editStudent/${beingEdited}`, formData);
+
+            if (response.status !== 200) {
+                return toast.error(response.data)
+            }
             
-            window.location.reload()
+            loadTableData()
+            onCloseModal()
+
+            setTimeout(() => {
+                toast.success(response.data)
+            }, 1000);
             
         } catch (error) {
             toast.error("Error, try again")

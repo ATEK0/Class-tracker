@@ -6,17 +6,17 @@ import Student from './Student';
 import { Navigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useFetchUser } from '../../controllers/getUserData';
+import { User } from '../../types';
 
 const Profile = () => {
   const [cookies] = useCookies();
   const [componentToRender, setComponentToRender] = useState<React.JSX.Element | null>(null);
 
-  const user  = useFetchUser();
+  const user:User|null  = useFetchUser();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = () => {
       try {
-      
 
         if (user?.userType === "Admin") {
           document.title = 'Admin Profile - Class Tracker';

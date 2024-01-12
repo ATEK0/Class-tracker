@@ -93,11 +93,11 @@ const NewClass: React.FC = () => {
             endTime });
         const createSummaryResponse = createSummary.data;
 
-        if (createSummaryResponse.message === "ok") {
-            toast.success("Summary created!");
-        } else if (createSummaryResponse.message === "error") {
-            toast.error("An error ocurred, try again");
+        if (createSummary.status !== 200) {
+            return toast.error(createSummaryResponse)
         }
+
+        toast.success(createSummaryResponse);
         
     };
 

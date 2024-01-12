@@ -17,7 +17,7 @@ def getTeachersCount():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
     
     if isAdmin(current_user):
         count = Teacher.query.count()
@@ -29,7 +29,7 @@ def getTeachers():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     teachers = Teacher.query.all()
 
@@ -48,7 +48,7 @@ def getTeacherInfo():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
     
     user_id = request.json["id"]
 

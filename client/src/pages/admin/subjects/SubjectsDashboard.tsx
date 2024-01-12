@@ -3,7 +3,7 @@ import httpClient from '../../../httpClient';
 import { SubjectListType } from '../../../types';
 import { Link } from 'react-router-dom';
 import { Modal, Label, TextInput, Button } from 'flowbite-react';
-import { faPencil, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faPlus, faBoxArchive } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import toast from 'react-hot-toast';
 import { apiLink } from '../../../config';
@@ -55,19 +55,17 @@ const SubjectsDashboard = () => {
         const create = await httpClient.post(apiLink + "/createSubject", { label: subjectName });
         const resp = create.data;
     
-        if (resp.message === "ok") {
-  
-          await updateSubjectList()
-    
-  
-          setopenModalCreate(false);
-    
-          toast.success("Subject created successfully");
-          setsubjectName(null)
-
-        } else {
-          toast.error("Failed to create subject");
+        if (create.status !== 200) {
+          return toast.error(resp);
         }
+  
+        await updateSubjectList()
+
+        setopenModalCreate(false);
+  
+        toast.success(resp);
+        setsubjectName(null)
+
       } catch (error) {
         console.error('Error creating subject:', error);
   
@@ -84,11 +82,16 @@ const SubjectsDashboard = () => {
   async function deleteSubject() {
   
     try {
-      await httpClient.delete(apiLink + `/deleteSubject/${beingDeletedID}`);
+      const archive = await httpClient.post(apiLink + `/deleteSubject/${beingDeletedID}`);
+      const resp = archive.data
+
+      if (archive.status !== 200) {
+        return toast.error(resp)
+      }
       
       updateSubjectList()
       
-      toast.success(beingDeleted + " deleted successfully")
+      toast.success(beingDeleted + resp)
     } catch (error) {
       console.error('Error deleting subject:', error);
     }
@@ -106,13 +109,13 @@ const SubjectsDashboard = () => {
     const edit = await httpClient.post('//localhost:1222/editSubject/'+useSubjectID, { label: subjectName });
     const resp = edit.data;
 
-    if (resp.message === "ok") {
-      setopenModalEdit(false);
-      await updateSubjectList()
-      toast.success("Subject changed successfully");
-    } else {
-      toast.error("Failed to edit subject");
-    } 
+    if (edit.status !== 200) {
+      return toast.error(resp);
+    }
+
+    setopenModalEdit(false);
+    await updateSubjectList()
+    toast.success(resp);
   }
 
   function editButtonClicked(event: MouseEvent<SVGSVGElement, globalThis.MouseEvent>, subjectName:string, id:string) {
@@ -153,7 +156,7 @@ const SubjectsDashboard = () => {
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
                 >
-                  <FontAwesomeIcon icon={faTrashCan} onClick={(event) => {editButtonClicked(event, subject.label, subject.id)}} className='p-1 w-4 h-4' />
+                  <FontAwesomeIcon icon={faBoxArchive} onClick={(event) => {editButtonClicked(event, subject.label, subject.id)}} className='p-1 w-4 h-4' />
                 </button>
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
@@ -217,15 +220,15 @@ const SubjectsDashboard = () => {
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-4">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Delete {beingDeleted}</h3>
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Archive {beingDeleted}</h3>
             <div className="block">
-              <Label htmlFor="">Do you want to delete <b>{beingDeleted}</b>? Every related class will also be deleted.</Label>
+              <Label htmlFor="">Do you want to archive <b>{beingDeleted}</b>? Every related class will also be archived.</Label>
             </div>
 
 
             <div className="w-full flex justify-between">
               <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>
-              <Button className='bg-[#c82333]' onClick={deleteSubject}>Delete</Button>
+              <Button className='bg-[#c82333]' onClick={deleteSubject}>Archive</Button>
             </div>
 
           </div>

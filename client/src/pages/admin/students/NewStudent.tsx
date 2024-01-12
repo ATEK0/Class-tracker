@@ -43,8 +43,14 @@ const NewStudent = () => {
     console.log("Form Data:", formData);
     setloadingStatus("Creating...")
     try {
-      await httpClient.post('//localhost:1222/createStudent', formData);
-      toast.success("Student Created")
+      const create = await httpClient.post('//localhost:1222/createStudent', formData);
+      const resp = create.data
+
+      if (create.status !== 200) {
+        return toast.error(resp)
+      }
+
+      toast.success(resp)
 
       window.location.href = "/admin/students"
 

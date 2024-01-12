@@ -12,7 +12,7 @@ def createSummary():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     title = request.json["title"]
     content = request.json["content"]
@@ -22,6 +22,4 @@ def createSummary():
     db.session.add(newSummary)
     db.session.commit()
 
-    return jsonify ({
-        "message": "ok"
-    }), 200
+    return "Summary successfully created", 200

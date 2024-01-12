@@ -18,7 +18,7 @@ def getClassSubjects():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     class_ = request.json["class_ID"]
 
@@ -39,7 +39,7 @@ def getClasses():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     classes = Class_.query.filter_by(is_deleted = 0).all()
 
@@ -60,7 +60,7 @@ def getClassesCount():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
     
     if isAdmin(current_user):
         count = Class_.query.count()
@@ -82,10 +82,9 @@ def getClassStudents():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401    
+        return "Unauthorized", 401    
 
     class_id = request.json.get("class_id")
-    print("--------------", class_id)
 
     students = Student.query.filter_by(class_id = class_id).all()
 
@@ -102,7 +101,7 @@ def createClass():
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     label = request.json["label"]
     grade = request.json["grade"]
@@ -114,16 +113,14 @@ def createClass():
     db.session.add(newClass)
     db.session.commit()
 
-    return jsonify ({
-        "message": "ok"
-    }), 200
+    return "Class successfully created", 200
 
 @classController.route('/deleteClass/<class_id>', methods=['POST'])
 def deleteClass(class_id):
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     class_ = Class_.query.get(class_id)
     classes_subjects = Class_Subject.query.filter_by(class_id = class_.id).all()
@@ -134,16 +131,16 @@ def deleteClass(class_id):
             for class_subject in classes_subjects:
                 class_subject.is_deleted = 1
         db.session.commit()
-        return jsonify({"message": "ok"}), 200
+        return "Class successfully archived", 200
     else:
-        return jsonify({"message": "Class not found"}), 404
+        return "Class not found", 404
     
 @classController.route('/editClass/<class_id>', methods=['POST'])
 def editClass(class_id):
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     label = request.json['label']
     grade = request.json['grade']
@@ -158,6 +155,6 @@ def editClass(class_id):
         class_.type_id = type_id
         class_.head_teacher = head_teacher
         db.session.commit()
-        return jsonify({"message": "ok"}), 200
+        return "Class successfully updated", 200
     else:
-        return jsonify({"message": "Class not found"}), 404
+        return "Class not found", 404

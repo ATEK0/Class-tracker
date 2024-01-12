@@ -11,23 +11,23 @@ def deleteUser(user_id):
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     user = User.query.filter_by(id = user_id).first()
 
     if user:
         db.session.delete(user)
         db.session.commit()
-        return jsonify({"message": "ok"}), 200
+        return "User successfully deleted", 200
     else:
-        return jsonify({"message": "User not found"}), 404
+        return "User not found", 404
 
 @userController.route('/editUser/<user_id>', methods=['POST'])
 def editUser(user_id):
     current_user = session.get("user_id")
 
     if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
+        return "Unauthorized", 401
 
     name = request.json['name']
     surname = request.json['surname']
@@ -46,6 +46,6 @@ def editUser(user_id):
         user.birthdate = birthdate
         user.state = state
         db.session.commit()
-        return jsonify({"message": "ok"}), 200
+        return "User successfully edited", 200
     else:
-        return jsonify({"message": "User not found"}), 404
+        return "User not found", 404
