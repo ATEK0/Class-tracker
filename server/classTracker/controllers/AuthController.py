@@ -47,6 +47,7 @@ def get_current_user():
         user_info["parentEmail"] = parent.email
         user_info["parentAddress"] = parent.address
         user_info["parentPhone"] = parent.phone
+        user_info["classId"] = class_.id
         user_info["className"] = str(class_.grade) + " º" + class_.label
         user_info["classType"] = class_.type_id
         user_info["classHeadTeacher"] = teacher.name + " " + teacher.surname
