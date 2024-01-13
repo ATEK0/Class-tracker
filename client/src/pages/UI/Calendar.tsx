@@ -8,13 +8,13 @@ import { ClassListType, TeacherListType } from '../../types';
 import { Dictionary } from '@fullcalendar/core/internal';
 import toast from 'react-hot-toast';
 
-const Calendar = (props: any) => {
-    const calendarRef = useRef<any>();
+const CalendarComponent = (props: any) => {
+    const calendarRef = useRef<any>(null);
     const selectRef = useRef<HTMLSelectElement | null>(null);
     const [calendarDataResponse, setCalendarDataResponse] = useState<Dictionary>()
 
 
-    const loadCalendarData = async (event: { target: { value: any } }) => {
+    const loadCalendarData = async (event: { target: any; }) => {
         console.log(event.target.value);
 
         setCalendarDataResponse([])
@@ -51,7 +51,7 @@ const Calendar = (props: any) => {
                     'margin-left: 0px !important;'
                 );
 
-                selectElement.addEventListener('change', () => {loadCalendarData});
+                selectElement.addEventListener('change', loadCalendarData);
 
                 const optionElement = document.createElement('option');
                 optionElement.value = '';
@@ -137,7 +137,7 @@ const Calendar = (props: any) => {
         } else {
             const simulatedEvent: { target: { value: any } } = {
                 target: {
-                    value: props.id, 
+                    value: props.id,
                 },
             };
 
@@ -205,8 +205,8 @@ const Calendar = (props: any) => {
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
-                }} 
-                slotLabelFormat={{ hour: '2-digit', minute: '2-digit', hour12: false }}  
+                }}
+                slotLabelFormat={{ hour: '2-digit', minute: '2-digit', hour12: false }}
             />
 
 
@@ -214,4 +214,4 @@ const Calendar = (props: any) => {
     );
 };
 
-export default Calendar;
+export default CalendarComponent;

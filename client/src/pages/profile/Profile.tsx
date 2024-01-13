@@ -12,12 +12,12 @@ const Profile = () => {
   const [cookies] = useCookies();
   const [componentToRender, setComponentToRender] = useState<React.JSX.Element | null>(null);
 
-  const user:User|null  = useFetchUser();
+  const user : User  = useFetchUser();
 
   useEffect(() => {
     const fetchData = () => {
       try {
-
+        console.log(user , " - utilizador")
         if (user?.userType === "Admin") {
           document.title = 'Admin Profile - Class Tracker';
           setComponentToRender(<Admin user={user}/>);
@@ -30,6 +30,7 @@ const Profile = () => {
           document.title = 'Student Profile - Class Tracker';
           setComponentToRender(<Student user={user}/>);
 
+          
         } else {
             console.warn("Unexpected user type:", user?.userType);
         }
