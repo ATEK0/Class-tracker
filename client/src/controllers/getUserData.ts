@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import httpClient from "../httpClient";
 import { User } from "../types";
@@ -21,6 +20,8 @@ export const useFetchUser = (): User => {
       try {
         const resp = await httpClient.get(apiLink + "/@me");
         setUser(resp.data);
+        console.log(resp.data);  // Log the updated data
+        
       } catch (error) {
         console.error("Error fetching user:", error);
       }
