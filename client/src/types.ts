@@ -3,22 +3,22 @@ export interface User {
     name: string;
     surname: string;
     email: string;
-    state: string;
     userType: string;
     address: string;
     birthdate: string;
 }
 
 export interface Student extends User {
-    class_id: string;
-    class: string;
-    class_director: string;
-    process: string;
+    classId: string;
+    className: string;
+    classHeadTeacher: string;
+    pNumber: string;
     parentID: string;
     parentName: string;
     parentPhone: string;
     parentEmail: string;
     parentAddress: string;
+    classType: string;
 }
 
 

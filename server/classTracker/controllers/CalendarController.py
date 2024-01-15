@@ -20,7 +20,8 @@ def getCalendarEvents():
     if not current_user:
         return "Unauthorized", 401
         
-    selected_id = request.json["id"]
+    selected_id = str(request.json["id"])
+    print(selected_id)
     classroom_data = []
 
     currentDate = datetime.datetime.now()

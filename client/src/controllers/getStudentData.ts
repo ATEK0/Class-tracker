@@ -1,25 +1,17 @@
 import { useState, useEffect } from "react";
 import httpClient from "../httpClient";
-import { User } from "../types";
+import { Student } from "../types";
 import { apiLink } from "../config";
 
-export const useFetchUser = (): User => {
-  const [user, setUser] = useState<User>({
-    id: "",
-    name: "",
-    surname: "",
-    email: "",
-    userType: "",
-    address: "",
-    birthdate: ""
-  });
+export const getStudentData = () => {
+  const [user, setUser] = useState<Student>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const resp = await httpClient.get(apiLink + "/@me");
         setUser(resp.data);
-        console.log(resp.data);  // Log the updated data
+        console.log(resp.data);  
         
       } catch (error) {
         console.error("Error fetching user:", error);

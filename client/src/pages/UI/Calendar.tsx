@@ -7,6 +7,7 @@ import httpClient from '../../httpClient';
 import { ClassListType, TeacherListType } from '../../types';
 import { Dictionary } from '@fullcalendar/core/internal';
 import toast from 'react-hot-toast';
+import { apiLink } from '../../config';
 
 const CalendarComponent = (props: any) => {
     const calendarRef = useRef<any>(null);
@@ -20,7 +21,7 @@ const CalendarComponent = (props: any) => {
         setCalendarDataResponse([])
 
         try {
-            const calendarDataResponse = await httpClient.post('//localhost:1222/getCalendarEvents', { id: event.target.value });
+            const calendarDataResponse = await httpClient.post(apiLink + '/getCalendarEvents', { id: event.target.value });
 
             setCalendarDataResponse(calendarDataResponse.data)
             toast.success("Schedule Loaded")

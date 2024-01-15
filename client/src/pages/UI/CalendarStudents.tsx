@@ -5,16 +5,11 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import httpClient from '../../httpClient';
 import { Dictionary } from '@fullcalendar/core/internal';
-import toast from 'react-hot-toast';
 import { apiLink } from '../../config';
-// import { Student } from '../../types';
-
 const Calendar = () => {
     const calendarRef = useRef(null);
-    // const selectRef = useRef<HTMLSelectElement | null>(null);
     const [calendarDataResponse, setCalendarDataResponse] = useState<Dictionary>()
 
-    // const [student, setstudent] = useState<Student>()
 
     useEffect(() => {
         loadCalendarData()
@@ -25,15 +20,14 @@ const Calendar = () => {
 
     const loadCalendarData = async () => {
         const user = await httpClient.get(`${apiLink}/@me`)
-        console.log(user.data)
-        // setstudent(user.data)
+        console.log(user.data.classId)
+        const classId = "class-" + user.data.classId
         setCalendarDataResponse([])
 
         try {
-            const calendarDataResponse = await httpClient.post(`${apiLink}/getCalendarEvents`, { id: user.data.class });
+            const calendarDataResponse = await httpClient.post(`${apiLink}/getCalendarEvents`, { id: classId });
 
             setCalendarDataResponse(calendarDataResponse.data)
-            toast.success("Schedule Loaded")
         } catch {
         }
 
