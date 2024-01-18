@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, redirect, session
 
-from .. import db
+from .. import db, bcrypt
 
 from ..models.User import User, isAdmin
 from ..models.Teacher import Teacher
@@ -97,3 +97,77 @@ def getTeacherInfo():
     }
 
     return jsonify(teacher_info)
+
+@teacherController.route("/createTeacher", methods=["POST"])
+def createTeacher():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+
+    name = request.json["firstName"]
+    surname = request.json["lastName"]
+    password = request.json["password"]
+    email = request.json["email"]
+    address = request.json["address"]
+    birthdate = request.json["birthdate"]
+    contact = request.json["contact"]
+
+    user_exists = User.query.filter_by(email=email).first()
+
+    if user_exists:
+        return "Email already in use, please use another email", 409
+
+    hashedPassword = bcrypt.generate_password_hash(password)
+
+    newTeacher = Teacher(name = name, surname = surname, email = email, password = hashedPassword, address = address, birthdate = birthdate, contact = contact)
+
+    db.session.add(newTeacher)
+    db.session.commit()
+
+    return "Teacher successfully created", 200
+
+@teacherController.route('/editTeacher/<user_id>', methods=['POST'])
+def editTeacher(user_id):
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+
+    name = request.json['firstName']
+    surname = request.json['lastName']
+    email = request.json['email']
+    address = request.json['address']
+    contact = request.json['contact']
+
+    user = Teacher.query.get(user_id)
+
+    if user:
+        user.name = name
+        user.surname = surname
+        user.email = email
+        user.address = address
+        user.state = 'Active'
+        user.contact = contact
+        db.session.commit()
+        return "Teacher successfully edited", 200
+    else:
+        return "User not found", 404
+
+@teacherController.route('/deleteTeacher/<user_id>', methods=['DELETE'])
+def deleteTeacher(user_id):
+    current_user = session.get("user_id")
+    
+    if not current_user:
+        return "Unauthorized", 401
+
+    user = User.query.filter_by(id = user_id).first()
+    teacher = Teacher.query.filter_by(user_id = user_id).first()
+
+    if user:
+        db.session.delete(user)
+        db.session.delete(teacher)
+        db.session.commit()
+        return "Teacher successfully deleted", 200
+    else:
+        return "User not found", 404

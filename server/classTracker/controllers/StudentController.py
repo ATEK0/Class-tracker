@@ -183,7 +183,6 @@ def deleteStudent(user_id):
     student = Student.query.filter_by(user_id = user_id).first()
     parent = Parent.query.filter_by(id = student.parent_id).first()
     count = Student.query.filter_by(parent_id = parent.id).count()
-    print(count)
 
     if user:
         db.session.delete(user)
