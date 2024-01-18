@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, redirect, session
 
 from .. import db, bcrypt
+from datetime import date
 
 from ..models.User import User, isAdmin
 from ..models.Teacher import Teacher
@@ -8,6 +9,7 @@ from ..models.Class_Subject import Class_Subject
 from ..models.Teacher_CS import Teacher_CS
 from ..models.Class_ import Class_
 from ..models.Subject import Subject
+from ..models.Classroom import Classroom
 
 teacherController = Blueprint('teacher', __name__)
 
@@ -22,6 +24,21 @@ def getTeachersCount():
     if isAdmin(current_user):
         count = Teacher.query.count()
 
+    return jsonify(count)
+
+@teacherController.route('/getTeacherClassroomsCount', methods=["GET"])
+def getTeacherClassroomsCount():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+    
+    user = User.query.filter_by(id=current_user).first()
+    teacher = Teacher.query.filter_by(user_id = user.id).first()
+    teacher_cs_records = Teacher_CS.query.filter_by(teacher_id = teacher.teacher_id, is_deleted = 0).all()
+    tcsids = [record.id for record in teacher_cs_records]
+    count = Classroom.query.filter_by(day = str(date.today())).filter(Classroom.tcs_id.in_(tcsids)).count()
+    
     return jsonify(count)
 
 @teacherController.route("/getTeachers", methods=["GET"])
