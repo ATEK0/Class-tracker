@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Label, TextInput, Button } from 'flowbite-react';
 import httpClient from '../../httpClient';
-import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { apiLink } from '../../config';
+import { changePassword } from '../../controllers/changePassword';
+import { handleFormSubmit } from '../../controllers/uploadProfileImage';
+
 
 const Admin = (props: { user: { email: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; surname: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; id: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; userType: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined } }) => {
 
-  const [openModalCP, setOpenModalCP] = useState(false);
-  const [cPassword, setcPassword] = useState('');
-  const [newPassword, setnewPassword] = useState('');
-  const [confirmnewPassword, setconfirmnewPassword] = useState('');
+  const [openModalCP, setOpenModalCP] = useState<boolean>(false);
+  const [cPassword, setcPassword] = useState<string>('');
+  const [newPassword, setnewPassword] = useState<string>('');
+  const [confirmnewPassword, setconfirmnewPassword] = useState<string>('');
 
   const [openModalProfile, setOpenModalProfile] = useState(false);
   const [profileImage, setProfileImage] = useState("https://cdn-icons-png.flaticon.com/512/149/149071.png");
@@ -27,46 +29,6 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
     setOpenModalProfile(false);
     setSelectedFile(null);
 
-  }
-
-
-  async function changePassword() {
-
-    if (newPassword == confirmnewPassword) {
-      var changePassResponse = await httpClient.post(apiLink + "/changeProfilePassword", { current_password: cPassword, new_password: newPassword });
-      var response = changePassResponse.data
-
-      if (changePassResponse.status !== 200) {
-        return toast.error(response)
-      }
-
-      toast.success(response)
-
-    } else {
-      toast.error("Passwords dont match")
-    }
-  }
-
-  async function handleFormSubmit(event: { preventDefault: () => void; }) {
-    event.preventDefault();
-
-    var formData = new FormData();
-
-    const fileInput: any = document.getElementById('imageInput');
-
-    if (fileInput && fileInput.files.length > 0) {
-
-      formData.append('image', fileInput.files[0]);
-
-
-      const response = await httpClient.post(apiLink + "/updateProfileImage", formData);
-
-      toast.success(response.data);
-      onCloseModal();
-      window.location.reload()
-    } else {
-      toast.error("Please select an image");
-    }
   }
 
 
@@ -254,7 +216,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
 
             <div className="w-full flex justify-between">
               <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>
-              <Button className='bg-[#04304d]' onClick={changePassword}>Change Password</Button>
+              <Button className='bg-[#04304d]' onClick={async () => { if (await changePassword(newPassword, confirmnewPassword, cPassword)) { onCloseModal() } }}>Change Password</Button>
             </div>
 
           </div>
@@ -346,5 +308,4 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
     </div>
   )
 }
-
 export default Admin
