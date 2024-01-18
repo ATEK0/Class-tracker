@@ -17,8 +17,8 @@ export default function Stats(props: { type: string; }) {
         if (props.type == "Admin") {
           const teacherCountresp = await httpClient.get(`//localhost:1222/getTeachersCount?type=${props.type}`);
           setTeacherCount(teacherCountresp.data);
-        } 
-    
+        }
+
         setClassCount(classCountresp.data);
         setSubjectCount(subjectCountresp.data);
         setStudentCount(studentCountresp.data);
@@ -27,17 +27,27 @@ export default function Stats(props: { type: string; }) {
         console.error("Error fetching data:", error);
       }
     };
-    
+
 
     fetchData(); // Call the async function inside useEffect
   }, []); // Empty dependency array to ensure the effect runs once on mount
 
-  const stats = [
+  var stats = [
     { id: 1, name: 'Classes', value: classCount },
     { id: 2, name: 'Subjects', value: subjectCount },
     { id: 3, name: 'Students', value: studentCount },
     { id: 4, name: 'Teachers', value: teacherCount }
   ];
+
+  if (props.type == "Teacher") {
+    stats = [
+      { id: 1, name: 'Classes', value: classCount },
+      { id: 2, name: 'Subjects', value: subjectCount },
+      { id: 3, name: 'Students', value: studentCount },
+      { id: 3, name: 'Today Classes', value: studentCount },
+    ];
+  }
+
 
   return (
     <div className="sm:pb-16 pb-8 pt-5">

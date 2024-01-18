@@ -28,10 +28,10 @@ def changeProfilePassword():
             db.session.commit()
             return "Profile password successfully updated", 200
         else:
-            return "Same Password"
+            return "Same Password", 203
     else:
-        return "Wrong Password"
-
+        return "Wrong Password", 203
+    
 
 
 
