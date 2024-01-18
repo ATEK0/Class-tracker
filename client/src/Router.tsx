@@ -18,7 +18,7 @@ import Profile from "./pages/profile/Profile"
 import StudentIndividual from "./pages/students/StudentIndividual"
 import NewStudent from "./pages/admin/students/NewStudent"
 import SubjectsDetails from "./pages/admin/subjects/SubjectsDetails"
-import TeacherDetails from "./pages/admin/teachers/TeacherDetails"
+// import TeacherDetails from "./pages/admin/teachers/TeacherDetails"
 import Support from "./pages/Support"
 import NewClassroom from "./pages/admin/classrooms/NewClass"
 
@@ -56,7 +56,7 @@ const Router: React.FC = () => {
         <Route path="/admin/subjects/:subjectID" element={<SubjectsDetails />} />
 
         <Route path="/admin/teachers" element={<TeachersDashboard />} />
-        <Route path="/admin/teachers/edit/:teacherID/:name" element={<TeacherDetails />} />
+        {/* <Route path="/admin/teachers/edit/:teacherID/:name" element={<TeacherDetails />} /> */}
 
 
         <Route path="/profile" element={<Profile />} />
