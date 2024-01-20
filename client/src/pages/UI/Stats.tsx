@@ -19,6 +19,9 @@ export default function Stats(props: { type: string; }) {
         if (props.type == "Admin") {
           const teacherCountresp = await httpClient.get(`${apiLink}/getTeachersCount?type=${props.type}`);
           setTeacherCount(teacherCountresp.data);
+        } else {
+          const teacherClassroomCountresp = await httpClient.get(`//localhost:1222/getTeacherClassroomsCount`);
+          setTeacherCount(teacherClassroomCountresp.data);
         }
         if (props.type == 'Teacher') {
           const classroomCountresp = await httpClient.get(`${apiLink}/getTeacherClassroomsCount`);
@@ -39,7 +42,7 @@ export default function Stats(props: { type: string; }) {
     fetchData(); // Call the async function inside useEffect
   }, []); // Empty dependency array to ensure the effect runs once on mount
 
-  var stats = [
+  let stats = [
     { id: 1, name: 'Classes', value: classCount },
     { id: 2, name: 'Subjects', value: subjectCount },
     { id: 3, name: 'Students', value: studentCount },
