@@ -9,7 +9,7 @@ const TeachersDashboard = () => {
 
 
       <Table endpoint={"/getTeachers"} namesList={["id", "name", "contact", "email", "state"]}/>
-      <Link to={"/admin/students/new"}><button type="button" className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full mb-3' >Create Teacher</button></Link>
+      <Link to={"/admin/teachers/new"}><button type="button" className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full mb-3' >Create Teacher</button></Link>
     </div>
   )
 }

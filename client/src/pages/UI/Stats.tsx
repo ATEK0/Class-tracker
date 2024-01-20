@@ -1,22 +1,29 @@
 import { useState, useEffect } from "react";
 import httpClient from "../../httpClient";
+import { apiLink } from "../../config";
 
 export default function Stats(props: { type: string; }) {
   const [classCount, setClassCount] = useState("-");
   const [subjectCount, setSubjectCount] = useState("-");
   const [studentCount, setStudentCount] = useState("-");
   const [teacherCount, setTeacherCount] = useState("-");
+  const [classroomCount, setclassroomCount] = useState("-");
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const classCountresp = await httpClient.get(`//localhost:1222/getClassesCount?type=${props.type}`);
-        const subjectCountresp = await httpClient.get(`//localhost:1222/getSubjectCount?type=${props.type}`);
-        const studentCountresp = await httpClient.get(`//localhost:1222/getStudentsCount?type=${props.type}`);
+        const classCountresp = await httpClient.get(`${apiLink}/getClassesCount?type=${props.type}`);
+        const subjectCountresp = await httpClient.get(`${apiLink}/getSubjectCount?type=${props.type}`);
+        const studentCountresp = await httpClient.get(`${apiLink}/getStudentsCount?type=${props.type}`);
         if (props.type == "Admin") {
-          const teacherCountresp = await httpClient.get(`//localhost:1222/getTeachersCount?type=${props.type}`);
+          const teacherCountresp = await httpClient.get(`${apiLink}/getTeachersCount?type=${props.type}`);
           setTeacherCount(teacherCountresp.data);
+        }
+        if (props.type == 'Teacher') {
+          const classroomCountresp = await httpClient.get(`${apiLink}/getTeacherClassroomsCount`);
+          setclassroomCount(classroomCountresp.data)
+
         }
 
         setClassCount(classCountresp.data);
@@ -44,7 +51,7 @@ export default function Stats(props: { type: string; }) {
       { id: 1, name: 'Classes', value: classCount },
       { id: 2, name: 'Subjects', value: subjectCount },
       { id: 3, name: 'Students', value: studentCount },
-      { id: 3, name: 'Today Classes', value: studentCount },
+      { id: 3, name: 'Today Classes', value: classroomCount },
     ];
   }
 

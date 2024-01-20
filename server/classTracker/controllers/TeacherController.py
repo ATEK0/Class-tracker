@@ -156,6 +156,7 @@ def editTeacher(user_id):
     email = request.json['email']
     address = request.json['address']
     contact = request.json['contact']
+    state = request.json['state']
 
     user = Teacher.query.get(user_id)
 
@@ -164,7 +165,7 @@ def editTeacher(user_id):
         user.surname = surname
         user.email = email
         user.address = address
-        user.state = 'Active'
+        user.state = state
         user.contact = contact
         db.session.commit()
         return "Teacher successfully edited", 200
