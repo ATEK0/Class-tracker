@@ -6,7 +6,7 @@ class Class_(db.Model):
     label = db.Column(db.String(50))
     grade = db.Column(db.Integer)
     type_id = db.Column(db.Integer, db.ForeignKey("class_types.id", ondelete='CASCADE'))
-    head_teacher = db.Column(db.Integer, db.ForeignKey("teachers.teacher_id"))
+    head_teacher = db.Column(db.Integer, db.ForeignKey("teachers.teacher_id", ondelete="SET NULL"))
     is_deleted = db.Column(db.Boolean, default=False)
 
     class_type = db.relationship("Class_Type", back_populates="classes")

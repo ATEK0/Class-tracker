@@ -46,11 +46,17 @@ def getClasses():
     class_info = []
     for class_ in classes:
         teacher = Teacher.query.filter_by(teacher_id = class_.head_teacher).first()
+        
+        if not teacher:
+            teacherName = "Not Defined"
+        else:
+            teacherName = teacher.name + " " + teacher.surname
+
         class_info.append({
             "id": class_.id,
             "label": class_.label,
             "grade": class_.grade,
-            "name": teacher.name + " " + teacher.surname
+            "name": teacherName
         })
 
     return jsonify(class_info)

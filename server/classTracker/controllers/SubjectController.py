@@ -84,7 +84,7 @@ def createSubject():
 
     label = request.json["label"]
 
-    newSubject = Subject(label = label, is_deleted = 1)
+    newSubject = Subject(label = label, is_deleted = 0)
 
     db.session.add(newSubject)
     db.session.commit()
