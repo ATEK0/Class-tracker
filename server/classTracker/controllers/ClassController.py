@@ -10,7 +10,7 @@ from ..models.Student import Student
 from ..models.Teacher import Teacher, isTeacher
 from ..models.Teacher_CS import Teacher_CS
 
-classController = Blueprint('classController', __name__)
+classController = Blueprint("classController", __name__)
 
 
 @classController.route("/getClassSubjects", methods=["POST"])
@@ -22,18 +22,16 @@ def getClassSubjects():
 
     class_ = request.json["class_ID"]
 
-    classSubjects = Class_Subject.query.filter_by(class_id = class_).all()
+    classSubjects = Class_Subject.query.filter_by(class_id=class_).all()
 
     subject_info = []
     for class_subject in classSubjects:
         subject = Subject.query.get(class_subject.subject_id)
-        subject_info.append({
-            "id": subject.id,
-            "name": subject.label
-        })
+        subject_info.append({"id": subject.id, "name": subject.label})
 
     return jsonify(subject_info)
-    
+
+
 @classController.route("/getClasses", methods=["GET"])
 def getClasses():
     current_user = session.get("user_id")
@@ -41,25 +39,58 @@ def getClasses():
     if not current_user:
         return "Unauthorized", 401
 
-    classes = Class_.query.filter_by(is_deleted = 0).all()
+    classes = Class_.query.filter_by(is_deleted=0).all()
 
     class_info = []
     for class_ in classes:
-        teacher = Teacher.query.filter_by(teacher_id = class_.head_teacher).first()
-        
+        teacher = Teacher.query.filter_by(teacher_id=class_.head_teacher).first()
+
         if not teacher:
             teacherName = "Not Defined"
         else:
             teacherName = teacher.name + " " + teacher.surname
 
-        class_info.append({
-            "id": class_.id,
-            "label": class_.label,
-            "grade": class_.grade,
-            "name": teacherName
-        })
+        class_info.append(
+            {
+                "id": class_.id,
+                "label": class_.label,
+                "grade": class_.grade,
+                "name": teacherName,
+            }
+        )
 
     return jsonify(class_info)
+
+
+@classController.route("/getArchivedClasses", methods=["GET"])
+def getArchivedClasses():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+
+    classes = Class_.query.filter_by(is_deleted=1).all()
+
+    class_info = []
+    for class_ in classes:
+        teacher = Teacher.query.filter_by(teacher_id=class_.head_teacher).first()
+
+        if not teacher:
+            teacherName = "Not Defined"
+        else:
+            teacherName = teacher.name + " " + teacher.surname
+
+        class_info.append(
+            {
+                "id": class_.id,
+                "label": class_.label,
+                "grade": class_.grade,
+                "name": teacherName,
+            }
+        )
+
+    return jsonify(class_info)
+
 
 @classController.route("/getClassesCount", methods=["GET"])
 def getClassesCount():
@@ -67,15 +98,19 @@ def getClassesCount():
 
     if not current_user:
         return "Unauthorized", 401
-    
+
     if isAdmin(current_user):
         count = Class_.query.count()
     elif isTeacher(current_user):
         user = User.query.filter_by(id=current_user).first()
-        teacher = Teacher.query.filter_by(user_id = user.id).first()
-        teacher_cs_records = Teacher_CS.query.filter_by(teacher_id = teacher.teacher_id, is_deleted = 0).all()
+        teacher = Teacher.query.filter_by(user_id=user.id).first()
+        teacher_cs_records = Teacher_CS.query.filter_by(
+            teacher_id=teacher.teacher_id, is_deleted=0
+        ).all()
         csids = [record.csid for record in teacher_cs_records]
-        class_ids_records = Class_Subject.query.filter(Class_Subject.id.in_(csids)).all()
+        class_ids_records = Class_Subject.query.filter(
+            Class_Subject.id.in_(csids)
+        ).all()
         class_ids = [record.class_id for record in class_ids_records]
         class_ids = set(class_ids)
 
@@ -83,24 +118,25 @@ def getClassesCount():
 
     return jsonify(count)
 
+
 @classController.route("/getClassStudents", methods=["POST"])
 def getClassStudents():
     current_user = session.get("user_id")
 
     if not current_user:
-        return "Unauthorized", 401    
+        return "Unauthorized", 401
 
     class_id = request.json.get("class_id")
 
-    students = Student.query.filter_by(class_id = class_id).all()
+    students = Student.query.filter_by(class_id=class_id).all()
 
-    students_info = [{
-        "id": student.id,
-        "name": student.name,
-        "surname": student.surname
-    } for student in students] 
+    students_info = [
+        {"id": student.id, "name": student.name, "surname": student.surname}
+        for student in students
+    ]
 
     return jsonify(students_info)
+
 
 @classController.route("/createClass", methods=["POST"])
 def createClass():
@@ -114,14 +150,21 @@ def createClass():
     type_id = request.json["type_id"]
     head_teacher = request.json["head_teacher"]
 
-    newClass = Class_(label = label, grade = grade, type_id = type_id, head_teacher = head_teacher, is_deleted = 0)
+    newClass = Class_(
+        label=label,
+        grade=grade,
+        type_id=type_id,
+        head_teacher=head_teacher,
+        is_deleted=0,
+    )
 
     db.session.add(newClass)
     db.session.commit()
 
     return "Class successfully created", 200
 
-@classController.route('/deleteClass/<class_id>', methods=['POST'])
+
+@classController.route("/deleteClass/<class_id>", methods=["POST"])
 def deleteClass(class_id):
     current_user = session.get("user_id")
 
@@ -129,7 +172,7 @@ def deleteClass(class_id):
         return "Unauthorized", 401
 
     class_ = Class_.query.get(class_id)
-    classes_subjects = Class_Subject.query.filter_by(class_id = class_.id).all()
+    classes_subjects = Class_Subject.query.filter_by(class_id=class_.id).all()
 
     if class_:
         class_.is_deleted = 1
@@ -140,17 +183,18 @@ def deleteClass(class_id):
         return "Class successfully archived", 200
     else:
         return "Class not found", 404
-    
-@classController.route('/editClass/<class_id>', methods=['POST'])
+
+
+@classController.route("/editClass/<class_id>", methods=["POST"])
 def editClass(class_id):
     current_user = session.get("user_id")
 
     if not current_user:
         return "Unauthorized", 401
 
-    label = request.json['label']
-    grade = request.json['grade']
-    type_id = request.json['type_id']
+    label = request.json["label"]
+    grade = request.json["grade"]
+    type_id = request.json["type_id"]
     head_teacher = request.json["head_teacher"]
 
     class_ = Class_.query.get(class_id)
