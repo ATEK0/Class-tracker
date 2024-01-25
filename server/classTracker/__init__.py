@@ -80,6 +80,9 @@ def create_app():
     from .controllers.UserController import userController
     app.register_blueprint(userController)
     
+    from .controllers.ClassTypeController import classTypeController
+    app.register_blueprint(classTypeController)
+    
     from .models.User import User
     from .models.Class_Subject import Class_Subject
     from .models.Class_Type import Class_Type
