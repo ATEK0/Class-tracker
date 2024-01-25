@@ -26,6 +26,7 @@ export interface Teacher extends User {
     contact: string;
     subjects: string[];
     classes: string[];
+    state: string;
 }
 
 

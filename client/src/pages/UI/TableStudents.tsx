@@ -154,7 +154,7 @@ const Table = (props: {
         console.log("Form Data:", formData);
         setloadingStatus("Creating...")
         try {
-            const response = await httpClient.post(`//localhost:1222/editStudent/${beingEdited}`, formData);
+            const response = await httpClient.post(`${apiLink}/editStudent/${beingEdited}`, formData);
 
             if (response.status !== 200) {
                 return toast.error(response.data)

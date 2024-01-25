@@ -21,16 +21,21 @@ const NewTeacher = () => {
         event.preventDefault()
         setLoadingStatus("Creating...")
 
+        try {
+            const addTeacherResponse = await httpClient.post(`${apiLink}/createTeacher`, { firstName, lastName, email, password, address, birthdate, contact });
 
-        const addTeacherResponse = await httpClient.post(`${apiLink}/createTeacher`, {firstName, lastName, email, password, address, birthdate, contact});
+            const addTeacherData = addTeacherResponse.data
+
+            toast.success(addTeacherData)
+
+            setTimeout(() => {
+                window.location.href = "/admin/teachers"
+            }, 2000);
+        } catch (error){
+            toast.error("Error, try again")
+            setLoadingStatus("Try Again")
+        }
         
-        const addTeacherData = addTeacherResponse.data
-
-        toast.success(addTeacherData)
-
-        setTimeout(() => {
-            window.location.href = "/admin/teachers"
-        }, 2000);
 
     }
 
@@ -43,11 +48,11 @@ const NewTeacher = () => {
                 <div className="flex flex-col md:flex-row">
                     <div className="w-full md:w-1/2 m-2">
                         <div className="mb-2 block">
-                            <Label htmlFor="fName" value="First Name" />
+                            <Label htmlFor="fName" value="First Name *" />
                         </div>
                         <TextInput
                             id="fName"
-                            placeholder="John *"
+                            placeholder="John"
                             value={firstName}
                             type='text'
                             required
@@ -58,11 +63,11 @@ const NewTeacher = () => {
                     </div>
                     <div className="w-full md:w-1/2 m-2">
                         <div className="mb-2 block">
-                            <Label htmlFor="lName" value="Last Name" />
+                            <Label htmlFor="lName" value="Last Name *" />
                         </div>
                         <TextInput
                             id="lName"
-                            placeholder="Doe *"
+                            placeholder="Doe"
                             value={lastName}
                             type='text'
                             required

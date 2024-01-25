@@ -60,6 +60,7 @@ def getTeachers():
 
     return jsonify(teachers_info)
 
+
 @teacherController.route("/getTeacherInfo", methods=["POST"])
 def getTeacherInfo():
     current_user = session.get("user_id")
@@ -156,7 +157,7 @@ def editTeacher(user_id):
     email = request.json['email']
     address = request.json['address']
     contact = request.json['contact']
-    state = request.json['state']
+    state = request.json['teacherState']
 
     user = Teacher.query.get(user_id)
 
@@ -171,6 +172,7 @@ def editTeacher(user_id):
         return "Teacher successfully edited", 200
     else:
         return "User not found", 404
+    
 
 @teacherController.route('/deleteTeacher/<user_id>', methods=['DELETE'])
 def deleteTeacher(user_id):
