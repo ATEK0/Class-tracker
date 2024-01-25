@@ -9,6 +9,7 @@ from ..models.User import User, isAdmin
 from ..models.Student import Student
 from ..models.Teacher import Teacher, isTeacher
 from ..models.Teacher_CS import Teacher_CS
+from ..models.Class_Type import Class_Type
 
 classController = Blueprint("classController", __name__)
 
@@ -44,6 +45,7 @@ def getClasses():
     class_info = []
     for class_ in classes:
         teacher = Teacher.query.filter_by(teacher_id=class_.head_teacher).first()
+        class_type = Class_Type.query.filter_by(id=class_.type_id).first()
 
         if not teacher:
             teacherName = "Not Defined"
@@ -55,6 +57,8 @@ def getClasses():
                 "id": class_.id,
                 "label": class_.label,
                 "grade": class_.grade,
+                "type": class_.type_id,
+                "type_label": class_type.label,
                 "headteacher": teacherName,
             }
         )
