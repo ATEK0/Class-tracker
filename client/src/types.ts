@@ -35,6 +35,7 @@ export interface TeacherListType {
     id: string;
     name: string;
     surname: string;
+    teacher_id: number;
 }
 
 export interface ClassListType {
@@ -42,6 +43,12 @@ export interface ClassListType {
     grade: string;
     id: string;
     label: string;
+}
+
+export interface ClassTypeList {
+    id: string;
+    label: string;
+    is_archived: number;
 }
 
 export interface SubjectListType {

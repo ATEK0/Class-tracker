@@ -60,6 +60,7 @@ def getClasses():
                 "type": class_.type_id,
                 "type_label": class_type.label,
                 "headteacher": teacherName,
+                "is_archived": 0
             }
         )
 
@@ -90,6 +91,7 @@ def getArchivedClasses():
                 "label": class_.label,
                 "grade": class_.grade,
                 "headteacher": teacherName,
+                "is_archived": 1
             }
         )
 

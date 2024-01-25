@@ -55,6 +55,7 @@ def getTeachers():
             "name": teacher.name + " " + teacher.surname,
             "contact": teacher.contact,
             "email": teacher.email,
+            "teacher_id": teacher.teacher_id,
             "state": teacher.state,
         } for teacher in teachers] 
 
