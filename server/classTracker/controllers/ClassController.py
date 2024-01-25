@@ -55,7 +55,7 @@ def getClasses():
                 "id": class_.id,
                 "label": class_.label,
                 "grade": class_.grade,
-                "name": teacherName,
+                "headteacher": teacherName,
             }
         )
 
@@ -85,7 +85,7 @@ def getArchivedClasses():
                 "id": class_.id,
                 "label": class_.label,
                 "grade": class_.grade,
-                "name": teacherName,
+                "headteacher": teacherName,
             }
         )
 

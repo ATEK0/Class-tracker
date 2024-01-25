@@ -18,10 +18,10 @@ import Profile from "./pages/profile/Profile"
 import StudentIndividual from "./pages/students/StudentIndividual"
 import NewStudent from "./pages/admin/students/NewStudent"
 import SubjectsDetails from "./pages/admin/subjects/SubjectsDetails"
-// import TeacherDetails from "./pages/admin/teachers/TeacherDetails"
 import Support from "./pages/Support"
 import NewClassroom from "./pages/admin/classrooms/NewClass"
 import NewTeacher from "./pages/admin/teachers/NewTeacher"
+import NewClass from "./pages/admin/classes/NewClass"
 
 
 const Router: React.FC = () => {
@@ -33,7 +33,7 @@ const Router: React.FC = () => {
       <Routes>
 
         <Route path="/" element={<HomePage />}/>
-        {/* <Route path="/register" element={<RegisterForm />}/> */}
+
         <Route path="/login" element={<LoginForm />}/>
         <Route path="/logout" element={<Logout />}/>
         <Route path="/dashboard" element={<Dashboard />}/>
@@ -43,7 +43,10 @@ const Router: React.FC = () => {
         <Route path="/admin/classrooms" element={<ClassroomDashboard />} />
 
         <Route path="/admin/classes" element={<ClassesDashboard />} />
+        <Route path="/admin/classes/new" element={<NewClass />} />
         <Route path="/admin/classes/:classId/:classLabel" element={<ClassDetails />} />
+
+
         <Route path="/admin/classrooms/new" element={<NewClassroom />} />
 
 

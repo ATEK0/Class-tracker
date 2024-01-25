@@ -1,7 +1,7 @@
-
-import { HiOutlineAcademicCap } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
 import Table from '../../UI/TableClasses';
+import { faHouseCircleCheck, faHouseCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ClassesDashboard = () => {
 
@@ -10,14 +10,14 @@ const ClassesDashboard = () => {
     <div className='pt-[64px] p-x-5 mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8'>
       <h1 className="font-bold text-3xl text-[#04304D] pt-8 mb-5">Classes</h1>
 
-      <div className="gap-3 grid grid-cols-1 md:grid-cols-4 mb-5">
-        <Link to="/admin/classes/new" className="w-full bg-red text-[#04304D] p-10 border rounded-2xl shadow-sm font-bold text-center flex flex-col items-center hover:scale-105 transition-all duration-300 shadow-[#04304d4f]">
-          <HiOutlineAcademicCap className="w-14 h-14 mb-3" />
-          Create Class
-        </Link>
-      </div>
+      <Link to={"/admin/classes/new"}><button type="button" className='bg-[#04304d] p-2 rounded-md text-white font-bold w-1/5 mb-3' >Create Class</button></Link>
       
-      <Table endpoint={"getClasses"} namesList={["grade", "label"]}/>
+      <h1 className="font-bold text-2xl text-[#04304D] pt-8 mb-5"><FontAwesomeIcon icon={faHouseCircleCheck} /> Active Classes</h1>
+      <Table endpoint={"getClasses"} namesList={["grade", "label", "headteacher"]}/>
+
+
+      <h1 className="font-bold text-2xl text-[#04304D] pt-8 mb-5"><FontAwesomeIcon icon={faHouseCircleXmark} /> Archived Classes</h1>
+      <Table endpoint={"getArchivedClasses"} namesList={["grade", "label", "headteacher"]}/>
 
     </div>
   );
