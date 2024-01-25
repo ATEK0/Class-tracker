@@ -139,7 +139,7 @@ def createTeacher():
 
     hashedPassword = bcrypt.generate_password_hash(password)
 
-    newTeacher = Teacher(name = name, surname = surname, email = email, password = hashedPassword, address = address, birthdate = birthdate, contact = contact)
+    newTeacher = Teacher(name = name, surname = surname, email = email, password = hashedPassword, address = address, birthdate = birthdate, contact = contact, is_deleted = 0)
 
     db.session.add(newTeacher)
     db.session.commit()
