@@ -92,7 +92,7 @@ const Table = (props: {
   async function archiveClass(classID: string,) {
 
     try {
-      const archiveResp = await httpClient.post(`${apiLink}/deleteClass/${classID}`);
+      const archiveResp = await httpClient.post(`${apiLink}/toggleClass/${classID}`);
       toast.success(archiveResp.data)
       setopenModalConfirmDelete(false)
       window.location.reload()
