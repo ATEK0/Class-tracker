@@ -110,6 +110,33 @@ def getSubjectTeachers():
     return jsonify(teacher_info)
 
 
+@subjectController.route("/assignSubject", methods=["POST"])
+def assignSubject():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+
+    classID = request.json["classID"]
+    subjectID = request.json["subjectID"]
+
+    class_subject_exists = Class_Subject.query.filter_by(
+        class_id=classID, subject_id=subjectID
+    ).first()
+
+    if class_subject_exists is not None:
+        return "Subject already assigned to this Class", 400
+
+    newClassSubject = Class_Subject(
+        class_id=classID, subject_id=subjectID, is_deleted=0
+    )
+
+    db.session.add(newClassSubject)
+    db.session.commit()
+
+    return "Subject successfully assigned", 200
+
+
 @subjectController.route("/createSubject", methods=["POST"])
 def createSubject():
     current_user = session.get("user_id")
@@ -127,8 +154,8 @@ def createSubject():
     return "Subject successfully created", 200
 
 
-@subjectController.route("/deleteSubject/<subject_id>", methods=["POST"])
-def deleteSubject(subject_id):
+@subjectController.route("/toggleSubject/<subject_id>", methods=["POST"])
+def toggleSubject(subject_id):
     current_user = session.get("user_id")
 
     if not current_user:
@@ -136,16 +163,27 @@ def deleteSubject(subject_id):
 
     subject = Subject.query.get(subject_id)
     classes_subjects = Class_Subject.query.filter_by(subject_id=subject.id).all()
+    cs_ids = [record.id for record in classes_subjects]
+    tcs = Teacher_CS.query.filter(Teacher_CS.csid.in_(cs_ids)).all()
 
-    if subject:
-        subject.is_deleted = 1
-        if classes_subjects:
-            for class_subject in classes_subjects:
-                class_subject.is_deleted = 1
-        db.session.commit()
-        return " successfully archived", 200
-    else:
+    if not subject:
         return "Subject not found", 404
+
+    if subject.is_deleted == 0:
+        subject.is_deleted = 1
+    else:
+        subject.is_deleted = 0
+
+    if classes_subjects and subject.is_deleted == 1:
+        for class_subject in classes_subjects:
+            class_subject.is_deleted = 1
+
+    if tcs and subject.is_deleted == 1:
+        for teacher_cs in tcs:
+            teacher_cs.is_deleted = 1
+
+    db.session.commit()
+    return " successfully archived", 200
 
 
 @subjectController.route("/editSubject/<subject_id>", methods=["POST"])

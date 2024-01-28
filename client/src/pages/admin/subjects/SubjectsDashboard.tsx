@@ -82,7 +82,7 @@ const SubjectsDashboard = () => {
   async function deleteSubject() {
   
     try {
-      const archive = await httpClient.post(apiLink + `/deleteSubject/${beingDeletedID}`);
+      const archive = await httpClient.post(apiLink + `/toggleSubject/${beingDeletedID}`);
       const resp = archive.data
 
       if (archive.status !== 200) {

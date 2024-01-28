@@ -60,7 +60,7 @@ def getClasses():
                 "type": class_.type_id,
                 "type_label": class_type.label,
                 "headteacher": teacherName,
-                "is_archived": 0
+                "is_archived": 0,
             }
         )
 
@@ -91,7 +91,7 @@ def getArchivedClasses():
                 "label": class_.label,
                 "grade": class_.grade,
                 "headteacher": teacherName,
-                "is_archived": 1
+                "is_archived": 1,
             }
         )
 
@@ -170,8 +170,8 @@ def createClass():
     return "Class successfully created", 200
 
 
-@classController.route("/deleteClass/<class_id>", methods=["POST"])
-def deleteClass(class_id):
+@classController.route("/toggleClass/<class_id>", methods=["POST"])
+def toggleClass(class_id):
     current_user = session.get("user_id")
 
     if not current_user:
@@ -179,16 +179,27 @@ def deleteClass(class_id):
 
     class_ = Class_.query.get(class_id)
     classes_subjects = Class_Subject.query.filter_by(class_id=class_.id).all()
+    cs_ids = [record.id for record in classes_subjects]
+    tcs = Teacher_CS.query.filter(Teacher_CS.csid.in_(cs_ids)).all()
 
-    if class_:
+    if not class_:
+        return "Subject not found", 404
+
+    if class_.is_deleted == 0:
         class_.is_deleted = 1
-        if classes_subjects:
-            for class_subject in classes_subjects:
-                class_subject.is_deleted = 1
-        db.session.commit()
-        return "Class successfully archived", 200
     else:
-        return "Class not found", 404
+        class_.is_deleted = 0
+
+    if classes_subjects and class_.is_deleted == 1:
+        for class_subject in classes_subjects:
+            class_subject.is_deleted = 1
+
+    if tcs and class_.is_deleted == 1:
+        for teacher_cs in tcs:
+            teacher_cs.is_deleted = 1
+
+    db.session.commit()
+    return " successfully archived", 200
 
 
 @classController.route("/editClass/<class_id>", methods=["POST"])
