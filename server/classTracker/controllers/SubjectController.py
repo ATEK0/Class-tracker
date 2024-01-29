@@ -124,7 +124,12 @@ def assignSubject():
         class_id=classID, subject_id=subjectID
     ).first()
 
-    if class_subject_exists is not None:
+    if class_subject_exists is not None and class_subject_exists.is_deleted:
+        class_subject_exists.is_deleted = 0
+        db.session.commit()
+        return "Subject successfully assigned", 200
+
+    if class_subject_exists is not None and not class_subject_exists.is_deleted:
         return "Subject already assigned to this Class", 400
 
     newClassSubject = Class_Subject(
