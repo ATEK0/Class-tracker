@@ -80,9 +80,19 @@ const Table = (props: {
     setSearchText(text);
   };
 
-  function handleEditButtonClick(row: { [s: string]: any; }): void {
+  async function handleEditButtonClick(row: { [s: string]: any; }) {
     setbeingEdited(row.id)
     setopenModalEdit(true)
+
+    const classInfoResp = await httpClient.get(`${apiLink}/getClassInfo/${row.id}`);
+    const classInfo = classInfoResp.data;
+
+    setYear(classInfo.grade)
+    setLabel(classInfo.label)
+    setClassType(classInfo.type_id)
+    setHeadteacher(classInfo.head_teacher)
+
+
   }
 
   function handleDeleteButtonClick(row: { [s: string]: unknown; }): void {
@@ -214,7 +224,6 @@ const Table = (props: {
               <Label htmlFor="">{archiveModalContent} <b>{beingDeleted[1]}</b>?</Label>
             </div>
 
-
             <div className="w-full flex justify-between">
               <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>
               <Button className={`bg-[${buttonColor}]`} onClick={() => { archiveClass(beingDeleted[0]) }}>{archiveButtonContent}</Button>
@@ -230,12 +239,11 @@ const Table = (props: {
       {/* modal edit class */}
       <Modal dismissible show={openModalEdit} size="w-full" onClose={onCloseModal} popup>
         <Modal.Header>
-          <h1 className="font-bold text-3xl text-[#04304D] pt-8 mb-5">Edit Teacher</h1>
+          <h1 className="font-bold text-3xl text-[#04304D] pt-8 mb-5">Edit Class</h1>
         </Modal.Header>
         <Modal.Body>
 
           <form onSubmit={handleFormSubmit}>
-
 
             <div className="flex flex-row">
               <div className="w-1/2 m-2">
@@ -276,7 +284,7 @@ const Table = (props: {
                 <Select
                   id="type"
                   placeholder="Class Type"
-                  value={headteacher}
+                  value={classType}
                   required
                   onChange={(event) => setClassType(event.target.value)}
                 >

@@ -32,6 +32,23 @@ def getClassSubjects():
 
     return jsonify(subject_info)
 
+@classController.route("/getClassInfo/<classID>", methods=["GET"])
+def getClassInfo(classID):
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+    
+    classInfo = Class_.query.get(classID)
+
+
+    classInfo = {
+        "label": classInfo.label,
+        "grade": classInfo.grade,
+        "type_id": classInfo.type_id,
+        "head_teacher": classInfo.head_teacher
+    }
+    return jsonify(classInfo)
 
 @classController.route("/getClasses", methods=["GET"])
 def getClasses():
