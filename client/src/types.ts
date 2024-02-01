@@ -57,4 +57,14 @@ export interface SubjectListType {
     name: string;
 }
 
+export interface ClassroomDetailsType {
+    day: string;
+    begin: string;
+    end: string;
+    teacher: { id: string; name: string };
+    class: {id: string, label: string};
+    subject: {id: string, label: string};
+    students: string[]
+}
+
 export type TextAlign = 'left' | 'center' | 'right' | 'justify' | 'initial' | 'inherit';
