@@ -42,8 +42,12 @@ def getClassroomInfo():
         "name": record.name + " " + record.surname 
     } for record in students]
 
+    date = classroom.day
+
+    fDate = str(date.day) + "/" + str(date.month) + "/" + str(date.year)
+
     return jsonify({
-        "day": classroom.day,
+        "day": fDate,
         "begin": str(classroom.begin),
         "end": str(classroom.end),
         "teacher": {

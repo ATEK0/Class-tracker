@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify, session, redirect
 
 from .. import db, bcrypt
 
@@ -20,13 +20,17 @@ def get_current_user():
 
     user = User.query.filter_by(id=current_user).first()
 
+    date = user.birthdate
+
+    fDate = str(date.day) + "/" + str(date.month) + "/" + str(date.year)
+
     user_info = {
         "id": user.id,
         "email": user.email,
         "name": user.name,
         "surname": user.surname,
         "address": user.address,
-        "birthdate": user.birthdate,
+        "birthdate": fDate,
         "image": user.image_path
     }
 
@@ -105,6 +109,11 @@ def login():
 
 @authController.route("/logout", methods=["POST"])
 def logout():
-    session.pop("user_id")
+    try:
+        session.pop("user_id")
 
-    return jsonify({}), 200
+        return jsonify({}), 200
+    except:
+        return redirect("http://localhost:5173/login", code=302)
+
+
