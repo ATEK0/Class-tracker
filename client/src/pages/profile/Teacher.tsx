@@ -68,7 +68,7 @@ const TeacherProfile = (props: {
           <div className="container mx-auto py-8">
             <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
               <div className="col-span-4 sm:col-span-3">
-                <div className="bg-white shadow rounded-lg p-16">
+                <div className="bg-white shadow rounded-lg p-10">
                   <div className="flex flex-col items-center">
                     <img src={profileImage} className="w-40 h-40 bg-gray-300 rounded-full mb-4 shrink-0">
 

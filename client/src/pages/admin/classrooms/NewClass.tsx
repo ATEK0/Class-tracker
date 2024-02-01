@@ -24,7 +24,7 @@ const NewClass: React.FC = () => {
 
             } catch (error) {
                 
-                console.error("Error fetching data----------------:", error);
+                console.error("Error fetching data:", error);
             }
         };
 
@@ -97,7 +97,7 @@ const NewClass: React.FC = () => {
             return toast.error(createSummaryResponse)
         }
 
-        toast.success(createSummaryResponse);
+        window.location.href = "/dashboard"
         
     };
 
