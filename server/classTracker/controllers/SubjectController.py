@@ -79,7 +79,7 @@ def getArchivedSubject():
 
 
 @subjectController.route("/getClassSubjectTeachers", methods=["POST"])
-def getSubjectTeachers():
+def getClassSubjectTeachers():
     current_user = session.get("user_id")
 
     if not current_user:
@@ -108,6 +108,33 @@ def getSubjectTeachers():
     ]
 
     return jsonify(teacher_info)
+
+
+@subjectController.route("/getSubjectTeachers", methods=["POST"])
+def getSubjectTeachers():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+
+    subjectID = request.json["subjectID"]
+
+    class_subject = Class_Subject.query.filter_by(subject_id=subjectID).all()
+
+    cs_ids = [record.id for record in class_subject]
+
+    tcs = Teacher_CS.query.filter(Teacher_CS.csid.in_(cs_ids)).all()
+
+    tcs_teachers = [record.teacher_id for record in tcs]
+
+    teachers = Teacher.query.filter(Teacher.teacher_id.in_(tcs_teachers)).all()
+
+    teachers_list = [
+        {"id": str(record.user_id), "name": record.name + " " + record.surname}
+        for record in teachers
+    ]
+
+    return jsonify(teachers_list)
 
 
 @subjectController.route("/assignSubject", methods=["POST"])
