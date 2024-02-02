@@ -78,7 +78,7 @@ def getArchivedSubject():
     return jsonify(subjects_info)
 
 
-@subjectController.route("/getSubjectTeachers", methods=["POST"])
+@subjectController.route("/getClassSubjectTeachers", methods=["POST"])
 def getSubjectTeachers():
     current_user = session.get("user_id")
 

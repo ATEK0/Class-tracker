@@ -48,7 +48,7 @@ const NewClass: React.FC = () => {
         const selectedSubject = event.target.value;
         setSubject(selectedSubject); 
 
-        const teacherResp = await httpClient.post(apiLink + "/getSubjectTeachers", {
+        const teacherResp = await httpClient.post(apiLink + "/getClassSubjectTeachers", {
             class_ID,
             subject: selectedSubject, 
         });
