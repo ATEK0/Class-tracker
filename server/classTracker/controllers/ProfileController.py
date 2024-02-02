@@ -2,12 +2,14 @@ from flask import Blueprint, request, jsonify, send_file, session
 
 from .. import db, bcrypt
 
-from ..models.User import User
+from ..models.User import User, isAdmin
+from ..models.Student import Student, isStudent
+from ..models.Teacher import Teacher, isTeacher
 
 import io
 import os
 
-profileController = Blueprint('profileController', __name__)
+profileController = Blueprint("profileController", __name__)
 
 
 @profileController.route("/changeProfilePassword", methods=["POST"])
@@ -17,13 +19,13 @@ def changeProfilePassword():
     if not current_user:
         return "Unauthorized", 401
 
-    user = User.query.filter_by(id = current_user).first()
-    
+    user = User.query.filter_by(id=current_user).first()
+
     current_password = request.json["current_password"]
     new_password = request.json["new_password"]
 
-    if (bcrypt.check_password_hash(user.password, current_password)):
-        if(not bcrypt.check_password_hash(user.password, new_password)):
+    if bcrypt.check_password_hash(user.password, current_password):
+        if not bcrypt.check_password_hash(user.password, new_password):
             user.password = bcrypt.generate_password_hash(new_password)
             db.session.commit()
             return "Profile password successfully updated", 200
@@ -31,8 +33,46 @@ def changeProfilePassword():
             return "Same Password", 203
     else:
         return "Wrong Password", 203
-    
 
+
+@profileController.route("/getProfileInfo", methods=["POST"])
+def getProfileInfo():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+
+    user_id = request.json["user_id"]
+
+    user = User.query.filter_by(id=user_id).first()
+
+    if user.birthdate:
+        date = user.birthdate
+        user.birthdate = str(date.day) + "/" + str(date.month) + "/" + str(date.year)
+
+    user_info = {
+        "id": user.id,
+        "email": user.email,
+        "name": user.name,
+        "surname": user.surname,
+        "address": user.address,
+        "birthdate": user.birthdate,
+    }
+
+    if isAdmin(user.id):
+        user_info["userType"] = "Admin"
+    elif isTeacher(user.id):
+        teacher = Teacher.query.get(user.id)
+        user_info["userType"] = "Teacher"
+        user_info["contact"] = teacher.contact
+    elif isStudent(user.id):
+        student = Student.query.get(user.id)
+        user_info["userType"] = "Student"
+        user_info["pNumber"] = student.process_number
+    else:
+        user_info["userType"] = "Undefined"
+
+    return jsonify(user_info)
 
 
 @profileController.route("/updateProfileImage", methods=["POST"])
@@ -42,7 +82,7 @@ def updateProfileImage():
     if not current_user:
         return "Unauthorized", 401
 
-    user = User.query.filter_by(id = current_user).first()
+    user = User.query.filter_by(id=current_user).first()
 
     image_data = request.files.get("image")
 
@@ -64,19 +104,21 @@ def updateProfileImage():
 
 @profileController.route("/getProfileImage/<path:userID>", methods=["GET", "POST"])
 def getProfileImage(userID):
-    if userID == 'user':
+    if userID == "user":
         userID = session.get("user_id")
-        
-    user = User.query.filter_by(id = userID).first()
-    
+
+    user = User.query.filter_by(id=userID).first()
+
     if user and user.image_path:
         _, extension = os.path.splitext(user.image_path)
         mimetype = {
-            '.png': 'image/png',
-            '.jpg': 'image/jpeg',
-            '.jpeg': 'image/jpeg',
-        }.get(extension.lower(), 'application/octet-stream')
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+        }.get(extension.lower(), "application/octet-stream")
 
         return send_file(user.image_path, mimetype=mimetype)
     else:
-        return send_file("../profile_images/defaultProfileImage.png", mimetype='image/png')
+        return send_file(
+            "../profile_images/defaultProfileImage.png", mimetype="image/png"
+        )
