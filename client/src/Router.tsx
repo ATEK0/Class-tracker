@@ -19,7 +19,7 @@ import StudentIndividual from "./pages/students/StudentIndividual"
 import NewStudent from "./pages/admin/students/NewStudent"
 import SubjectsDetails from "./pages/admin/subjects/SubjectsDetails"
 import Support from "./pages/Support"
-import NewClassroom from "./pages/admin/classrooms/NewClass"
+import NewClassroom from "./pages/admin/classrooms/NewClassroom"
 import NewTeacher from "./pages/admin/teachers/NewTeacher"
 import NewClass from "./pages/admin/classes/NewClass"
 

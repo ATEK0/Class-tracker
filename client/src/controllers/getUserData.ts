@@ -4,22 +4,13 @@ import { User } from "../types";
 import { apiLink } from "../config";
 
 export const useFetchUser = (): User => {
-  const [user, setUser] = useState<User>({
-    id: "",
-    name: "",
-    surname: "",
-    email: "",
-    userType: "",
-    address: "",
-    birthdate: ""
-  });
+  const [user, setUser] = useState<any>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const resp = await httpClient.get(apiLink + "/@me");
-        setUser(resp.data);
-        console.log(resp.data);  // Log the updated data
+        setUser(resp.data); 
         
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -28,6 +19,6 @@ export const useFetchUser = (): User => {
 
     fetchData();
   }, []);
-  
+  // console.log("user - ", user)
   return user;
 };

@@ -18,7 +18,7 @@ const Profile = () => {
     const fetchData = async () => {
       try {
         if (user && user.userType) {
-
+          console.log(user)
           if (user.userType === "Admin") {
             document.title = 'Admin Profile - Class Tracker';
             setComponentToRender(<Admin user={user} />);

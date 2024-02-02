@@ -1,4 +1,5 @@
 export interface User {
+    pNumber: ReactNode;
     id: string;
     name: string;
     surname: string;
