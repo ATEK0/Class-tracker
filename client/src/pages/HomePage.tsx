@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
             <h1 className='text-6xl font-bold mb-4'>Want to keep your school in rails?</h1>
             <div className='text-4xl'>Class Tracker is here to be
               <Typed className='text-4xl pl-2'
-                strings={["interactive", "helpfull", "simple", "adaptative"]}
+                strings={["interactive", "helpful", "simple", "adaptative"]}
                 typeSpeed={70}
                 backSpeed={30}
                 loop />
