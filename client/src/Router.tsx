@@ -22,6 +22,7 @@ import Support from "./pages/Support"
 import NewClassroom from "./pages/admin/classrooms/NewClassroom"
 import NewTeacher from "./pages/admin/teachers/NewTeacher"
 import NewClass from "./pages/admin/classes/NewClass"
+import ProfileUser from "./pages/profile/ProfileUser"
 
 
 const Router: React.FC = () => {
@@ -65,6 +66,7 @@ const Router: React.FC = () => {
 
 
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:userID" element={<ProfileUser />} />
 
         <Route path="/support" element={<Support />} />
         

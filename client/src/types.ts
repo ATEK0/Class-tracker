@@ -1,5 +1,5 @@
 export interface User {
-    pNumber: ReactNode;
+    pNumber: string;
     id: string;
     name: string;
     surname: string;
@@ -59,13 +59,15 @@ export interface SubjectListType {
 }
 
 export interface ClassroomDetailsType {
+    id: string;
     day: string;
     begin: string;
     end: string;
     teacher: { id: string; name: string };
     class: {id: string, label: string};
     subject: {id: string, label: string};
-    students: string[]
+    students: string[];
+    summary: string;
 }
 
 export type TextAlign = 'left' | 'center' | 'right' | 'justify' | 'initial' | 'inherit';

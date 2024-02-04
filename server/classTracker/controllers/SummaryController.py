@@ -7,7 +7,7 @@ from ..models.Summary import Summary
 summaryController = Blueprint('summaryController', __name__)
 
 
-@summaryController.route("/createSummary", methods=["POST"])
+@summaryController.route("/updateSummary", methods=["POST"])
 def createSummary():
     current_user = session.get("user_id")
 

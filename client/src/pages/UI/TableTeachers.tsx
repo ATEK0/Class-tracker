@@ -335,7 +335,7 @@ const Table = (props: {
         responsive
         highlightOnHover
         onRowClicked={(event: { [s: string]: unknown }) => {
-          window.location.href = `profile/${event["id"]}`;
+          window.location.href = `/profile/${event["id"]}`;
         }}
         customStyles={customStyles}
         progressPending={isLoading}

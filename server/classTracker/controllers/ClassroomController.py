@@ -10,6 +10,7 @@ from ..models.Student import Student
 from ..models.Teacher_CS import Teacher_CS
 from ..models.User import isAdmin
 from ..models.Teacher import Teacher, isTeacher
+from ..models.Summary import Summary
 
 classroomController = Blueprint('classroomController', __name__)
 
@@ -35,6 +36,8 @@ def getClassroomInfo():
     subject = Subject.query.filter_by(id = class_subject.subject_id).first()
 
     students = Student.query.filter_by(class_id = class_.id).all()
+
+    summary = Summary.query.filter_by(classroom_id = classroomID).first()
 
     students_list = [{
         "id": record.user_id,
@@ -62,7 +65,8 @@ def getClassroomInfo():
             "id": subject.id,
             "label": subject.label
         },
-        "students": students_list
+        "students": students_list,
+        "summary": summary.content
     })
 
 

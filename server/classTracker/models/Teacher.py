@@ -13,5 +13,5 @@ class Teacher(User, db.Model):
     contact = db.Column(db.String(32))
     is_deleted = db.Column(db.Boolean, default=False)
 
-
+    
     user = db.relationship("User")

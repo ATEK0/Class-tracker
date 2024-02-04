@@ -4,9 +4,8 @@ import { useParams } from 'react-router-dom';
 import httpClient from '../../httpClient';
 import { apiLink } from '../../config';
 
-import { ClassroomDetailsType, TextAlign, User } from '../../types';
+import { ClassroomDetailsType, TextAlign } from '../../types';
 import DataTable from 'react-data-table-component';
-import { useFetchUser } from '../../controllers/getUserData';
 
 const ClassroomDetails = () => {
 
@@ -15,17 +14,16 @@ const ClassroomDetails = () => {
   const [classroomDetails, setclassroomDetails] = useState<ClassroomDetailsType>()
 
   const [searchText, setSearchText] = useState<string>('');
-  const [tableData, setTableData] = useState<any>([]);
   const [tableCols, setTableCols] = useState<any>([]);
   const [showSensitiveData, setShowSensitiveData] = useState<boolean>()
-  const [user, setUser] = useState<User>()
 
+  const [summary, setSummary] = useState<string>()
 
   useEffect(() => {
 
     async function getUserType() {
       const resp = await httpClient.get(apiLink + "/@me");
-      setUser(resp.data);
+
       let user = resp.data;
 
       if (user) {
@@ -42,9 +40,13 @@ const ClassroomDetails = () => {
 
     async function getClassroomData() {
       const classroomData = await httpClient.post(`${apiLink}/getClassroomInfo`, { 'classroomID': eventId })
-      setTableData(classroomData.data.students)
+      
+      setSummary(classroomData.data.summary)
+
       setTableCols([{ name: 'Process', selector: (row: any) => row.pNumber, sortable: true }, { name: 'Name', selector: (row: any) => row.name, sortable: true }])
       setclassroomDetails(classroomData.data)
+
+      
     }
 
     getClassroomData()
@@ -54,13 +56,24 @@ const ClassroomDetails = () => {
 
   }, [])
 
+  async function handleFormSubmit() {
+    event?.preventDefault()
 
+    console.log(summary)
+
+    // const saveSummary = await httpClient.post(`${apiLink}/createSummary`, { 'classroomID': classroomDetails?.id, 'content': summary})
+
+  }
 
   const columnsWithButton = [...tableCols, {
     name: 'P | M | L',
     button: true,
-    cell: (row: { [s: string]: unknown }) => (<div>
-    </div>
+    cell: (row: { [s: string]: unknown }) => (
+      <div>
+        <input type='checkbox' className='m-1' value={"presence"} checked= {true}/>
+        <input type='checkbox' className='m-1' value={"material"}/>
+        <input type='checkbox' className='m-1' value={"late"}/>
+      </div>
     ),
   }];
 
@@ -93,41 +106,42 @@ const ClassroomDetails = () => {
   };
 
   return (
+
     <div className='pt-[64px] mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
-      <h1 className="font-bold text-3xl text-[#04304D] pt-8">{classroomDetails?.subject.label}</h1>
-      <p>{classroomDetails?.day} {classroomDetails?.begin} - {classroomDetails?.end}</p>
-      <br />
-      <p className='text-[#04304D] pb-1'>Summary</p>
-      <Textarea className='max-h-[200px] h-[200px] resize-none min-h-[200px]' readOnly={!showSensitiveData} aria-multiline></Textarea>
-      <br />
-      <br />
+      <form action="">
+        <h1 className="font-bold text-3xl text-[#04304D] pt-8">{classroomDetails?.subject.label}</h1>
+        <p>{classroomDetails?.day} {classroomDetails?.begin} - {classroomDetails?.end}</p>
+        <br />
+        <p className='text-[#04304D] pb-1'>Summary</p>
+        <Textarea className='max-h-[200px] h-[200px] resize-none min-h-[200px]' readOnly={!showSensitiveData} aria-multiline value={summary} onChange={ (event) => { setSummary(event.target.value); }}></Textarea>
+        <br />
+        <br />
 
 
-      {showSensitiveData ? (
-        <div>
-          <p className='text-[#04304D] pb-1'>Students</p>
+        {showSensitiveData ? (
+          <div>
+            <p className='text-[#04304D] pb-1'>Students</p>
 
 
-          {filteredData ? (
-            <DataTable
-              columns={columnsWithButton}
-              data={filteredData}
-              pagination
-              responsive
-              highlightOnHover
-              customStyles={customStyles}
-              progressComponent={<div>Loading...</div>}
-            />
-          ) : ''}
+            {filteredData ? (
+              <DataTable
+                columns={columnsWithButton}
+                data={filteredData}
+                pagination
+                responsive
+                highlightOnHover
+                customStyles={customStyles}
+                progressComponent={<div>Loading...</div>}
+              />
+            ) : ''}
 
 
-          <div className='w-full flex justify-end gap-1'>
-            <button type="button" className='px-5 py-2 rounded-lg bg-gray-500 text-white'>Cancel</button>
-            <button type="button" className='px-5 py-2 rounded-lg bg-[#04304d] text-white'>Save</button>
+            <div className='w-full flex justify-end gap-1'>
+              <button type="submit" className='px-5 py-2 rounded-lg bg-[#04304d] text-white' onClick={handleFormSubmit}>Save</button>
+            </div>
           </div>
-        </div>
-      ) : ("")}
-
+        ) : ("")}
+      </form>
     </div>
   )
 }
