@@ -7,7 +7,7 @@ class Classroom(db.Model):
     day = db.Column(db.Date)
     begin = db.Column(db.Time)
     end = db.Column(db.Time)
-    state = db.Column(db.String(255))
 
     teacher_cs = db.relationship('Teacher_CS', back_populates='classroom')
     summary = db.relationship('Summary', back_populates='classroom')
+    absence = db.relationship('Absence', back_populates='classroom')

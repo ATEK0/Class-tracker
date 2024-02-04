@@ -8,8 +8,10 @@ from ..models.Class_ import Class_
 from ..models.Subject import Subject
 from ..models.Student import Student
 from ..models.Teacher_CS import Teacher_CS
+from ..models.Summary import Summary
 from ..models.User import isAdmin
 from ..models.Teacher import Teacher, isTeacher
+from ..models.Absence import Absence
 
 classroomController = Blueprint('classroomController', __name__)
 
@@ -36,11 +38,27 @@ def getClassroomInfo():
 
     students = Student.query.filter_by(class_id = class_.id).all()
 
+    summary = Summary.query.filter_by(classroom_id=classroomID).first()
+
+    absences = Absence.query.filter_by(classroom_id = classroomID).all()
+
+    if summary is not None:
+        content = summary.content
+    else:
+        content = None
+
     students_list = [{
         "id": record.user_id,
         "pNumber": record.process_number,
         "name": record.name + " " + record.surname 
     } for record in students]
+
+    absences_list = [{
+        "user_id": record.user_id,
+        "presence": record.presence,
+        "material": record.material,
+        "late": record.late
+    } for record in absences]
 
     date = classroom.day
 
@@ -62,7 +80,9 @@ def getClassroomInfo():
             "id": subject.id,
             "label": subject.label
         },
-        "students": students_list
+        "students": students_list,
+        "summary": content,
+        "absences": absences_list
     })
 
 
@@ -85,7 +105,7 @@ def createClassroom():
     teacher = Teacher.query.filter_by(user_id = user_id).first()
     teacherCS = Teacher_CS.query.filter_by(csid = classSubject.id, teacher_id = teacher.teacher_id).first()
     
-    newClassroom = Classroom(tcs_id = teacherCS.id, day = date, begin = beginTime, end = endTime, state = "Teste")
+    newClassroom = Classroom(tcs_id = teacherCS.id, day = date, begin = beginTime, end = endTime)
 
     db.session.add(newClassroom)
     db.session.commit()
