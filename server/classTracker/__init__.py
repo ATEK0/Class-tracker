@@ -94,6 +94,7 @@ def create_app():
     from .models.Parent import Parent
     from .models.Student import Student
     from .models.Teacher import Teacher
+    from .models.Absence import Absence
 
     
     return app
