@@ -116,3 +116,33 @@ def createClassroom():
     return jsonify ({
         "message": "ok"
     }), 200
+
+@classroomController.route("/editClassroom/<classroom_id>", methods=["POST"])
+def editClassroom(classroom_id):
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+
+    user_id = request.json["teacher"]
+    subject_id = request.json["subject"]
+    class_ID = request.json["class_ID"]
+    date = request.json["date"]
+    beginTime = request.json["beginTime"]
+    endTime = request.json["endTime"]
+
+    classSubject = Class_Subject.query.filter_by(subject_id = subject_id, class_id = class_ID).first()
+    teacher = Teacher.query.filter_by(user_id = user_id).first()
+    teacherCS = Teacher_CS.query.filter_by(csid = classSubject.id, teacher_id = teacher.teacher_id).first()
+
+    classroom = Classroom.query.get(classroom_id)
+
+    if classroom:
+        classroom.tcs_id = teacherCS.id
+        classroom.day = date
+        classroom.begin = beginTime
+        classroom.end = endTime
+        db.session.commit()
+        return "Classroom successfully edited", 200
+    else:
+        return "Classroom not found", 404
