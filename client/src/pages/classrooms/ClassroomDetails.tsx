@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import httpClient from '../../httpClient';
 import { apiLink } from '../../config';
 
-import { ClassroomDetailsType, TextAlign } from '../../types';
+import { ClassroomDetailsType, Student, TextAlign } from '../../types';
 import DataTable from 'react-data-table-component';
 
 const ClassroomDetails = () => {
@@ -21,40 +21,46 @@ const ClassroomDetails = () => {
 
   useEffect(() => {
 
-    async function getUserType() {
-      const resp = await httpClient.get(apiLink + "/@me");
-
-      let user = resp.data;
-
-      if (user) {
-        if (user.userType === 'Admin' || user.userType === 'Teacher') {
-          setShowSensitiveData(true)
-          console.log("correto")
-        } else {
-          setShowSensitiveData(false)
-        }
-        console.log(user.userType)
-
-      }
-    }
-
-    async function getClassroomData() {
-      const classroomData = await httpClient.post(`${apiLink}/getClassroomInfo`, { 'classroomID': eventId })
-      
-      setSummary(classroomData.data.summary)
-
-      setTableCols([{ name: 'Process', selector: (row: any) => row.pNumber, sortable: true }, { name: 'Name', selector: (row: any) => row.name, sortable: true }])
-      setclassroomDetails(classroomData.data)
-
-      
-    }
-
     getClassroomData()
     getUserType()
 
-
-
   }, [])
+
+  async function getClassroomData() {
+    try {
+      const classroomData = await httpClient.post(`${apiLink}/getClassroomInfo`, { 'classroomID': eventId });
+
+      setSummary(classroomData.data.summary);
+      setTableCols([
+        { name: 'Process', selector: (row: any) => row.pNumber, sortable: true },
+        { name: 'Name', selector: (row: any) => row.name, sortable: true }
+      ]);
+
+      setclassroomDetails(classroomData.data);
+
+    } catch (error) {
+      console.error("Error fetching classroom data:", error);
+    }
+  }
+
+
+  async function getUserType() {
+    const resp = await httpClient.get(apiLink + "/@me");
+
+    let user = resp.data;
+
+    if (user) {
+      if (user.userType === 'Admin' || user.userType === 'Teacher') {
+        setShowSensitiveData(true)
+        console.log("correto")
+      } else {
+        setShowSensitiveData(false)
+      }
+      console.log(user.userType)
+
+    }
+  }
+
 
   async function handleFormSubmit() {
     event?.preventDefault()
@@ -68,13 +74,16 @@ const ClassroomDetails = () => {
   const columnsWithButton = [...tableCols, {
     name: 'P | M | L',
     button: true,
-    cell: (row: { [s: string]: unknown }) => (
-      <div>
-        <input type='checkbox' className='m-1' value={"presence"} checked= {true}/>
-        <input type='checkbox' className='m-1' value={"material"}/>
-        <input type='checkbox' className='m-1' value={"late"}/>
-      </div>
-    ),
+    cell: (row: Student ) => {
+
+      return (
+        <div>
+          <input type='checkbox' className='m-1' value={"presence"} checked = {classroomDetails?.absences[row.id] ? classroomDetails?.absences[row.id].presence : false} />
+          <input type='checkbox' className='m-1' value={"material"} checked = {classroomDetails?.absences[row.id] ? classroomDetails?.absences[row.id].material : false} />
+          <input type='checkbox' className='m-1' value={"late"} checked = {classroomDetails?.absences[row.id] ? classroomDetails?.absences[row.id].late : false} />
+        </div>
+      )
+    },
   }];
 
   const filteredData = classroomDetails?.students.filter((item: { [s: string]: unknown } | ArrayLike<unknown>) =>
@@ -113,7 +122,7 @@ const ClassroomDetails = () => {
         <p>{classroomDetails?.day} {classroomDetails?.begin} - {classroomDetails?.end}</p>
         <br />
         <p className='text-[#04304D] pb-1'>Summary</p>
-        <Textarea className='max-h-[200px] h-[200px] resize-none min-h-[200px]' readOnly={!showSensitiveData} aria-multiline value={summary} onChange={ (event) => { setSummary(event.target.value); }}></Textarea>
+        <Textarea className='max-h-[200px] h-[200px] resize-none min-h-[200px]' readOnly={!showSensitiveData} aria-multiline value={summary} onChange={(event) => { setSummary(event.target.value); }}></Textarea>
         <br />
         <br />
 

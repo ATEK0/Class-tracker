@@ -63,11 +63,24 @@ export interface ClassroomDetailsType {
     day: string;
     begin: string;
     end: string;
-    teacher: { id: string; name: string };
-    class: {id: string, label: string};
-    subject: {id: string, label: string};
+    teacher: { id: string; 
+        name: string 
+    };
+    class: {id: string, 
+        label: string
+    };
+    subject: {id: string, 
+        label: string
+    };
     students: string[];
     summary: string;
+    absences: {
+        [userId: string]: {
+            presence: boolean,
+            material: boolean,
+            late: boolean
+        }
+    }
 }
 
 export type TextAlign = 'left' | 'center' | 'right' | 'justify' | 'initial' | 'inherit';

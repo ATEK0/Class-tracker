@@ -53,12 +53,15 @@ def getClassroomInfo():
         "name": record.name + " " + record.surname 
     } for record in students]
 
-    absences_list = [{
-        "user_id": record.user_id,
-        "presence": record.presence,
-        "material": record.material,
-        "late": record.late
-    } for record in absences]
+    absences_list = {
+        record.user_id:
+        {
+            "presence": record.presence,
+            "material": record.material,
+            "late": record.late
+        }
+        
+    for record in absences } 
 
     date = classroom.day
 
