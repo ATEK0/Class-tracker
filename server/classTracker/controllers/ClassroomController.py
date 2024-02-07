@@ -146,3 +146,19 @@ def editClassroom(classroom_id):
         return "Classroom successfully edited", 200
     else:
         return "Classroom not found", 404
+    
+@classroomController.route("/deleteClassroom/<classroom_id>", methods=["DELETE"])
+def deleteClassroom(classroom_id):
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+    
+    classroom = Classroom.query.get(classroom_id)
+
+    if classroom:
+        db.session.delete(classroom)
+        db.session.commit()
+        return "Classroom successfully deleted", 200
+    else:
+        return "Classroom not found", 404

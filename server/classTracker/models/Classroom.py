@@ -9,5 +9,5 @@ class Classroom(db.Model):
     end = db.Column(db.Time)
 
     teacher_cs = db.relationship('Teacher_CS', back_populates='classroom')
-    summary = db.relationship('Summary', back_populates='classroom')
-    absence = db.relationship('Absence', back_populates='classroom')
+    summary = db.relationship('Summary', back_populates='classroom', passive_deletes=True)
+    absence = db.relationship('Absence', back_populates='classroom', passive_deletes=True)
