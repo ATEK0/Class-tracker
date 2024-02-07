@@ -12,6 +12,7 @@ const ClassroomDetails = () => {
   const { eventId } = useParams();
 
   const [classroomDetails, setclassroomDetails] = useState<ClassroomDetailsType>()
+  const [checkboxState, setCheckboxState] = useState<any>({});
 
   const [searchText, setSearchText] = useState<string>('');
   const [tableCols, setTableCols] = useState<any>([]);
@@ -19,12 +20,24 @@ const ClassroomDetails = () => {
 
   const [summary, setSummary] = useState<string>()
 
+
   useEffect(() => {
 
     getClassroomData()
     getUserType()
 
   }, [])
+
+  const handleCheckboxChange = (rowId: string, fieldName: string) => {
+    setCheckboxState((prevState: { [x: string]: { [x: string]: any; }; }) => ({
+      ...prevState,
+      [rowId]: {
+        ...prevState[rowId],
+        [fieldName]: !prevState[rowId]?.[fieldName]
+      }
+    }));
+
+  };
 
   async function getClassroomData() {
     try {
@@ -62,28 +75,58 @@ const ClassroomDetails = () => {
   }
 
 
-  async function handleFormSubmit() {
+  async function handleFormSubmit(event: { preventDefault: () => void; }) {
     event?.preventDefault()
 
     console.log(summary)
+    let absences: any[][] = []
+    let allUser = document.querySelectorAll(".student") as NodeListOf<HTMLInputElement>;
+    console.log(allUser)
 
-    // const saveSummary = await httpClient.post(`${apiLink}/createSummary`, { 'classroomID': classroomDetails?.id, 'content': summary})
+    
+    allUser.forEach((elemento) => {
+      console.log(elemento.checked)
+      if (elemento.checked) {
+        absences.push([elemento.id, elemento.name])
+      }
+      
+    })
+
+    const saveSummary = await httpClient.post(`${apiLink}/manageClassroom`, { 'classroomID': classroomDetails?.id, summary, absences})
 
   }
 
   const columnsWithButton = [...tableCols, {
     name: 'P | M | L',
     button: true,
-    cell: (row: Student ) => {
-
-      return (
-        <div>
-          <input type='checkbox' className='m-1' value={"presence"} checked = {classroomDetails?.absences[row.id] ? classroomDetails?.absences[row.id].presence : false} />
-          <input type='checkbox' className='m-1' value={"material"} checked = {classroomDetails?.absences[row.id] ? classroomDetails?.absences[row.id].material : false} />
-          <input type='checkbox' className='m-1' value={"late"} checked = {classroomDetails?.absences[row.id] ? classroomDetails?.absences[row.id].late : false} />
-        </div>
-      )
-    },
+    cell: (row: Student) => (
+      <div>
+        <input
+          type='checkbox'
+          className='m-1 student'
+          name={"presence"}
+          id={row.id}
+          checked={checkboxState[row.id]?.presence || false}
+          onChange={() => handleCheckboxChange(row.id, 'presence')}
+        />
+        <input
+          type='checkbox'
+          className='m-1 student'
+          name={"material"}
+          id={row.id}
+          checked={checkboxState[row.id]?.material || false}
+          onChange={() => handleCheckboxChange(row.id, 'material')}
+        />
+        <input
+          type='checkbox'
+          className='m-1 student'
+          name={"late"}
+          id={row.id}
+          checked={checkboxState[row.id]?.late || false}
+          onChange={() => handleCheckboxChange(row.id, 'late')}
+        />
+      </div>
+    ),
   }];
 
   const filteredData = classroomDetails?.students.filter((item: { [s: string]: unknown } | ArrayLike<unknown>) =>
@@ -130,7 +173,6 @@ const ClassroomDetails = () => {
         {showSensitiveData ? (
           <div>
             <p className='text-[#04304D] pb-1'>Students</p>
-
 
             {filteredData ? (
               <DataTable

@@ -88,7 +88,7 @@ def getClassroomInfo():
         "absences": absences_list
     })
 
-@classroomController.route("/getClassrooms", methods=["POST"])
+@classroomController.route("/getClassrooms", methods=["GET"])
 def getClassrooms():
     current_user = session.get("user_id")
 

@@ -110,14 +110,13 @@ def getClassSubjectTeachers():
     return jsonify(teacher_info)
 
 
-@subjectController.route("/getSubjectTeachers", methods=["POST"])
-def getSubjectTeachers():
+@subjectController.route("/getSubjectTeachers/<subjectID>", methods=["GET"])
+def getSubjectTeachers(subjectID):
     current_user = session.get("user_id")
 
     if not current_user:
         return "Unauthorized", 401
 
-    subjectID = request.json["subjectID"]
 
     class_subject = Class_Subject.query.filter_by(subject_id=subjectID).all()
 

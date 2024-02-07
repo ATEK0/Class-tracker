@@ -106,7 +106,7 @@ const NewClass = () => {
                             <Select
                                 id="type"
                                 placeholder="Class Type"
-                                value={headteacher}
+                                value={classType}
                                 required
                                 onChange={(event) => setClassType(event.target.value)}
                             >
