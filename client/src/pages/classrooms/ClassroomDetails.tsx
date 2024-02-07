@@ -101,13 +101,14 @@ const ClassroomDetails = () => {
   async function handleFormSubmit(event: { preventDefault: () => void; }) {
     event?.preventDefault();
   
-    let absences: { [id: string]: string[] } = {};
+    let absences: { [id: string]: string[] } = {[""]:[]};
     let allUser = document.querySelectorAll(".student") as NodeListOf<HTMLInputElement>;
-  
+    
+
     allUser.forEach((elemento) => {
       console.log(elemento.checked);
       if (elemento.checked) {
-        // Check if the id already exists in the absences object
+
         if (!absences[elemento.id]) {
           absences[elemento.id] = [];
         }
