@@ -88,6 +88,72 @@ def getClassroomInfo():
         "absences": absences_list
     })
 
+@classroomController.route("/getClassrooms", methods=["POST"])
+def getClassrooms():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+    
+    classrooms = Classroom.query.all()
+
+    classrooms_list = []
+    
+    for classroom in classrooms:
+        classroom = Classroom.query.filter_by(id = classroom.id).first()
+        tcs = Teacher_CS.query.filter_by(id = classroom.tcs_id).first()
+        teacher = Teacher.query.filter_by(teacher_id = tcs.teacher_id).first()
+        class_subject = Class_Subject.query.filter_by(id = tcs.csid).first()
+        class_ = Class_.query.filter_by(id = class_subject.class_id).first()
+        subject = Subject.query.filter_by(id = class_subject.subject_id).first()
+        date = classroom.day
+        fDate = str(date.day) + "/" + str(date.month) + "/" + str(date.year)
+
+        classrooms_list.append(
+            {
+                "classroomID": classroom.id,
+                "day": fDate,
+                "begin": str(classroom.begin),
+                "end": str(classroom.end),
+                "teacher": {
+                    "id": teacher.user_id,
+                    "name": teacher.name + " " + teacher.surname,
+                },
+                "class": {
+                    "id": class_.id,
+                    "label": str(class_.grade) + "º " + class_.label
+                },
+                "subject": {
+                    "id": subject.id,
+                    "label": subject.label
+                }
+            }
+        )
+
+    return classrooms_list
+
+    
+
+@classroomController.route("/manageClassroom", methods=["POST"])
+def manageClassroom():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+    
+    classroomID = request.json["classroomID"]
+    summary = request.json["summary"]
+
+    summary_exists = Summary.query.filter_by(classroom_id=classroomID).first()
+
+    if summary_exists is not None:
+        summary_exists.content = summary
+    else:
+        newSummary = Summary(content=summary, classroom_id=classroomID)
+        db.session.add(newSummary)
+
+    db.session.commit()
+
 
 
 @classroomController.route("/createClassroom", methods=["POST"])
