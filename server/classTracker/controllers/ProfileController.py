@@ -5,6 +5,7 @@ from .. import db, bcrypt
 from ..models.User import User, isAdmin
 from ..models.Student import Student, isStudent
 from ..models.Teacher import Teacher, isTeacher
+from ..models.Class_ import Class_
 
 import io
 import os
@@ -55,7 +56,6 @@ def getProfileInfo():
         "email": user.email,
         "name": user.name,
         "surname": user.surname,
-        "address": user.address,
         "birthdate": user.birthdate,
     }
 
@@ -64,11 +64,22 @@ def getProfileInfo():
     elif isTeacher(user.id):
         teacher = Teacher.query.get(user.id)
         user_info["userType"] = "Teacher"
-        user_info["contact"] = teacher.contact
+
     elif isStudent(user.id):
         student = Student.query.get(user.id)
+
+        class_ = Class_.query.get(student.class_id)
+
+        teacher = Teacher.query.get(class_.head_teacher) # resolver aqui, teacher.name fica me undefined
+
+
         user_info["userType"] = "Student"
         user_info["pNumber"] = student.process_number
+        user_info["class"] = str(class_.grade) + "º" + class_.label
+        user_info["class_id"] = student.class_id
+        user_info["headteacher"] = teacher.name + " " + teacher.surname # aqui fica me undefined
+        user_info["headteacher_id"] = class_.head_teacher
+
     else:
         user_info["userType"] = "Undefined"
 
