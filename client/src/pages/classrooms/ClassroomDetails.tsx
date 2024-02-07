@@ -76,27 +76,56 @@ const ClassroomDetails = () => {
   }
 
 
-  async function handleFormSubmit(event: { preventDefault: () => void; }) {
-    event?.preventDefault()
+  // async function handleFormSubmit(event: { preventDefault: () => void; }) {
+  //   event?.preventDefault()
 
-    let absences: any[][] = []
-    let allUser = document.querySelectorAll(".student") as NodeListOf<HTMLInputElement>;
+  //   let absences: any[][] = []
+  //   let allUser = document.querySelectorAll(".student") as NodeListOf<HTMLInputElement>;
 
 
     
-    allUser.forEach((elemento) => {
-      console.log(elemento.checked)
-      if (elemento.checked) {
-        absences.push([elemento.id, elemento.name])
-      }
+  //   allUser.forEach((elemento) => {
+  //     console.log(elemento.checked)
+  //     if (elemento.checked) {
+  //       absences.push([elemento.id, elemento.name])
+  //     }
       
-    })
+  //   })
 
-    const saveSummary = await httpClient.post(`${apiLink}/manageClassroom`, { 'classroomID': eventId, summary, absences})
+  //   const saveSummary = await httpClient.post(`${apiLink}/manageClassroom`, { 'classroomID': eventId, summary, absences})
 
-    toast.success(saveSummary.data)
+  //   toast.success(saveSummary.data)
 
+  // }
+
+  async function handleFormSubmit(event: { preventDefault: () => void; }) {
+    event?.preventDefault();
+  
+    let absences: { [id: string]: string[] } = {};
+    let allUser = document.querySelectorAll(".student") as NodeListOf<HTMLInputElement>;
+  
+    allUser.forEach((elemento) => {
+      console.log(elemento.checked);
+      if (elemento.checked) {
+        // Check if the id already exists in the absences object
+        if (!absences[elemento.id]) {
+          absences[elemento.id] = [];
+        }
+        absences[elemento.id].push(elemento.name);
+      }
+    });
+  
+    console.log(absences)
+
+    const saveSummary = await httpClient.post(`${apiLink}/manageClassroom`, {
+      classroomID: eventId,
+      summary,
+      absences,
+    });
+  
+    toast.success(saveSummary.data);
   }
+  
 
   const columnsWithButton = [...tableCols, {
     name: 'P | M | L',
