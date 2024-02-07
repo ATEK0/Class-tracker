@@ -70,15 +70,16 @@ def getProfileInfo():
 
         class_ = Class_.query.get(student.class_id)
 
-        teacher = Teacher.query.get(class_.head_teacher) # resolver aqui, teacher.name fica me undefined
+        teacher = Teacher.query.filter_by(teacher_id = class_.head_teacher).first()
+
 
 
         user_info["userType"] = "Student"
         user_info["pNumber"] = student.process_number
         user_info["class"] = str(class_.grade) + "º" + class_.label
         user_info["class_id"] = student.class_id
-        user_info["headteacher"] = teacher.name + " " + teacher.surname # aqui fica me undefined
-        user_info["headteacher_id"] = class_.head_teacher
+        user_info["headteacher"] = teacher.name + " " + teacher.surname
+        user_info["headteacher_id"] = teacher.user_id
 
     else:
         user_info["userType"] = "Undefined"

@@ -76,24 +76,18 @@ const ProfileUser = () => {
                     <div className="flex justify-between flex-wrap gap-2 w-full">
                       <span className="text-gray-700 font-bold">HeadTeacher</span>
                       <p>
-                        <span className="text-gray-700 mr-2">{user.headteacher}</span>
+                        <span className="text-gray-700 mr-2"><a href={`/profile/${user?.headteacher_id}`}><u>{user.headteacher}</u></a></span>
                       </p>
                     </div>
 
 
                   </>
-                  ) : "ola"
+                  ) : ""
                   }
-
-
-
 
                   {user?.userType == "Teacher" ? (
                     <div className="flex justify-between flex-wrap gap-2 w-full py-2">
-                      <span className="text-gray-700 font-bold">Class</span>
-                      <p>
-                        <span className="text-gray-700 mr-2"><Link to={`/admin/classes/CLASSID/CLASSNAME`}><u>CLASSNAME</u></Link></span>
-                      </p>
+                      
                     </div>
                   ) : ""
                   }
