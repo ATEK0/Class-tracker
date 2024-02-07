@@ -53,7 +53,7 @@ const NavBarMain = () => {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:justify-between md:justify-between">
-                <Link to="" className="flex flex-shrink-0 items-center">
+                <Link to="/" className="flex flex-shrink-0 items-center" tabIndex={1}>
                   <img
                     className="h-10 w-auto"
                     src={Logo}
@@ -62,8 +62,8 @@ const NavBarMain = () => {
                 </Link>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link to={item.href}
+                    {navigation.map((item, index) => (
+                      <Link to={item.href} tabIndex={index+1}
                         key={item.name}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white hover:bg-gray-500' : 'text-white hover:text-white hover:bg-blue-500',

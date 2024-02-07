@@ -83,4 +83,8 @@ export interface ClassroomDetailsType {
     }
 }
 
+export interface ClassroomList {
+    
+}
+
 export type TextAlign = 'left' | 'center' | 'right' | 'justify' | 'initial' | 'inherit';

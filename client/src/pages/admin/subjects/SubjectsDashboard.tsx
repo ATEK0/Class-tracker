@@ -143,8 +143,8 @@ const SubjectsDashboard = () => {
   return (
     <div className='pt-[64px] p-x-5 mx-auto max-w-7xl z-0 px-2 sm:px-6 lg:px-8 pb-8'>
       <h1 className="font-bold text-3xl text-[#04304D] pt-8 mb-5">Subjects</h1>
-
-      <Button className='bg-[#04304d] my-3 flex justify-center items-center' onClick={() => {setopenModalCreate(true)}}><FontAwesomeIcon icon={faPlus} className='mr-2 w-5 h-5'/>New Subject</Button>
+      
+      <button className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full md:w-1/5 mb-3' onClick={() => {setopenModalCreate(true)}}>New Subject</button>
 
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
