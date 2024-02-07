@@ -6,6 +6,7 @@ import { apiLink } from '../../config';
 
 import { ClassroomDetailsType, Student, TextAlign } from '../../types';
 import DataTable from 'react-data-table-component';
+import toast from 'react-hot-toast';
 
 const ClassroomDetails = () => {
 
@@ -78,10 +79,9 @@ const ClassroomDetails = () => {
   async function handleFormSubmit(event: { preventDefault: () => void; }) {
     event?.preventDefault()
 
-    console.log(summary)
     let absences: any[][] = []
     let allUser = document.querySelectorAll(".student") as NodeListOf<HTMLInputElement>;
-    console.log(allUser)
+
 
     
     allUser.forEach((elemento) => {
@@ -92,7 +92,9 @@ const ClassroomDetails = () => {
       
     })
 
-    const saveSummary = await httpClient.post(`${apiLink}/manageClassroom`, { 'classroomID': classroomDetails?.id, summary, absences})
+    const saveSummary = await httpClient.post(`${apiLink}/manageClassroom`, { 'classroomID': eventId, summary, absences})
+
+    toast.success(saveSummary.data)
 
   }
 

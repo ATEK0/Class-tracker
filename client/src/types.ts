@@ -59,7 +59,7 @@ export interface SubjectListType {
 }
 
 export interface ClassroomDetailsType {
-    id: string;
+    classroomID: string;
     day: string;
     begin: string;
     end: string;
