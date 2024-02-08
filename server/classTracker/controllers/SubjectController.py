@@ -181,8 +181,12 @@ def unassignSubject():
         class_id=classID, subject_id=subjectID
     ).first()
 
+    tcs = Teacher_CS.query.filter_by(csid=class_subject_exists.id).all()
+
     if class_subject_exists and not class_subject_exists.is_deleted:
         class_subject_exists.is_deleted = 1
+        for teacher_cs in tcs:
+            teacher_cs.is_deleted = 1
         db.session.commit()
         return "Subject successfully unassigned", 200
     else:
