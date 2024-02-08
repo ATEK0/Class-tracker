@@ -150,12 +150,12 @@ def assignSubject():
         class_id=classID, subject_id=subjectID
     ).first()
 
-    if class_subject_exists is not None and class_subject_exists.is_deleted:
+    if class_subject_exists and class_subject_exists.is_deleted:
         class_subject_exists.is_deleted = 0
         db.session.commit()
         return "Subject successfully assigned", 200
 
-    if class_subject_exists is not None and not class_subject_exists.is_deleted:
+    if class_subject_exists and not class_subject_exists.is_deleted:
         return "Subject already assigned to this Class", 400
 
     newClassSubject = Class_Subject(
@@ -166,6 +166,27 @@ def assignSubject():
     db.session.commit()
 
     return "Subject successfully assigned", 200
+
+@subjectController.route("/unassignSubject", methods=["POST"])
+def unassignSubject():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+
+    classID = request.json["classID"]
+    subjectID = request.json["subjectID"]
+
+    class_subject_exists = Class_Subject.query.filter_by(
+        class_id=classID, subject_id=subjectID
+    ).first()
+
+    if class_subject_exists and not class_subject_exists.is_deleted:
+        class_subject_exists.is_deleted = 1
+        db.session.commit()
+        return "Subject successfully unassigned", 200
+    else:
+        return "Error occurred"
 
 
 @subjectController.route("/createSubject", methods=["POST"])
