@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import httpClient from '../../../httpClient';
 import { apiLink } from '../../../config';
+import toast from 'react-hot-toast';
 
 const ClassDetails = () => {
     const { classId } = useParams();
@@ -24,12 +25,15 @@ const ClassDetails = () => {
     }
 
 
-    async function deassignButtonClicked(event:any, label:any, subjectID:any) {
+    async function deassignButtonClicked(event:any, subjectID:any) {
       event.preventDefault()
 
-      const subjectClassList = await httpClient.get(`${apiLink}/unassignSubject/${classId}`);
+      const unassignSubject = await httpClient.post(`${apiLink}/unassignSubject`, { "classID": classId, "subjectID": subjectID });
 
-      console.log("clicado em unassign" + subjectID + label)
+      toast.success(unassignSubject.data)
+
+      loadSubjectClass()
+
     }
 
   return (
