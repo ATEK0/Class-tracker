@@ -200,7 +200,7 @@ def toggleClass(class_id):
     tcs = Teacher_CS.query.filter(Teacher_CS.csid.in_(cs_ids)).all()
 
     if not class_:
-        return "Subject not found", 404
+        return "Class not found", 404
 
     if class_.is_deleted == 0:
         class_.is_deleted = 1
