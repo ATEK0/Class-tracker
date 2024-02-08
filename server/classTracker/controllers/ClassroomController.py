@@ -154,19 +154,24 @@ def manageClassroom():
 
     for user_id, absence_list in absences.items():
         existing_absence = Absence.query.filter_by(user_id=user_id, classroom_id=classroomID).first()
+
         if existing_absence is not None:
-            existing_absence.presence = "presence" in absence_list
-            existing_absence.material = "material" in absence_list
-            existing_absence.late = "late" in absence_list
+            if absence_list[0] == False and absence_list[1] == False and absence_list[2] == False:
+                db.session.delete(existing_absence)
+            else:
+                existing_absence.presence = absence_list[0]
+                existing_absence.material = absence_list[1]
+                existing_absence.late = absence_list[2]
         else:
-            existing_absence = Absence(
-                user_id=user_id,
-                classroom_id=classroomID,
-                presence="presence" in absence_list,
-                material="material" in absence_list,
-                late="late" in absence_list,
-            )
-            db.session.add(existing_absence)
+            if absence_list[0] or absence_list[1] or absence_list[2]:
+                existing_absence = Absence(
+                    user_id=user_id,
+                    classroom_id=classroomID,
+                    presence=absence_list[0],
+                    material=absence_list[1],
+                    late=absence_list[2],
+                )
+                db.session.add(existing_absence)
 
     db.session.commit()
 
