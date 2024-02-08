@@ -7,12 +7,16 @@ import { useEffect, useState } from 'react';
 import httpClient from '../../../httpClient';
 import { apiLink } from '../../../config';
 import toast from 'react-hot-toast';
+import { Modal, Label, Button } from 'flowbite-react';
 
 const ClassDetails = () => {
     const { classId } = useParams();
     const { classLabel } = useParams();   
 
+    const [openModalConfirmUnassign, setopenModalConfirmUnassign] = useState<boolean>()
+
     const [subjectList, setsubjectList] = useState([])
+    const [subjectClicked, setsubjectClicked] = useState<string>("")
 
     useEffect(() => {
       loadSubjectClass()
@@ -25,15 +29,25 @@ const ClassDetails = () => {
     }
 
 
-    async function deassignButtonClicked(event:any, subjectID:any) {
+    async function deassignButtonClicked(event:any, subjectID: string) {
       event.preventDefault()
+      setsubjectClicked(subjectID)
+      setopenModalConfirmUnassign(true)
 
-      const unassignSubject = await httpClient.post(`${apiLink}/unassignSubject`, { "classID": classId, "subjectID": subjectID });
+    }
 
+    async function confirmUnassign() {
+      const unassignSubject = await httpClient.post(`${apiLink}/unassignSubject`, { "classID": classId, "subjectID": subjectClicked });
+      
       toast.success(unassignSubject.data)
 
       loadSubjectClass()
 
+      onCloseModal()
+    }
+
+    function onCloseModal() {
+      setopenModalConfirmUnassign(false)
     }
 
   return (
@@ -67,6 +81,23 @@ const ClassDetails = () => {
           </Link>
         ))}
       </div>
+
+      <Modal dismissible show={openModalConfirmUnassign} size="md" onClose={onCloseModal} popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-4">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Unassign Subject</h3>
+            <div className="block">
+              <Label htmlFor="">Are you sure you want to unassign this subject?</Label>
+            </div>
+            <div className="w-full flex justify-between">
+              <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>
+              <Button className='bg-[#c82333]' onClick={confirmUnassign}>Unassign</Button>
+            </div>
+
+          </div>
+        </Modal.Body>
+      </Modal>
 
     </div>
   )

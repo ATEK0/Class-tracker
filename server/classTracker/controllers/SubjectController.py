@@ -156,7 +156,7 @@ def assignSubject():
         return "Subject successfully assigned", 200
 
     if class_subject_exists and not class_subject_exists.is_deleted:
-        return "Subject already assigned to this Class", 400
+        return "Subject already assigned to this Class"
 
     newClassSubject = Class_Subject(
         class_id=classID, subject_id=subjectID, is_deleted=0
