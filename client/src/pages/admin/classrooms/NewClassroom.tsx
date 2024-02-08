@@ -61,7 +61,7 @@ const NewClass: React.FC = () => {
 
     const handleClassChange = async (event: ChangeEvent<HTMLSelectElement>) => {
         setClass_ID(event.target.value);
-        const subjectResp = await httpClient.post(apiLink + "/getClassSubjects", {class_ID: event.target.value});
+        const subjectResp = await httpClient.post(apiLink + "/getClassSubjects/" + event.target.value);
         const fetchedSubjects: SubjectListType[] = subjectResp.data;
         setSubjectList(fetchedSubjects);
         setTeacherList([]);

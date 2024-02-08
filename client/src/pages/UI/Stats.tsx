@@ -39,8 +39,8 @@ export default function Stats(props: { type: string; }) {
     };
 
 
-    fetchData(); // Call the async function inside useEffect
-  }, []); // Empty dependency array to ensure the effect runs once on mount
+    fetchData(); 
+  }, []); 
 
   let stats = [
     { id: 1, name: 'Classes', value: classCount },

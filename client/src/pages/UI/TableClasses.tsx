@@ -322,7 +322,7 @@ const Table = (props: {
 
         </Modal.Body>
       </Modal>
-      {/* fim modal edit ckass */}
+      {/* fim modal edit class */}
 
       <input
         type="text"

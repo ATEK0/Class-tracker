@@ -14,14 +14,14 @@ from ..models.Class_Type import Class_Type
 classController = Blueprint("classController", __name__)
 
 
-@classController.route("/getClassSubjects", methods=["POST"])
-def getClassSubjects():
+@classController.route("/getClassSubjects/<class_ID>", methods=["GET"])
+def getClassSubjects(class_ID):
     current_user = session.get("user_id")
 
     if not current_user:
         return "Unauthorized", 401
 
-    class_ = request.json["class_ID"]
+    class_ = class_ID
 
     classSubjects = Class_Subject.query.filter_by(class_id=class_).all()
 
