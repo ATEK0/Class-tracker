@@ -23,7 +23,7 @@ def getClassSubjects(class_ID):
 
     class_ = class_ID
 
-    classSubjects = Class_Subject.query.filter_by(class_id=class_).all()
+    classSubjects = Class_Subject.query.filter_by(class_id=class_, is_deleted = 0).all()
 
     subject_info = []
     for class_subject in classSubjects:

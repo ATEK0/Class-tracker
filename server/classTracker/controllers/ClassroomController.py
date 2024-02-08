@@ -146,7 +146,7 @@ def manageClassroom():
 
     summary_exists = Summary.query.filter_by(classroom_id=classroomID).first()
 
-    if summary_exists is not None:
+    if summary_exists:
         summary_exists.content = summary
     else:
         newSummary = Summary(content=summary, classroom_id=classroomID)
@@ -155,7 +155,7 @@ def manageClassroom():
     for user_id, absence_list in absences.items():
         existing_absence = Absence.query.filter_by(user_id=user_id, classroom_id=classroomID).first()
 
-        if existing_absence is not None:
+        if existing_absence:
             if absence_list[0] == False and absence_list[1] == False and absence_list[2] == False:
                 db.session.delete(existing_absence)
             else:

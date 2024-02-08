@@ -144,12 +144,12 @@ def assignTeacher():
         teacher_id=teacher.teacher_id, csid=class_subject.id
     ).first()
 
-    if teacher_cs_exists is not None and teacher_cs_exists.is_deleted:
+    if teacher_cs_exists and teacher_cs_exists.is_deleted:
         teacher_cs_exists.is_deleted = 0
         db.session.commit()
         return "Teacher successfully assigned", 200
 
-    if teacher_cs_exists is not None and not teacher_cs_exists.is_deleted:
+    if teacher_cs_exists and not teacher_cs_exists.is_deleted:
         return "Teacher already assigned to this Class and Subject", 400
 
     newTcs = Teacher_CS(
