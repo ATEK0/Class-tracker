@@ -60,7 +60,7 @@ const ClassDetails = () => {
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
                 >
-                  <FontAwesomeIcon icon={faSquareMinus} onClick={(event) => {deassignButtonClicked(event, subject.name, subject.id)}} className='p-1 w-4 h-4' />
+                  <FontAwesomeIcon icon={faSquareMinus} onClick={(event) => {deassignButtonClicked(event, subject.id)}} className='p-1 w-4 h-4' />
                 </button>
               </div>
             </div>
