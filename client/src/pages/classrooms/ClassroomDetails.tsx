@@ -29,16 +29,7 @@ const ClassroomDetails = () => {
 
   }, [])
 
-  const handleCheckboxChange = (rowId: string, fieldName: string) => {
-    setCheckboxState((prevState: { [x: string]: { [x: string]: any; }; }) => ({
-      ...prevState,
-      [rowId]: {
-        ...prevState[rowId],
-        [fieldName]: !prevState[rowId]?.[fieldName]
-      }
-    }));
 
-  };
 
   async function getClassroomData() {
     try {
@@ -76,89 +67,66 @@ const ClassroomDetails = () => {
   }
 
 
-  // async function handleFormSubmit(event: { preventDefault: () => void; }) {
-  //   event?.preventDefault()
-
-  //   let absences: any[][] = []
-  //   let allUser = document.querySelectorAll(".student") as NodeListOf<HTMLInputElement>;
-
-
-    
-  //   allUser.forEach((elemento) => {
-  //     console.log(elemento.checked)
-  //     if (elemento.checked) {
-  //       absences.push([elemento.id, elemento.name])
-  //     }
-      
-  //   })
-
-  //   const saveSummary = await httpClient.post(`${apiLink}/manageClassroom`, { 'classroomID': eventId, summary, absences})
-
-  //   toast.success(saveSummary.data)
-
-  // }
-
   async function handleFormSubmit(event: { preventDefault: () => void; }) {
     event?.preventDefault();
-  
-    let absences: { [id: string]: string[] } = {[""]:[]};
+
+    let absences: { [id: string]: boolean[] } = {};
     let allUser = document.querySelectorAll(".student") as NodeListOf<HTMLInputElement>;
-    
 
     allUser.forEach((elemento) => {
       console.log(elemento.checked);
-      if (elemento.checked) {
+      
+      const userId = elemento.id;
 
-        if (!absences[elemento.id]) {
-          absences[elemento.id] = [];
-        }
-        absences[elemento.id].push(elemento.name);
+      if (!absences[userId]) {
+        absences[userId] = [];
       }
+
+      absences[userId].push(elemento.checked);
+
     });
-  
-    console.log(absences)
+
+    console.log(absences);
 
     const saveSummary = await httpClient.post(`${apiLink}/manageClassroom`, {
       classroomID: eventId,
       summary,
       absences,
     });
-  
+
     toast.success(saveSummary.data);
   }
-  
 
   const columnsWithButton = [...tableCols, {
     name: 'P | M | L',
     button: true,
-    cell: (row: Student) => (
-      <div>
-        <input
-          type='checkbox'
-          className='m-1 student'
-          name={"presence"}
-          id={row.id}
-          checked={checkboxState[row.id]?.presence || false}
-          onChange={() => handleCheckboxChange(row.id, 'presence')}
-        />
-        <input
-          type='checkbox'
-          className='m-1 student'
-          name={"material"}
-          id={row.id}
-          checked={checkboxState[row.id]?.material || false}
-          onChange={() => handleCheckboxChange(row.id, 'material')}
-        />
-        <input
-          type='checkbox'
-          className='m-1 student'
-          name={"late"}
-          id={row.id}
-          checked={checkboxState[row.id]?.late || false}
-          onChange={() => handleCheckboxChange(row.id, 'late')}
-        />
-      </div>
-    ),
+    cell: (row: Student) => {
+      return (
+        <div>
+          <input
+            type='checkbox'
+            className='m-1 student'
+            id={row.id}
+            value={"presence"}
+            defaultChecked={classroomDetails?.absences[row.id]?.presence}
+          />
+          <input
+            type='checkbox'
+            className='m-1 student'
+            id={row.id}
+            value={"material"}
+            defaultChecked={classroomDetails?.absences[row.id]?.material}
+          />
+          <input
+            type='checkbox'
+            className='m-1 student'
+            id={row.id}
+            value={"late"}
+            defaultChecked={classroomDetails?.absences[row.id]?.late}
+          />
+        </div>
+      );
+    },
   }];
 
   const filteredData = classroomDetails?.students.filter((item: { [s: string]: unknown } | ArrayLike<unknown>) =>
