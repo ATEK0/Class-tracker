@@ -12,6 +12,9 @@ def deleteUser(user_id):
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     user = User.query.filter_by(id = user_id).first()
 
@@ -27,6 +30,9 @@ def editUser(user_id):
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     name = request.json['name']

@@ -20,6 +20,9 @@ def getClassSubjects(class_ID):
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     class_ = class_ID
 
@@ -39,6 +42,9 @@ def getClassInfo(classID):
     if not current_user:
         return "Unauthorized", 401
     
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
+    
     classInfo = Class_.query.get(classID)
 
 
@@ -55,6 +61,9 @@ def getClasses():
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     classes = Class_.query.filter_by(is_deleted=0).all()
@@ -90,6 +99,9 @@ def getArchivedClasses():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     classes = Class_.query.filter_by(is_deleted=1).all()
 
@@ -123,7 +135,7 @@ def getClassesCount():
         return "Unauthorized", 401
 
     if isAdmin(current_user):
-        count = Class_.query.count()
+        count = Class_.query.filter_by(is_deleted = 0).count()
     elif isTeacher(current_user):
         user = User.query.filter_by(id=current_user).first()
         teacher = Teacher.query.filter_by(user_id=user.id).first()
@@ -138,6 +150,8 @@ def getClassesCount():
         class_ids = set(class_ids)
 
         count = len(class_ids)
+    else:
+        return "Unauthorized", 401
 
     return jsonify(count)
 
@@ -148,6 +162,10 @@ def getClassStudents():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        if not isTeacher(current_user):
+            return "Unauthorized", 401
 
     class_id = request.json.get("class_id")
 
@@ -166,6 +184,9 @@ def createClass():
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     label = request.json["label"]
@@ -192,6 +213,9 @@ def toggleClass(class_id):
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     class_ = Class_.query.get(class_id)
@@ -224,6 +248,9 @@ def editClass(class_id):
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     label = request.json["label"]

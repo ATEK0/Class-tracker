@@ -52,9 +52,6 @@ def create_app():
 
     from .controllers.AuthController import authController
     app.register_blueprint(authController) 
-
-    from .controllers.SummaryController import summaryController
-    app.register_blueprint(summaryController)
     
     from .controllers.ClassController import classController
     app.register_blueprint(classController)

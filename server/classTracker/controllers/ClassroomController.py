@@ -97,6 +97,9 @@ def getClassrooms():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     classrooms = Classroom.query.all()
 
@@ -139,6 +142,10 @@ def manageClassroom():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        if not isTeacher(current_user):
+            return "Unauthorized", 401
 
     classroomID = request.json["classroomID"]
     summary = request.json["summary"]
@@ -185,6 +192,9 @@ def createClassroom():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     user_id = request.json["teacher"]
     subject_id = request.json["subject"]
@@ -216,6 +226,9 @@ def editClassroom(classroom_id):
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     user_id = request.json["teacher"]
@@ -251,6 +264,9 @@ def deleteClassroom(classroom_id):
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     classroom = Classroom.query.get(classroom_id)

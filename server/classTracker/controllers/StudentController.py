@@ -36,6 +36,8 @@ def getStudentsCount():
         class_ids = set(class_ids)
 
         count = Student.query.filter(Student.class_id.in_(class_ids)).count()
+    else:
+        return "Unauthorized", 401
 
     return jsonify(count)
 
@@ -46,6 +48,13 @@ def getStudents():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    print(isAdmin(current_user))
+    print(isTeacher(current_user))
+
+    if not isAdmin(current_user):
+        if not isTeacher(current_user):
+            return "Unauthorized", 401
 
     students = Student.query.all()
 
@@ -114,6 +123,9 @@ def createStudent():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     name = request.json["firstName"]
     surname = request.json["lastName"]
@@ -166,6 +178,9 @@ def editStudent(user_id):
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     name = request.json["firstName"]
     surname = request.json["lastName"]
@@ -204,6 +219,9 @@ def deleteStudent(user_id):
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     user = User.query.filter_by(id=user_id).first()
