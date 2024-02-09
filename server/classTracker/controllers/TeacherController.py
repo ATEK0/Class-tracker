@@ -152,7 +152,7 @@ def assignTeacher():
     class_subject = Class_Subject.query.filter_by(
         class_id=classID, subject_id=subjectID
     ).first()
-    teacher = Teacher.query.filter_by(teacher_id=teacherID).first()
+    teacher = Teacher.query.filter_by(user_id=teacherID).first()
 
     teacher_cs_exists = Teacher_CS.query.filter_by(
         teacher_id=teacher.teacher_id, csid=class_subject.id
@@ -192,7 +192,7 @@ def unassignTeacher():
     class_subject = Class_Subject.query.filter_by(
         class_id=classID, subject_id=subjectID
     ).first()
-    teacher = Teacher.query.filter_by(teacher_id=teacherID).first()
+    teacher = Teacher.query.filter_by(user_id=teacherID).first()
 
     teacher_cs_exists = Teacher_CS.query.filter_by(
         teacher_id=teacher.teacher_id, csid=class_subject.id
