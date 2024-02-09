@@ -118,15 +118,12 @@ def getClassrooms():
                 "day": fDate,
                 "begin": str(classroom.begin),
                 "end": str(classroom.end),
-                "teacher": {
-                    "id": teacher.user_id,
-                    "name": teacher.name + " " + teacher.surname,
-                },
-                "class": {
-                    "id": class_.id,
-                    "label": str(class_.grade) + "º " + class_.label,
-                },
-                "subject": {"id": subject.id, "label": subject.label},
+                "teacher_id": teacher.user_id,
+                "teacher": teacher.name + " " + teacher.surname,
+                "class_id": class_.id,
+                "class": str(class_.grade) + "º " + class_.label,
+                "subject_id": subject.id, 
+                "subject": subject.label,
             }
         )
 
@@ -217,9 +214,9 @@ def editClassroom(classroom_id):
 
     if not current_user:
         return "Unauthorized", 401
-
-    user_id = request.json["teacher"]
-    subject_id = request.json["subject"]
+    
+    user_id = request.json["teacher_id"]
+    subject_id = request.json["subject_id"]
     class_ID = request.json["class_ID"]
     date = request.json["date"]
     beginTime = request.json["beginTime"]

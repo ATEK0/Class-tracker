@@ -83,8 +83,17 @@ export interface ClassroomDetailsType {
     }
 }
 
-export interface ClassroomList {
-    
+export interface ClassroomType {
+    classroomID: string;
+    day: string;
+    begin: string;
+    end: string;
+    teacher_id: string;
+    teacher: string;
+    class_id: string;
+    class: string;
+    subject_id: string;
+    subject: string;
 }
 
 export type TextAlign = 'left' | 'center' | 'right' | 'justify' | 'initial' | 'inherit';

@@ -61,7 +61,7 @@ const NewClass: React.FC = () => {
 
     const handleClassChange = async (event: ChangeEvent<HTMLSelectElement>) => {
         setClass_ID(event.target.value);
-        const subjectResp = await httpClient.post(apiLink + "/getClassSubjects/" + event.target.value);
+        const subjectResp = await httpClient.get(apiLink + "/getClassSubjects/" + event.target.value);
         const fetchedSubjects: SubjectListType[] = subjectResp.data;
         setSubjectList(fetchedSubjects);
         setTeacherList([]);
@@ -97,7 +97,7 @@ const NewClass: React.FC = () => {
             return toast.error(createSummaryResponse)
         }
 
-        window.location.href = "/dashboard"
+        window.location.href = "/admin/classrooms"
         
     };
 
@@ -182,7 +182,7 @@ const NewClass: React.FC = () => {
             </div>
         
             <div className='flex justify-end gap-2'>
-                <Link to="/dashboard" > <button type="button" className='px-5 py-2 rounded-lg bg-[#04304d] text-white'>Cancel</button></Link>
+                <Link to="/admin/classrooms" > <button type="button" className='px-5 py-2 rounded-lg bg-[#04304d] text-white'>Cancel</button></Link>
                 <button type="button" onClick={createSummary} className='px-5 py-2 rounded-lg bg-[#04304d] text-white'>Create</button>
             </div>
         </form>
