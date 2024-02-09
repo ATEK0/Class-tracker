@@ -34,6 +34,8 @@ def getSubjectCount():
         subject_ids = set(subject_ids)
 
         subjectCount = len(subject_ids)
+    else:
+        return "Unauthorized", 401
 
     return jsonify(subjectCount)
 
@@ -43,6 +45,9 @@ def getSubject():
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     subjects = Subject.query.filter_by(is_deleted=0).all()
@@ -64,6 +69,9 @@ def getArchivedSubject():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     subjects = Subject.query.filter_by(is_deleted=1).all()
 
@@ -83,6 +91,9 @@ def getClassSubjectTeachers():
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     class_id = request.json["class_ID"]
@@ -117,6 +128,8 @@ def getSubjectTeachers(subjectID):
     if not current_user:
         return "Unauthorized", 401
 
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     class_subject = Class_Subject.query.filter_by(subject_id=subjectID).all()
 
@@ -141,6 +154,9 @@ def assignSubject():
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     classID = request.json["classID"]
@@ -173,6 +189,9 @@ def unassignSubject():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     classID = request.json["classID"]
     subjectID = request.json["subjectID"]
@@ -199,6 +218,9 @@ def createSubject():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     label = request.json["label"]
 
@@ -215,6 +237,9 @@ def toggleSubject(subject_id):
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     subject = Subject.query.get(subject_id)
@@ -247,6 +272,9 @@ def editSubject(subject_id):
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     label = request.json["label"]

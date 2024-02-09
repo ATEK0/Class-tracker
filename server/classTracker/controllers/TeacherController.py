@@ -4,7 +4,7 @@ from .. import db, bcrypt
 from datetime import date
 
 from ..models.User import User, isAdmin
-from ..models.Teacher import Teacher
+from ..models.Teacher import Teacher, isTeacher
 from ..models.Class_Subject import Class_Subject
 from ..models.Teacher_CS import Teacher_CS
 from ..models.Class_ import Class_
@@ -20,9 +20,11 @@ def getTeachersCount():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
-    if isAdmin(current_user):
-        count = Teacher.query.count()
+    count = Teacher.query.filter_by(is_deleted = 0).count()
 
     return jsonify(count)
 
@@ -32,6 +34,9 @@ def getTeacherClassroomsCount():
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isTeacher(current_user):
         return "Unauthorized", 401
 
     user = User.query.filter_by(id=current_user).first()
@@ -54,6 +59,9 @@ def getTeachers():
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     teachers = Teacher.query.all()
@@ -78,6 +86,9 @@ def getTeacherInfo():
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     user_id = request.json["id"]
@@ -130,6 +141,9 @@ def assignTeacher():
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     classID = request.json["classID"]
     subjectID = request.json["subjectID"]
@@ -167,6 +181,9 @@ def createTeacher():
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     name = request.json["firstName"]
@@ -207,6 +224,9 @@ def editTeacher(user_id):
 
     if not current_user:
         return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
 
     name = request.json["firstName"]
     surname = request.json["lastName"]
@@ -235,6 +255,9 @@ def deleteTeacher(user_id):
     current_user = session.get("user_id")
 
     if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
         return "Unauthorized", 401
 
     user = User.query.filter_by(id=user_id).first()

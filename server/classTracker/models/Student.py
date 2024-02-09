@@ -6,6 +6,10 @@ from ..models.Parent import Parent
 
 def isStudent(user_id):
     student = Student.query.get(user_id)
+
+    if not student:
+        return False
+
     return student
 
 class Student(User, db.Model):

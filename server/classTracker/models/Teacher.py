@@ -4,6 +4,10 @@ from ..models.User import User
 
 def isTeacher(user_id):
     teacher = Teacher.query.get(user_id)
+
+    if not teacher: 
+        return False
+
     return teacher
 
 class Teacher(User, db.Model):
