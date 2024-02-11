@@ -152,7 +152,7 @@ def assignTeacher():
     class_subject = Class_Subject.query.filter_by(
         class_id=classID, subject_id=subjectID
     ).first()
-    teacher = Teacher.query.filter_by(teacher_id=teacherID).first()
+    teacher = Teacher.query.filter_by(user_id=teacherID).first()
 
     teacher_cs_exists = Teacher_CS.query.filter_by(
         teacher_id=teacher.teacher_id, csid=class_subject.id
@@ -174,6 +174,36 @@ def assignTeacher():
     db.session.commit()
 
     return "Teacher successfully assigned", 200
+
+@teacherController.route("/unassignTeacher", methods=["POST"])
+def unassignTeacher():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+    
+    if not isAdmin(current_user):
+        return "Unauthorized", 401
+
+    classID = request.json["classID"]
+    subjectID = request.json["subjectID"]
+    teacherID = request.json["teacherID"]
+
+    class_subject = Class_Subject.query.filter_by(
+        class_id=classID, subject_id=subjectID
+    ).first()
+    teacher = Teacher.query.filter_by(user_id=teacherID).first()
+
+    teacher_cs_exists = Teacher_CS.query.filter_by(
+        teacher_id=teacher.teacher_id, csid=class_subject.id
+    ).first()
+
+    if teacher_cs_exists and not teacher_cs_exists.is_deleted:
+        teacher_cs_exists.is_deleted = 1
+        db.session.commit()
+        return "Teacher successfully unassigned", 200
+    else:
+        return "Error occurred"
 
 
 @teacherController.route("/createTeacher", methods=["POST"])
