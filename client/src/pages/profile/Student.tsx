@@ -96,7 +96,7 @@ const StudentProfile = (props: {
                   <div className="flex justify-between flex-wrap gap-2 w-full py-2">
                     <span className="text-gray-700 font-bold">Class</span>
                     <p>
-                      <span className="text-gray-700 mr-2"><Link to={`/admin/classes/${props.user.classId}/${props.user.className}`}><u>{props.user.className}</u></Link></span>
+                      <span className="text-gray-700 mr-2">{props.user.className}</span>
                     </p>
                   </div>
 

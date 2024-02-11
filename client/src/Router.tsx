@@ -24,7 +24,6 @@ import NewTeacher from "./pages/admin/teachers/NewTeacher"
 import NewClass from "./pages/admin/classes/NewClass"
 import ProfileUser from "./pages/profile/ProfileUser"
 
-import { User } from "./types"
 import { useEffect, useState } from "react"
 import httpClient from "./httpClient"
 import { apiLink } from "./config"
@@ -33,12 +32,12 @@ import Contacts from "./pages/contacts/Contacts"
 
 const Router: React.FC = () => {
 
-  const [user, setuser] = useState<User>()
+  const [userType, setuserType] = useState<string>()
 
   async function getUserType() {
     try {
-      const resp = await httpClient.get(apiLink + "/@me");
-      setuser(resp.data); 
+      const resp = await httpClient.get(apiLink + "/getUserType");
+      setuserType(resp.data); 
       
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -65,7 +64,7 @@ const Router: React.FC = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/summary/:eventId" element={<ElementDetails />} />
 
-        {user?.userType == 'Admin' ? (
+        {userType == 'Admin' ? (
           <>
           <Route path="/admin/classrooms" element={<ClassroomDashboard />} />
 
@@ -99,9 +98,6 @@ const Router: React.FC = () => {
 
         <Route path="/support" element={<Support />} />
         <Route path="/contacts" element={<Contacts />} />
-
-
-        <Route path="*" element={<NotFound />} />
 
       </Routes>
     </BrowserRouter>
