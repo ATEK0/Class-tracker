@@ -62,6 +62,27 @@ def get_current_user():
 
     return jsonify(user_info)
 
+@authController.route("/getUserType", methods=["GET"])
+def getUserType():
+    current_user = session.get("user_id")
+
+    if not current_user:
+        return "Unauthorized", 401
+
+    user = User.query.filter_by(id=current_user).first()
+
+    if isAdmin(user.id):
+        return "Admin"
+    
+    if isTeacher(user.id):
+        return "Teacher"
+    
+    if isStudent(user.id):
+        return "Student"
+    
+    return "Undefined"
+
+
 
 @authController.route('/register', methods=["POST"])
 def register():
