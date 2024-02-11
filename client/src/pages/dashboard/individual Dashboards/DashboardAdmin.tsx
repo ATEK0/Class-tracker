@@ -18,7 +18,7 @@ const Dashboard: React.FC = () => {
 
         <Stats type="Admin" />
         <h1 className='text-2xl mb-3 font-bold text-[#04304D]'>Administrator Panel</h1>
-        <div className="gap-3 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 sm:pb-16 pb-8">
+        <div className="gap-3 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 sm:pb-16 pb-8">
 
           <Link to="/admin/classes" className="w-full bg-red text-[#04304D] p-10 border rounded-2xl shadow-sm font-bold text-center flex flex-col items-center hover:scale-105 transition-all duration-300 shadow-[#04304d4f]">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-14 h-14 mb-3">

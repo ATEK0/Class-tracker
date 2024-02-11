@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LoginForm from "./pages/auth/LoginForm"
 import HomePage from "./pages/HomePage"
 import NotFound from "./pages/errors/NotFound"
@@ -24,59 +24,87 @@ import NewTeacher from "./pages/admin/teachers/NewTeacher"
 import NewClass from "./pages/admin/classes/NewClass"
 import ProfileUser from "./pages/profile/ProfileUser"
 
+import { User } from "./types"
+import { useEffect, useState } from "react"
+import httpClient from "./httpClient"
+import { apiLink } from "./config"
+
 
 const Router: React.FC = () => {
 
+  const [user, setuser] = useState<User>()
+
+  async function getUserType() {
+    try {
+      const resp = await httpClient.get(apiLink + "/@me");
+      setuser(resp.data); 
+      
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  }
+
+  useEffect(() => {
+  
+    getUserType()
+
+  }, [])
+  
+
   return (
     <BrowserRouter>
-      <NavBarMain/>
-      <Toaster/>
+      <NavBarMain />
+      <Toaster />
       <Routes>
 
-        <Route path="/" element={<HomePage />}/>
+        <Route path="/" element={<HomePage />} />
 
-        <Route path="/login" element={<LoginForm />}/>
-        <Route path="/logout" element={<Logout />}/>
-        <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/summary/:eventId" element={<ElementDetails />} />
 
+        {user?.userType == 'Admin' ? (
 
-        <Route path="/admin/classrooms" element={<ClassroomDashboard />} />
+          <>
+          <Route path="/admin/classrooms" element={<ClassroomDashboard />} />
 
-        <Route path="/admin/classes" element={<ClassesDashboard />} />
-        <Route path="/admin/classes/new" element={<NewClass />} />
-        <Route path="/admin/classes/:classId/:classLabel" element={<ClassDetails />} />
-
-
-        <Route path="/admin/classrooms/new" element={<NewClassroom />} />
+          <Route path="/admin/classes" element={<ClassesDashboard />} />
+          <Route path="/admin/classes/new" element={<NewClass />} />
+          <Route path="/admin/classes/:classId/:classLabel" element={<ClassDetails />} />
 
 
-        <Route path="/admin/general" element={<AdminSettings />} />
+          <Route path="/admin/classrooms/new" element={<NewClassroom />} />
 
-        <Route path="/admin/students" element={<StudentsDashboard />} />
-        <Route path="/admin/students/:studentID/:name" element={<StudentIndividual />} />
-        <Route path="/admin/students/new" element={<NewStudent />} />
 
-        <Route path="/admin/subjects" element={<SubjectsDashboard />} />
-        <Route path="/admin/subjects/:subjectID" element={<SubjectsDetails />} />
+          <Route path="/admin/general" element={<AdminSettings />} />
 
-        <Route path="/admin/teachers" element={<TeachersDashboard />} />
-        <Route path="/admin/teachers/new" element={<NewTeacher />} />
-        {/* <Route path="/admin/teachers/edit/:teacherID/:name" element={<TeacherDetails />} /> */}
+          <Route path="/admin/students" element={<StudentsDashboard />} />
+          <Route path="/admin/students/:studentID/:name" element={<StudentIndividual />} />
+          <Route path="/admin/students/new" element={<NewStudent />} />
+
+          <Route path="/admin/subjects" element={<SubjectsDashboard />} />
+          <Route path="/admin/subjects/:subjectID" element={<SubjectsDetails />} />
+
+          <Route path="/admin/teachers" element={<TeachersDashboard />} />
+          <Route path="/admin/teachers/new" element={<NewTeacher />} />
+          </>
+        ) : ("")
+      }
 
 
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/:userID" element={<ProfileUser />} />
 
         <Route path="/support" element={<Support />} />
-        
 
-        <Route path="*" element={<NotFound />}/>
+
+        <Route path="*" element={<NotFound />} />
 
       </Routes>
     </BrowserRouter>
   )
-  
+
 }
 
 export default Router
