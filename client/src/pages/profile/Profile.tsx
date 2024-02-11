@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import Loading from '../UI/Loading';
 import Admin from './Admin';
-import Teacher from './Teacher';
-import Student from './Student';
+import TeacherPage from './Teacher';
+import StudentPage from './Student';
 import { Navigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useFetchUser } from '../../controllers/getUserData';
-import { User } from '../../types';
 
 const Profile = () => {
   const [cookies] = useCookies();
   const [componentToRender, setComponentToRender] = useState<React.JSX.Element | null>(null);
   const [loading, setLoading] = useState(true);
-  const user: User | null = useFetchUser();
+  const user: any = useFetchUser();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (user && user.userType) {
-          console.log(user)
+
           if (user.userType === "Admin") {
             document.title = 'Admin Profile - Class Tracker';
             setComponentToRender(<Admin user={user} />);
           } else if (user.userType === "Teacher") {
             document.title = 'Teacher Profile - Class Tracker';
-            setComponentToRender(<Teacher user={user} />);
+            setComponentToRender(<TeacherPage user={user} />);
           } else if (user.userType === "Student") {
             document.title = 'Student Profile - Class Tracker';
-            setComponentToRender(<Student user={user} />);
+            setComponentToRender(<StudentPage user={user} />);
           } else {
             console.warn("Unexpected user type:", user.userType);
           }
@@ -46,7 +45,7 @@ const Profile = () => {
   }, [user]); 
 
   if (!cookies.session) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
 
   if (loading) {

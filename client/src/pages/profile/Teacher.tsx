@@ -1,5 +1,5 @@
 import { Modal, Label, TextInput, Button } from "flowbite-react";
-import { useState, useEffect, JSXElementConstructor, ReactElement, ReactNode, ReactPortal } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { apiLink } from "../../config";
 import httpClient from "../../httpClient";
@@ -8,12 +8,7 @@ import { handleFormSubmit } from "../../controllers/uploadProfileImage";
 import { Teacher } from "../../types";
 
 const TeacherProfile = (props: {
-  user: {
-    id: any;
-    address: ReactNode;
-    birthdate: ReactNode;
-    contact: ReactNode; name: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; surname: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; email: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; pNumber: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined;
-  };
+  user: Teacher;
 }) => {
 
   const [openModalCP, setOpenModalCP] = useState(false);

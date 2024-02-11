@@ -20,14 +20,14 @@ const NavBarMain = () => {
   if ( !cookies.session) {
     navigation = [
       { name: 'Home', href: '/', current: false },
-      { name: 'Features', href: '/features', current: false },
+      // { name: 'Features', href: '/features', current: false },
       { name: 'Contacts', href: '/contacts', current: false },
       { name: 'Login', href: '/login', current: true }
     ]
   }  else {
     navigation = [
       { name: 'Home', href: '/', current: false, function: null },
-      { name: 'Features', href: '/features', current: false },
+      // { name: 'Features', href: '/features', current: false },
       { name: 'Dashboard', href: '/dashboard', current: false },
       { name: 'Profile', href: '/profile', current: false },
       { name: 'Logout', href: '/logout', current: false }

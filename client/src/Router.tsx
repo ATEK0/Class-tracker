@@ -28,6 +28,7 @@ import { User } from "./types"
 import { useEffect, useState } from "react"
 import httpClient from "./httpClient"
 import { apiLink } from "./config"
+import Contacts from "./pages/contacts/Contacts"
 
 
 const Router: React.FC = () => {
@@ -65,7 +66,6 @@ const Router: React.FC = () => {
         <Route path="/summary/:eventId" element={<ElementDetails />} />
 
         {user?.userType == 'Admin' ? (
-
           <>
           <Route path="/admin/classrooms" element={<ClassroomDashboard />} />
 
@@ -92,11 +92,13 @@ const Router: React.FC = () => {
         ) : ("")
       }
 
+      
 
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/:userID" element={<ProfileUser />} />
 
         <Route path="/support" element={<Support />} />
+        <Route path="/contacts" element={<Contacts />} />
 
 
         <Route path="*" element={<NotFound />} />
