@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LoginForm from "./pages/auth/LoginForm"
 import HomePage from "./pages/HomePage"
-import NotFound from "./pages/errors/NotFound"
 import Dashboard from "./pages/dashboard/Dashboard"
 import NavBarMain from "./pages/NavBar/NavbarMain"
 import Logout from "./pages/auth/Logout"
@@ -88,7 +87,9 @@ const Router: React.FC = () => {
           <Route path="/admin/teachers" element={<TeachersDashboard />} />
           <Route path="/admin/teachers/new" element={<NewTeacher />} />
           </>
-        ) : ("")
+        ) : (
+          null
+        )
       }
 
       

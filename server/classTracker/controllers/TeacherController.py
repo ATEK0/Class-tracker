@@ -73,7 +73,6 @@ def getTeachers():
             "contact": teacher.contact,
             "email": teacher.email,
             "teacher_id": teacher.teacher_id,
-            "state": teacher.state,
         }
         for teacher in teachers
     ]
