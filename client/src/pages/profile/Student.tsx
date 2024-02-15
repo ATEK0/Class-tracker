@@ -236,7 +236,7 @@ const StudentProfile = (props: {
                       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                         <span className="font-semibold">Click to upload</span> or drag and drop
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, or WEBP</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, or JPEG</p>
                     </div>
                   )}
                   <input
@@ -250,7 +250,7 @@ const StudentProfile = (props: {
                       setSelectedFile(newSelectedFile);
 
                     }}
-                    accept=".jpg, .jpeg, .png, .webp"
+                    accept=".jpg, .jpeg, .png"
                   />
                 </label>
               </div>

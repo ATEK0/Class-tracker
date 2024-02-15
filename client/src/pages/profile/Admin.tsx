@@ -171,7 +171,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
                       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                         <span className="font-semibold">Click to upload</span> or drag and drop
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, or WEBP</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, or JPEG</p>
                     </div>
                   )}
                   <input
@@ -185,7 +185,7 @@ const Admin = (props: { user: { email: string | number | boolean | React.ReactEl
                       setSelectedFile(newSelectedFile);
 
                     }}
-                    accept=".jpg, .jpeg, .png, .webp"
+                    accept=".jpg, .jpeg, .png"
                   />
                 </label>
               </div>
