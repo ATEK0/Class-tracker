@@ -1,5 +1,5 @@
 flask==2.3.3
-flask-login
+sqlalchemy
 flask-sqlalchemy
 flask-migrate
 flask-bcrypt
@@ -8,9 +8,5 @@ redis
 
 flask-cors
 
-sqlalchemy
 mysql-connector
 
-python-dotenv
-
-pillow

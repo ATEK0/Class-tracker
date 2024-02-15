@@ -1,19 +1,13 @@
-from contextlib import contextmanager
-from flask import Flask, render_template
-from flask_login import current_user
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_cors import CORS
-from os import path
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 from config import app_config
 
-from flask_login import LoginManager
 
 apiCalling = CORS()
 db = SQLAlchemy()
@@ -33,22 +27,6 @@ def create_app():
     migrate.init_app(app, db)
     apiCalling.init_app(app, supports_credentials=True)
 
-    @contextmanager
-    def session_scope():
-        db_engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], pool_pre_ping=True)
-        Session = sessionmaker(bind=db_engine)
-        session = Session()
-        try:
-            # this is where the "work" happens!
-            yield session
-            # always commit changes!
-            session.commit()
-        except:
-            # if any kind of exception occurs, rollback transaction
-            session.rollback()
-            raise
-        finally:
-            session.close()
 
     from .controllers.AuthController import authController
     app.register_blueprint(authController) 
