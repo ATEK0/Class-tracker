@@ -45,6 +45,7 @@ const LoginForm: React.FC = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          
           <form className="space-y-6" method="POST">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -98,12 +99,6 @@ const LoginForm: React.FC = () => {
             </div>
           </form>
 
-          <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{' '}
-            <a href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Create account now
-            </a>
-          </p>
         </div>
       </div>
     </>
