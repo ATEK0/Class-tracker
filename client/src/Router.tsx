@@ -27,6 +27,7 @@ import { useEffect, useState } from "react"
 import httpClient from "./httpClient"
 import { apiLink } from "./config"
 import Contacts from "./pages/contacts/Contacts"
+import NotFound from "./pages/errors/NotFound"
 
 
 const Router: React.FC = () => {
@@ -88,7 +89,27 @@ const Router: React.FC = () => {
           <Route path="/admin/teachers/new" element={<NewTeacher />} />
           </>
         ) : (
-          null
+          <>
+          <Route path="/admin/classrooms" element={<NotFound />} />
+
+          <Route path="/admin/classes" element={<NotFound />} />
+          <Route path="/admin/classes/new" element={<NotFound />} />
+          <Route path="/admin/classes/:classId/:classLabel" element={<NotFound />} />
+
+          <Route path="/admin/classrooms/new" element={<NotFound />} />
+
+          <Route path="/admin/general" element={<NotFound />} />
+
+          <Route path="/admin/students" element={<NotFound />} />
+          <Route path="/admin/students/:studentID/:name" element={<NotFound />} />
+          <Route path="/admin/students/new" element={<NotFound />} />
+
+          <Route path="/admin/subjects" element={<NotFound />} />
+          <Route path="/admin/subjects/:subjectID" element={<NotFound />} />
+
+          <Route path="/admin/teachers" element={<NotFound />} />
+          <Route path="/admin/teachers/new" element={<NotFound />} />
+          </>
         )
       }
 
