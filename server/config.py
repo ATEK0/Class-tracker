@@ -1,8 +1,6 @@
-from dotenv import load_dotenv
 import os
 import redis
 
-load_dotenv()
 
 class Config:
     SECRET_KEY = "u0#d;Dr0G)8XTtF~rNwp4[][fRP;b&deEY;PsbE3M4m{;_tijy"
