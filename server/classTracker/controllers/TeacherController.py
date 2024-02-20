@@ -88,7 +88,8 @@ def getTeacherInfo():
         return "Unauthorized", 401
     
     if not isAdmin(current_user):
-        return "Unauthorized", 401
+        if not isTeacher(current_user):
+            return "Unauthorized", 401
 
     user_id = request.json["id"]
 
