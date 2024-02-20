@@ -25,4 +25,4 @@ class Production(Config):
     SQLALCHEMY_ECHO = False
 
 
-app_config = Development
+app_config = Production

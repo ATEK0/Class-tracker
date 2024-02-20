@@ -77,7 +77,7 @@ const Router: React.FC = () => {
 
 
           <Route path="/admin/students" element={<StudentsDashboard />} />
-          <Route path="/admin/students/:studentID/:name" element={<StudentIndividual />} />
+          <Route path="/admin/students/:studentID" element={<StudentIndividual />} />
           <Route path="/admin/students/new" element={<NewStudent />} />
 
           <Route path="/admin/subjects" element={<SubjectsDashboard />} />
