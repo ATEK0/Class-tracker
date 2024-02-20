@@ -111,10 +111,10 @@ const CalendarComponent = (props: any) => {
 
             if (width <= 600) {
                 selectCalendar.setAttribute("class", "fc-header-toolbar fc-toolbar fc-toolbar-ltr flex flex-col gap-y-5");
-                return 'timeGridDay'; // Set to daily view for small screens
+                return 'timeGridDay'; 
             } else {
                 selectCalendar.setAttribute("class", "fc-header-toolbar fc-toolbar fc-toolbar-ltr flex flex-row");
-                return 'timeGridWeek'; // Set to monthly view for larger screens
+                return 'timeGridWeek'; 
             }
 
         }
@@ -130,8 +130,7 @@ const CalendarComponent = (props: any) => {
     useEffect(() => {
 
         window.addEventListener('resize', handleResize);
-
-
+        handleResize()
 
         if (!props.id) {
             handleButtonClick();

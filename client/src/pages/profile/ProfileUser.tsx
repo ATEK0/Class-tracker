@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { apiLink } from '../../config';
 import httpClient from '../../httpClient';
 import { Link, useParams } from 'react-router-dom';
-import { User } from '../../types';
 
 const ProfileUser = () => {
 

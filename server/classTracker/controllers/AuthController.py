@@ -118,7 +118,7 @@ def login():
     user_exists = User.query.filter_by(email=email).first()
 
     if not user_exists or not bcrypt.check_password_hash(user_exists.password, password):
-        return "Unauthorized", 401
+        return "Unauthorized"
 
     else:
         session["user_id"] = user_exists.id

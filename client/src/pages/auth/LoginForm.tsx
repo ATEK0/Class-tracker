@@ -13,17 +13,21 @@ const LoginForm: React.FC = () => {
 
   async function loginUser(event: { preventDefault: () => void; }) {
     event.preventDefault()
+
     try {
-      await httpClient.post(apiLink + "/login", {
+      const authresponse = await httpClient.post(apiLink + "/login", {
         email, password
       })
-      window.location.href = "/dashboard";
-    } catch (error: any) {
-      console.log("error")
-      if (error.response.status === 401) {
-        toast.error("Invalid Credentials");
+
+      if (authresponse.data != 'Unauthorized') {
+        window.location.href = "/dashboard";
+      } else {
+        toast.error("Wrong credentials")
       }
+    } catch {
+      toast.error("Error, try again")
     }
+    
   }
 
 
@@ -45,6 +49,7 @@ const LoginForm: React.FC = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          
           <form className="space-y-6" method="POST">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -98,12 +103,6 @@ const LoginForm: React.FC = () => {
             </div>
           </form>
 
-          <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{' '}
-            <a href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Create account now
-            </a>
-          </p>
         </div>
       </div>
     </>

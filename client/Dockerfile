@@ -1,23 +1,26 @@
-# Use an official Node runtime as a parent image
+# utilizar uma versão do node js para a imagem
 FROM node:14-alpine
 
-# Set the working directory to /app
+# Definir o diretório de trabalho como o /app
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
+# copiar o package.json e o package-lock.json para o container
 COPY package*.json ./
 
-# Install app dependencies
+# instala as dependencias da aplicação através do comando "npm install"
 RUN npm install
 
-# Copy the current directory contents into the container at /app
+# copia o diretório atual para o container no caminho /app
 COPY . .
 
-# Build the React app
+# executa o comando "npm run build" para criar a versão de publicação da aplicação
 RUN npm run build
 
-# Make port 3000 available to the world outside this container
+# expõe a porta 5173 para ser acessível fora do container
 EXPOSE 5173
 
-# Run the React app
+# corre a aplicação 
 CMD ["npm", "run", "dev"]
+
+
+
