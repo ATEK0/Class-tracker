@@ -13,9 +13,8 @@ const ClassroomDetails = () => {
   const { eventId } = useParams();
 
   const [classroomDetails, setclassroomDetails] = useState<ClassroomDetailsType>()
-  const [checkboxState, setCheckboxState] = useState<any>({});
 
-  const [searchText, setSearchText] = useState<string>('');
+  const [searchText] = useState<string>('');
   const [tableCols, setTableCols] = useState<any>([]);
   const [showSensitiveData, setShowSensitiveData] = useState<boolean>()
 
@@ -28,7 +27,6 @@ const ClassroomDetails = () => {
     getUserType()
 
   }, [])
-
 
 
   async function getClassroomData() {

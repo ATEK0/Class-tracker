@@ -28,6 +28,7 @@ const SubjectsDashboard = () => {
     setopenModalEdit(false)
     setnameBefore("")
     setopenModalConfirmation(false)
+    setopenModalConfirmationDearchive(false)
   }
 
 
@@ -103,13 +104,23 @@ const SubjectsDashboard = () => {
     toast.success(resp);
   }
 
-  function editButtonClicked(event: MouseEvent<SVGSVGElement, globalThis.MouseEvent>, subjectName: string, id: string) {
+  function dearchiveClicked(event: MouseEvent<SVGSVGElement, globalThis.MouseEvent>, subjectName: string, id: string) {
     event.preventDefault();
     setbeingDeleted(subjectName.trim())
     setbeingDeletedID(id)
 
     setopenModalConfirmationDearchive(true)
   }
+
+
+  function archiveClicked(event: MouseEvent<SVGSVGElement, globalThis.MouseEvent>, subjectName: string, id: string) {
+    event.preventDefault();
+    setbeingDeleted(subjectName.trim())
+    setbeingDeletedID(id)
+
+    setopenModalConfirmation(true)
+  }
+
 
   async function loadData() {
     try {
@@ -142,7 +153,7 @@ const SubjectsDashboard = () => {
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
                 >
-                  <FontAwesomeIcon icon={faBoxArchive} onClick={(event) => { editButtonClicked(event, subject.label, subject.id) }} className='p-1 w-4 h-4' />
+                  <FontAwesomeIcon icon={faBoxArchive} onClick={(event) => { archiveClicked(event, subject.label, subject.id) }} className='p-1 w-4 h-4' />
                 </button>
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
@@ -167,7 +178,7 @@ const SubjectsDashboard = () => {
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
                 >
-                  <FontAwesomeIcon icon={faBoxArchive} onClick={(event) => { editButtonClicked(event, subject.label, subject.id) }} className='p-1 w-4 h-4' />
+                  <FontAwesomeIcon icon={faBoxArchive} onClick={(event) => { dearchiveClicked(event, subject.label, subject.id) }} className='p-1 w-4 h-4' />
                 </button>
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
@@ -227,6 +238,11 @@ const SubjectsDashboard = () => {
       {/* final modal edit subject */}
 
 
+
+
+
+
+
       {/* Confirm subject deletion modal */}
 
       <Modal dismissible show={openModalConfirmation} size="md" onClose={onCloseModal} popup>
@@ -249,6 +265,11 @@ const SubjectsDashboard = () => {
       </Modal>
 
       {/* final confirm subject deletion modal */}
+
+
+
+
+
 
       {/* Confirm subject deletion modal */}
 

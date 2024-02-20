@@ -13,17 +13,21 @@ const LoginForm: React.FC = () => {
 
   async function loginUser(event: { preventDefault: () => void; }) {
     event.preventDefault()
+
     try {
-      await httpClient.post(apiLink + "/login", {
+      const authresponse = await httpClient.post(apiLink + "/login", {
         email, password
       })
-      window.location.href = "/dashboard";
-    } catch (error: any) {
-      console.log("error")
-      if (error.response.status === 401) {
-        toast.error("Invalid Credentials");
+
+      if (authresponse.data != 'Unauthorized') {
+        window.location.href = "/dashboard";
+      } else {
+        toast.error("Wrong credentials")
       }
+    } catch {
+      toast.error("Error, try again")
     }
+    
   }
 
 

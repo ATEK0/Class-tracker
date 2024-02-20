@@ -38,26 +38,25 @@ const Table = (props: {
 
   useEffect(() => {
 
-    const fetchData = async () => {
-      try {
-
-        const classResp = await httpClient.get(apiLink + "/getClasses");
-        const fetchedClass: ClassListType[] = classResp.data;
-        setClassList(fetchedClass);
-
-
-      } catch (error) {
-
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchData();
 
     loadTableData();
 
   }, [])
 
+  const fetchData = async () => {
+    try {
+
+      const classResp = await httpClient.get(apiLink + "/getClasses");
+      const fetchedClass: ClassListType[] = classResp.data;
+      setClassList(fetchedClass);
+
+
+    } catch (error) {
+
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleTeacherChange = async (event: ChangeEvent<HTMLSelectElement>) => {
     setTeacher(event.target.value);
@@ -130,8 +129,15 @@ const Table = (props: {
   async function handleEditButtonClick(row: ClassroomType) {
 
     setopenModalEdit(true)
-
-
+    
+    const response = await httpClient.post(`${apiLink}/getClassroomInfo`, {"classroomID": row.classroomID});
+    
+    setTeacher(response.data.teacher.id)
+    setSubject(response.data.subject.id)
+    setClass_ID(response.data.class.id)
+    setDate(response.data.day)
+    setBeginTime(response.data.begin)
+    setEndTime(response.data.end)
 
     setclickedClassroom(row)
 
