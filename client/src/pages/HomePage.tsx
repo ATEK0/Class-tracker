@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Typed from "react-typed"
 
 import classImage from "../assets/students-knowing-right-answer.webp"
