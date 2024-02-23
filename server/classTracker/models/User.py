@@ -22,7 +22,7 @@ class User(Base, db.Model):
     email = db.Column(db.String(345), unique=True)
     password = db.Column(db.String(72), nullable=False)
     address = db.Column(db.String(100))
-    birthdate = db.Column(db.Date)
+    birthdate = db.Column(db.Text)
     created_at = db.Column(db.String(30), default=lambda: datetime.now())
     state = db.Column(db.String(15), default="Ativo")
     admin = db.Column(db.Boolean, default=0)

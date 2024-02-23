@@ -5,7 +5,8 @@ import redis
 class Config:
     SECRET_KEY = "u0#d;Dr0G)8XTtF~rNwp4[][fRP;b&deEY;PsbE3M4m{;_tijy"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://codebyat_sumariosUser:sumarios12345@185.12.116.140:3306/codebyat_sumarios"
+    SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://codebyat_sumariosUser:sumarios12345@185.12.116.140:3306/codebyat_sumarios" # connect database to online codebyateko.com
+
 
     SESSION_TYPE = "redis"
     SESSION_COOKIE_HTTPONLY = False
@@ -20,9 +21,14 @@ class Config:
     
 class Development(Config):
     SQLALCHEMY_ECHO = True
-    
+
+    def localDB(self):
+        self.SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://root:root@localhost:8889/class tracker" # connect to local database
+
+
 class Production(Config):
     SQLALCHEMY_ECHO = False
 
 
-app_config = Production
+app_config = Development()
+app_config.localDB()

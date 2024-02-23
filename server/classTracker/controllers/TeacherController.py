@@ -263,7 +263,7 @@ def editTeacher(user_id):
     email = request.json["email"]
     address = request.json["address"]
     contact = request.json["contact"]
-    state = request.json["teacherState"]
+    password = request.json["password"]
 
     user = Teacher.query.get(user_id)
 
@@ -272,9 +272,22 @@ def editTeacher(user_id):
         user.surname = surname
         user.email = email
         user.address = address
-        user.state = state
-        user.contact = contact
+
+        
+        phoneExists = Teacher.query.filter_by(contact = contact).first()
+
+        if phoneExists:
+            return "Phone number already in use"
+        else:
+            user.contact = contact
+
+        
+        if password:
+            user.password = bcrypt.generate_password_hash(password)
+
+
         db.session.commit()
+
         return "Teacher successfully edited", 200
     else:
         return "User not found", 404

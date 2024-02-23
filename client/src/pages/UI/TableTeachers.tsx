@@ -6,7 +6,7 @@ import { apiLink } from '../../config';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import toast from 'react-hot-toast';
-import { Modal, Label, Button, TextInput, Select } from 'flowbite-react';
+import { Modal, Label, Button, TextInput } from 'flowbite-react';
 
 const Table = (props: {
   namesList: string[];
@@ -122,12 +122,15 @@ const Table = (props: {
         return toast.error(response.data)
       }
 
-      loadTableData()
-      onCloseModal()
+      if (response.data === "Phone number already in use") {
+        toast.error(response.data)
+        setLoadingStatus("Save")
 
-      setTimeout(() => {
+      } else {
+        loadTableData()
+        onCloseModal()
         toast.success(response.data)
-      }, 1000);
+      }
 
     } catch (error) {
       toast.error("Error, try again")
@@ -212,13 +215,13 @@ const Table = (props: {
       {/* modal edit teacher */}
       <Modal dismissible show={openModalEdit} size="w-full" onClose={onCloseModal} popup>
         <Modal.Header>
-          <h1 className="font-bold text-3xl text-[#04304D] pt-8 mb-5">Edit Teacher</h1>
+          <h1 className="flex flex-col md:flex-row font-bold text-3xl text-[#04304D] pt-8 mb-5 pl-6">Edit Teacher</h1>
         </Modal.Header>
         <Modal.Body>
 
           <form onSubmit={handleFormSubmit}>
             <div className="flex flex-col md:flex-row">
-              <div className="w-full md:w-1/2 m-2">
+              <div className="md:w-1/2 m-2">
                 <div className="mb-2 block">
                   <Label htmlFor="fName" value="First Name" />
                 </div>
@@ -232,7 +235,7 @@ const Table = (props: {
 
                 />
               </div>
-              <div className="w-full md:w-1/2 m-2">
+              <div className="md:w-1/2 m-2">
                 <div className="mb-2 block">
                   <Label htmlFor="lName" value="Last Name" />
                 </div>
@@ -247,6 +250,7 @@ const Table = (props: {
                 />
               </div>
             </div>
+
             <div className="m-2">
               <div className="mb-2 block">
                 <Label htmlFor="email" value="Email" />
@@ -262,8 +266,8 @@ const Table = (props: {
               />
             </div>
 
-            <div className="flex flex-row">
-              <div className="w-1/2 m-2">
+            <div className="flex flex-col md:flex-row">
+              <div className="md:w-1/2 m-2">
                 <div className="mb-2 block">
                   <Label htmlFor="address" value="Address" />
                 </div>
@@ -277,7 +281,7 @@ const Table = (props: {
 
                 />
               </div>
-              <div className="w-1/2 m-2">
+              <div className="md:w-1/2 m-2">
                 <div className="mb-2 block">
                   <Label htmlFor="address" value="Contact" />
                 </div>
@@ -293,30 +297,19 @@ const Table = (props: {
               </div>
             </div>
 
-            <div className="flex flex-row">
-              <div className="w-1/2 m-2">
-                <div className="mb-2 block">
-                  <Label htmlFor="password" value="Password" />
-                </div>
-                <TextInput
-                  id="password"
-                  placeholder="Password"
-                  value={password}
-                  type='password'
-                  onChange={(event) => setPassword(event.target.value)}
 
-                />
+            <div className="m-2">
+              <div className="mb-2 block">
+                <Label htmlFor="password" value="Password" />
               </div>
-              <div className="w-1/2 m-2">
-                <div className="mb-2 block">
-                  <Label htmlFor="state" value="State" />
-                </div>
-                <Select id="state" onChange={ (event) => { setState(event.target.value); } }>
-                  <option value="Active" selected={teacherState == "Active"}>Active</option>
-                  <option value="Waiting Aproval" selected={teacherState == "Waiting Aproval"}>Waiting Aproval</option>
-                  <option value="Inactive" selected={teacherState == "Inactive"}>Inactive</option>
-                </Select>
-              </div>
+              <TextInput
+                id="password"
+                placeholder="Password"
+                value={password}
+                type='password'
+                onChange={(event) => setPassword(event.target.value)}
+
+              />
             </div>
 
             <div className="m-2">

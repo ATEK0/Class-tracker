@@ -20,9 +20,9 @@ def get_current_user():
 
     user = User.query.filter_by(id=current_user).first()
 
-    if (user.birthdate):
-        date = user.birthdate
-        user.birthdate = str(date.day) + "/" + str(date.month) + "/" + str(date.year)
+    # if (user.birthdate):
+    #     date = user.birthdate
+    #     user.birthdate = str(date.day) + "/" + str(date.month) + "/" + str(date.year)
 
 
     user_info = {
