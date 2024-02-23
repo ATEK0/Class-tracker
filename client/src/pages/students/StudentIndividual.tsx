@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import httpClient from "../../httpClient"
 import { Student } from "../../types"
+import { apiLink } from "../../config"
 
 
 const StudentIndividual = () => {
@@ -14,7 +15,7 @@ const StudentIndividual = () => {
 
   const fetchData = async () => {
     try {
-      const getUser = await httpClient.post("//localhost:1222/getStudentInfo", { id: studentID });
+      const getUser = await httpClient.post(`${apiLink}/getStudentInfo`, { id: studentID });
       const userTyperesp = getUser.data;
       setUserData(userTyperesp);
 
@@ -24,7 +25,7 @@ const StudentIndividual = () => {
 
       setUserData((prevUserData: any) => ({ ...prevUserData, birthdate: date.toLocaleDateString('en-US', options).replace(/\//g, '-') }));
 
-      const changeProfile = await httpClient.get('//localhost:1222/getProfileImage/' + studentID, { responseType: 'blob' });
+      const changeProfile = await httpClient.get(`${apiLink}/getProfileImage/` + studentID, { responseType: 'blob' });
       setUserImage(URL.createObjectURL(new Blob([changeProfile.data])))
 
       setError(null);

@@ -92,7 +92,7 @@ const SubjectsDashboard = () => {
   }
 
   async function sendEditSubject() {
-    const edit = await httpClient.post('//localhost:1222/editSubject/' + useSubjectID, { label: subjectName });
+    const edit = await httpClient.post(`${apiLink}/editSubject/` + useSubjectID, { label: subjectName });
     const resp = edit.data;
 
     if (edit.status !== 200) {

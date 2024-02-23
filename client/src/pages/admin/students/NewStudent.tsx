@@ -43,7 +43,7 @@ const NewStudent = () => {
     console.log("Form Data:", formData);
     setloadingStatus("Creating...")
     try {
-      const create = await httpClient.post('//localhost:1222/createStudent', formData);
+      const create = await httpClient.post(`${apiLink}//createStudent`, formData);
       const resp = create.data
 
       if (create.status !== 200) {

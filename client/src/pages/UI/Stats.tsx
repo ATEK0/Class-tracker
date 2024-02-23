@@ -20,7 +20,7 @@ export default function Stats(props: { type: string; }) {
           const teacherCountresp = await httpClient.get(`${apiLink}/getTeachersCount?type=${props.type}`);
           setTeacherCount(teacherCountresp.data);
         } else {
-          const teacherClassroomCountresp = await httpClient.get(`//localhost:1222/getTeacherClassroomsCount`);
+          const teacherClassroomCountresp = await httpClient.get(`${apiLink}/getTeacherClassroomsCount`);
           setTeacherCount(teacherClassroomCountresp.data);
         }
         if (props.type == 'Teacher') {

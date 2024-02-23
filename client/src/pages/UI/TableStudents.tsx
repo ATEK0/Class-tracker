@@ -74,7 +74,7 @@ const Table = (props: {
 
       
 
-        const classResp = await httpClient.get("//localhost:1222/getClasses");
+        const classResp = await httpClient.get(`${apiLink}/getClasses`);
         const fetchedClass: ClassListType[] = classResp.data;
         setClassList(fetchedClass);
 

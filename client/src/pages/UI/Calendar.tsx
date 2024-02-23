@@ -32,8 +32,8 @@ const CalendarComponent = (props: any) => {
 
     const handleButtonClick = async () => {
         try {
-            const teachersResponse = await httpClient.get('//localhost:1222/getTeachers');
-            const classesResponse = await httpClient.get('//localhost:1222/getClasses');
+            const teachersResponse = await httpClient.get(`${apiLink}/getTeachers`);
+            const classesResponse = await httpClient.get(`${apiLink}/getClasses`);
 
             const teachersList: TeacherListType[] = teachersResponse.data;
             const classesList: ClassListType[] = classesResponse.data;
