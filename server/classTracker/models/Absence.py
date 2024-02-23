@@ -3,7 +3,7 @@ from .. import db
 class Absence(db.Model):
     __tablename__ = 'absences'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.String(32), db.ForeignKey('users.id'))
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id', ondelete='CASCADE'))
     classroom_id = db.Column(db.Integer, db.ForeignKey('classrooms.id', ondelete='CASCADE'))
     presence = db.Column(db.Boolean, default=False)
     material = db.Column(db.Boolean, default=False)

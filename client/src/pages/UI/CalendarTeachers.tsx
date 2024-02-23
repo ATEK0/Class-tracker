@@ -94,7 +94,7 @@ const Calendar = () => {
                 }}
                 businessHours={[
                     {
-                        daysOfWeek: [1, 2, 3, 4, 5, 6],
+                        daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
                         startTime: '08:00',
                         endTime: '23:00'
                     }
