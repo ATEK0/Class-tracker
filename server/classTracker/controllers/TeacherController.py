@@ -203,7 +203,7 @@ def unassignTeacher():
         db.session.commit()
         return "Teacher successfully unassigned", 200
     else:
-        return "Error occurred"
+        return "Teacher not assigned"
 
 
 @teacherController.route("/createTeacher", methods=["POST"])

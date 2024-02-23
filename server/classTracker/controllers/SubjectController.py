@@ -135,7 +135,7 @@ def getSubjectTeachers(subjectID):
 
     cs_ids = [record.id for record in class_subject]
 
-    tcs = Teacher_CS.query.filter(Teacher_CS.csid.in_(cs_ids)).all()
+    tcs = Teacher_CS.query.filter(Teacher_CS.csid.in_(cs_ids), Teacher_CS.is_deleted == False).all()
 
     tcs_teachers = [record.teacher_id for record in tcs]
 

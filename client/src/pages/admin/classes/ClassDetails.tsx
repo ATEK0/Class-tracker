@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import Calendar from '../../UI/Calendar';
 import TableStudentClass from '../../UI/TableStudentClass';
-import { faPlusCircle, faSquareMinus } from '@fortawesome/free-solid-svg-icons';
+import { faSquareMinus, faUserMinus, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChangeEvent, useEffect, useState } from 'react';
 import httpClient from '../../../httpClient';
@@ -16,6 +16,7 @@ const ClassDetails = () => {
 
   const [openModalConfirmUnassign, setopenModalConfirmUnassign] = useState<boolean>()
   const [openModalAssignTeacher, setopenModalAssignTeacher] = useState<boolean>()
+  const [openModalDeassignTeacher, setopenModalDeassignTeacher] = useState<boolean>()
 
   const [subjectList, setsubjectList] = useState([])
   const [subjectClickedName, setsubjectClickedName] = useState<string>("")
@@ -56,7 +57,7 @@ const ClassDetails = () => {
   function onCloseModal() {
     setopenModalConfirmUnassign(false)
     setopenModalAssignTeacher(false)
-
+    setopenModalDeassignTeacher(false)
   }
 
   async function assignTeacherButtonClicked(event: any, subjectID: string, subjectName: string) {
@@ -84,7 +85,33 @@ const ClassDetails = () => {
 
   const handleTeacherChange = async (event: ChangeEvent<HTMLSelectElement>) => {
     setteacher(event.target.value);
-};
+  };
+
+  async function deAssignTeacherButtonClicked(event: any, subjectID: string, subjectName: string) {
+    event.preventDefault()
+    const teacherResp = await httpClient.get(apiLink + "/getTeachers");
+
+    const fetchedTeachers: TeacherListType[] = teacherResp.data;
+    setteacherList(fetchedTeachers);
+    setopenModalDeassignTeacher(true)
+    setsubjectClickedName(subjectName)
+    setsubjectClickedID(subjectID)
+  }
+
+  async function deassignTeacher() {
+
+    const assignTeacher = await httpClient.post(`${apiLink}/unassignTeacher`, { "classID": classId, "subjectID": subjectClickedID, "teacherID": teacher });
+
+    console.log(classId, subjectClickedID, teacher)
+
+    if ("Error occurred" == assignTeacher.data) {
+      toast.error(assignTeacher.data)
+    } else {
+      toast.success(assignTeacher.data)
+    }
+
+    onCloseModal()
+  }
 
   return (
     <div className='pt-[64px] pb-5 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
@@ -100,7 +127,6 @@ const ClassDetails = () => {
       <TableStudentClass endpoint={"/getClassStudents"} namesList={["Id", "Name", "Surname"]} class_id={classId} />
 
       <h1 className='font-bold text-2xl text-[#04304D] py-5'>Subjects List </h1>
-      <button type="button" className='bg-[#04304d] p-2 rounded-md text-white font-bold w-full md:w-1/5 mb-3' onClick={() => { }} >Unassign Teacher from Subject</button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {subjectList.map((subject: { id: string, name: string }) => (
@@ -116,7 +142,12 @@ const ClassDetails = () => {
                 <button
                   className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
                 >
-                  <FontAwesomeIcon icon={faPlusCircle} onClick={(event) => { assignTeacherButtonClicked(event, subject.id, subject.name) }} className='p-1 w-4 h-4' />
+                  <FontAwesomeIcon icon={faUserPlus} onClick={(event) => { assignTeacherButtonClicked(event, subject.id, subject.name) }} className='p-1 w-4 h-4' />
+                </button>
+                <button
+                  className='cursor-pointer bg-transparent text-gray-500 hover:text-[#04304d] rounded-sm flex justify-center items-center transition-all duration-100 hover:scale-110'
+                >
+                  <FontAwesomeIcon icon={faUserMinus} onClick={(event) => { deAssignTeacherButtonClicked(event, subject.id, subject.name) }} className='p-1 w-4 h-4' />
                 </button>
               </div>
             </div>
@@ -165,6 +196,36 @@ const ClassDetails = () => {
             <div className="w-full flex justify-end gap-2">
               <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>
               <Button className='bg-[#008141]' onClick={confirmAssignTeacher}>Assign</Button>
+            </div>
+
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      {/* modal unassign teacher from subject */}
+      <Modal dismissible show={openModalDeassignTeacher} size="lg" onClose={onCloseModal} popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-4">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Deassign Teacher to {subjectClickedName}</h3>
+            <div className="block">
+
+              <Select onChange={handleTeacherChange}>
+                <option value={""} key={""} selected></option>
+                {teacherList.map((teacher) => (
+
+                  <option value={teacher.id} key={teacher.id}>{teacher.name}</option>
+
+                ))}
+
+              </Select>
+
+
+
+            </div>
+            <div className="w-full flex justify-end gap-2">
+              <Button className='bg-[#7d7d7d]' onClick={onCloseModal}>Cancel</Button>
+              <Button className='bg-[#008141]' onClick={deassignTeacher}>Deasign</Button>
             </div>
 
           </div>
